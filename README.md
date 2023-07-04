@@ -1,4 +1,4 @@
-# lefthook
+# sfac-designkit-flutter
 
 A new Flutter project.
 
