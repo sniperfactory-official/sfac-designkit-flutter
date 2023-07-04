@@ -11,8 +11,8 @@ dynamic main() {
 
   final valid = regExp.hasMatch(commitMessage);
   if (!valid) {
-    print('''👎 Bad commit message! A correct one would be: 
-        docs: correct spelling of CHANGELOG''');
+    print('''👎 잘못된 커밋 메세지입니다!
+    아래 예제를 참고해주세요''');
     exitCode = 1;
   } else {
     print('''👍 Nice commit message dude!''');
