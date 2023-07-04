@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 dynamic main() {
@@ -6,7 +8,7 @@ dynamic main() {
   final commitMessage = commitFile.readAsStringSync();
 
   final regExp = RegExp(
-    '(fix|feat|wip|none|chore|refactor|docs|style|test):.+',
+    '(teddy|juno|marco|judy), (Feat|Fix|Design|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Docs|Test|Rename|Remove)::.+',
   );
 
   final valid = regExp.hasMatch(commitMessage);
@@ -14,13 +16,15 @@ dynamic main() {
     print('''👎 잘못된 커밋 메세지입니다!
 
   아래 예제를 참고해주세요
+  ------------------------------------------------------
+  " <작업자 이름>, <Prefix>:: 커밋 내용 "
 
-  "<작업자 이름>, <Prefix>:: 커밋 내용"
-  "
+  " juno, Feat:: 구글 로그인 기능 추가 " 
+  ------------------------------------------------------
 
   사용가능한 commit의 Prefix는 아래와 같습니다.
   
-  ======================= 반드시 콜론을 두 개(::)를 사용하고 띄어쓰기 후 내용을 입력합니다. =======
+  =============== 반드시 콜론을 두 개(::)를 사용하고 띄어쓰기 후 내용을 입력합니다. ===============
   
     Feat::             새로운 기능을 추가
     Fix::              버그 수정
