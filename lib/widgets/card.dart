@@ -14,19 +14,19 @@ class SfCard extends StatelessWidget {
     this.height,
     this.title,
     this.subtitle,
-    this.left,
-    this.right,
-    this.top,
-    this.bottom,
+    this.leading,
+    this.trailing,
+    this.topWidget,
+    this.bottomWidget,
     this.heightSpacing = 10,
     this.widthSpacing = 20,
   });
   final Widget? title;
   final Widget? subtitle;
-  final Widget? left;
-  final Widget? right;
-  final Widget? top;
-  final Widget? bottom;
+  final Widget? leading;
+  final Widget? trailing;
+  final Widget? topWidget;
+  final Widget? bottomWidget;
   final double outlineWidth;
   final double outlineRadius;
   final Color? backgroundColor;
@@ -78,27 +78,27 @@ class SfCard extends StatelessWidget {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                left ?? const SizedBox(),
-                SizedBox(width: left != null ? widthSpacing : 0),
+                leading ?? const SizedBox(),
+                SizedBox(width: leading != null ? widthSpacing : 0),
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      top ?? const SizedBox(),
+                      topWidget ?? const SizedBox(),
                       SizedBox(height: titleText != null ? heightSpacing : 0),
                       titleText ?? const SizedBox(),
                       SizedBox(
                           height: subtitleText != null ? heightSpacing : 0),
                       subtitleText ?? const SizedBox(),
-                      SizedBox(height: bottom != null ? heightSpacing : 0),
-                      bottom ?? const SizedBox(),
+                      SizedBox(height: bottomWidget != null ? heightSpacing : 0),
+                      bottomWidget ?? const SizedBox(),
                     ],
                   ),
                 ),
-                SizedBox(width: right != null ? widthSpacing : 0),
-                right ?? const SizedBox(),
+                SizedBox(width: trailing != null ? widthSpacing : 0),
+                trailing ?? const SizedBox(),
               ],
             )),
       ),
