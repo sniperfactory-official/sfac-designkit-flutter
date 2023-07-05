@@ -8,7 +8,7 @@ dynamic main() {
   final commitMessage = commitFile.readAsStringSync();
 
   final regExp = RegExp(
-    '(teddy|juno|marco|judy), (Feat|Fix|Design|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Docs|Test|Rename|Remove|Chore)::.+',
+    '(teddy|juno|marco|judy), (Feat|Update|Fix|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Chore|Docs|Test|Rename|Remove)::.+',
   );
 
   final valid = regExp.hasMatch(commitMessage);
@@ -27,13 +27,14 @@ dynamic main() {
   =============== 반드시 콜론을 두 개(::)를 사용하고 띄어쓰기 후 내용을 입력합니다. ===============
   
     Feat::             새로운 기능을 추가
+    Update::           기능 수정
     Fix::              버그 수정
-    Design::           CSS 등 사용자 UI 디자인 변경
     !BREAKING CHANGE:: 커다란 API 변경의 경우
     !HOTFIX::          급하게 치명적인 버그를 고쳐야하는 경우
-    Style::            코드 포맷 변경, 세미 콜론 누락, 코드 수정이 없는 경우
-    Refactor::         코드 리팩토링
+    Style::            CSS 및 UI, 코드 포맷 변경, 세미 콜론 누락, 코드 수정이 없는 경우
+    Refactor::         코드 리팩토링 (기능 변경 X, 코드 가독성, 구조, 품질 개선의 경우)
     Comment::          필요한 주석 추가 및 변경
+    Chore::            빌드 업무 수정, 패키지 매니저 수정
     Docs::             문서 수정
     Test::             빌드 업무 수정, 패키지 매니저 수정, 패키지 관리자 구성 등 업데이트, Production Code 변경 없음
     Rename::           파일 혹은 폴더명을 수정하거나 옮기는 작업만인 경우
