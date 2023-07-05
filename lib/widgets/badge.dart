@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lefthook/util/sfac_color.dart';
-import 'package:lefthook/util/sfac_text_style.dart';
+import 'package:sfac_designkit_flutter/util/sfac_text_style.dart';
+import 'package:sfac_designkit_flutter/util/sfac_color.dart';
 
 class SfBadge extends StatelessWidget {
   const SfBadge({
