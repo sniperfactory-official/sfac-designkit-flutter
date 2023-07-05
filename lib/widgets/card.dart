@@ -13,29 +13,29 @@ class SfCard extends StatelessWidget {
     this.width,
     this.height,
     this.title,
-    this.subtitle,
+    this.content,
     this.leading,
     this.trailing,
     this.topWidget,
     this.bottomWidget,
-    this.heightSpacing = 10,
-    this.widthSpacing = 20,
+    this.verticalSpacing = 10,
+    this.horizontalSpacing = 20,
   });
-  final Widget? title;
-  final Widget? subtitle;
-  final Widget? leading;
-  final Widget? trailing;
-  final Widget? topWidget;
-  final Widget? bottomWidget;
-  final double outlineWidth;
-  final double outlineRadius;
-  final Color? backgroundColor;
-  final Color? outlineColor;
-  final double margin;
-  final double? width;
-  final double? height;
-  final double heightSpacing;
-  final double widthSpacing;
+  final Widget? title; //굵은 텍스트스타일 제목
+  final Widget? content; //옅은 텍스트스타일 내용
+  final Widget? leading; // 왼쪽 공간 위젯
+  final Widget? trailing; // 오른쪽 공간 위젯
+  final Widget? topWidget; // 위쪽 공간 위젯
+  final Widget? bottomWidget; // 아래쪽 공간 위젯
+  final double outlineWidth; // 테두리 두께
+  final double outlineRadius; // 테두리 곡선
+  final Color? backgroundColor; // 배경색
+  final Color? outlineColor; //테두리 색
+  final double margin; // 태두리 안의 마진
+  final double? width; // 카드 가로 폭
+  final double? height; // 카드 세로 폭
+  final double verticalSpacing; // 세로 사이사이 공간
+  final double horizontalSpacing; // 가로 사이사이 공간
 
   @override
   Widget build(BuildContext context) {
@@ -49,58 +49,59 @@ class SfCard extends StatelessWidget {
         child: title!,
       );
     }
-    Widget? subtitleText;
-    TextStyle? subtitleStyle;
-    if (subtitle != null) {
-      subtitleStyle = SfacTextStyle.b3R16(color: SfacColor.grayScale60);
-      subtitleText = AnimatedDefaultTextStyle(
-        style: subtitleStyle,
+    Widget? contentText;
+    TextStyle? contentStyle;
+    if (content != null) {
+      contentStyle = SfacTextStyle.b3R16(color: SfacColor.grayScale60);
+      contentText = AnimatedDefaultTextStyle(
+        style: contentStyle,
         duration: kThemeChangeDuration,
-        child: subtitle!,
+        child: content!,
       );
     }
     return Container(
       decoration: BoxDecoration(
-          color: backgroundColor,
-          borderRadius: BorderRadius.circular(outlineRadius),
-          border: Border.all(
-            color: outlineColor ?? SfacColor.grayScale20,
-            width: outlineWidth,
-          )),
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(outlineRadius),
+        border: Border.all(
+          color: outlineColor ?? SfacColor.grayScale20,
+          width: outlineWidth,
+        ),
+      ),
       child: Padding(
         padding: EdgeInsets.all(margin),
         child: Container(
-            width: width,
-            height: height,
-            decoration: BoxDecoration(
-              color: backgroundColor,
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                leading ?? const SizedBox(),
-                SizedBox(width: leading != null ? widthSpacing : 0),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      topWidget ?? const SizedBox(),
-                      SizedBox(height: titleText != null ? heightSpacing : 0),
-                      titleText ?? const SizedBox(),
-                      SizedBox(
-                          height: subtitleText != null ? heightSpacing : 0),
-                      subtitleText ?? const SizedBox(),
-                      SizedBox(height: bottomWidget != null ? heightSpacing : 0),
-                      bottomWidget ?? const SizedBox(),
-                    ],
-                  ),
+          width: width,
+          height: height,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              leading ?? const SizedBox(),
+              SizedBox(width: leading != null ? horizontalSpacing : 0),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    topWidget ?? const SizedBox(),
+                    SizedBox(height: titleText != null ? verticalSpacing : 0),
+                    titleText ?? const SizedBox(),
+                    SizedBox(height: contentText != null ? verticalSpacing : 0),
+                    contentText ?? const SizedBox(),
+                    SizedBox(height: bottomWidget != null ? verticalSpacing : 0),
+                    bottomWidget ?? const SizedBox(),
+                  ],
                 ),
-                SizedBox(width: trailing != null ? widthSpacing : 0),
-                trailing ?? const SizedBox(),
-              ],
-            )),
+              ),
+              SizedBox(width: trailing != null ? horizontalSpacing : 0),
+              trailing ?? const SizedBox(),
+            ],
+          ),
+        ),
       ),
     );
   }
