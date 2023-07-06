@@ -16,8 +16,8 @@ class SfCard extends StatelessWidget {
     this.content,
     this.leading,
     this.trailing,
-    this.topWidget,
-    this.bottomWidget,
+    this.cardHeader,
+    this.cardFooter,
     this.verticalSpacing = 10,
     this.horizontalSpacing = 20,
   });
@@ -25,8 +25,8 @@ class SfCard extends StatelessWidget {
   final Widget? content; //옅은 텍스트스타일 내용
   final Widget? leading; // 왼쪽 공간 위젯
   final Widget? trailing; // 오른쪽 공간 위젯
-  final Widget? topWidget; // 위쪽 공간 위젯
-  final Widget? bottomWidget; // 아래쪽 공간 위젯
+  final Widget? cardHeader; // 위쪽 공간 위젯
+  final Widget? cardFooter; // 아래쪽 공간 위젯
   final double outlineWidth; // 테두리 두께
   final double outlineRadius; // 테두리 곡선
   final Color? backgroundColor; // 배경색
@@ -87,13 +87,13 @@ class SfCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    topWidget ?? const SizedBox(),
+                    cardHeader ?? const SizedBox(),
                     SizedBox(height: titleText != null ? verticalSpacing : 0),
                     titleText ?? const SizedBox(),
                     SizedBox(height: contentText != null ? verticalSpacing : 0),
                     contentText ?? const SizedBox(),
-                    SizedBox(height: bottomWidget != null ? verticalSpacing : 0),
-                    bottomWidget ?? const SizedBox(),
+                    SizedBox(height: cardFooter != null ? verticalSpacing : 0),
+                    cardFooter ?? const SizedBox(),
                   ],
                 ),
               ),
