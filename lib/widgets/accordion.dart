@@ -21,7 +21,7 @@ class SfAccordion extends StatefulWidget {
   final Color? contentBackgroundColor; //펼쳤을 때 보이는 텍스트 상자 배경색
   final double contentRadius; //펼쳤을 때 보이는 텍스트 상자 곡선
   final EdgeInsetsGeometry? contentPadding; //펼쳤을 때 보이는 텍스트 상자 패딩
-  final EdgeInsetsGeometry? contentMargin; // 펼쳤을 때 보이는 텍스트 마진
+  final EdgeInsetsGeometry? contentMargin; // 펼쳤을 때 보이는 텍스트 상자 마진
 
   @override
   State<SfAccordion> createState() => _SfAccordionState();
@@ -73,7 +73,7 @@ class _SfAccordionState extends State<SfAccordion> {
         ),
         isVisible
             ? Padding(
-                padding: widget.contentPadding ??
+                padding: widget.contentMargin ??
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: Expanded(
                   child: Container(
@@ -84,7 +84,7 @@ class _SfAccordionState extends State<SfAccordion> {
                             Radius.circular(widget.contentRadius))),
                     child: Padding(
                         padding:
-                            widget.contentMargin ?? const EdgeInsets.all(15),
+                            widget.contentPadding ?? const EdgeInsets.all(15),
                         child: contentText),
                   ),
                 ),
