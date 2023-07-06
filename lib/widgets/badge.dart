@@ -13,12 +13,26 @@ class SfBadge extends StatelessWidget {
     this.height,
     this.margin,
   });
+
+  //Badge안에 위젯
   final Widget? child;
+
+  //Badge배경색
   final Color? backgroundColor;
+  
+  //Badge테두리 색
   final Color? outlineColor;
+
+  //Badge모서리 곡선
   final double borderRadius;
+
+  //Badge 가로 너비
   final double? width;
+
+  //Badge 세로 너비
   final double? height;
+
+  //Badge안에 위젯 마진
   final EdgeInsetsGeometry? margin;
 
   @override
