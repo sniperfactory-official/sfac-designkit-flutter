@@ -5,24 +5,21 @@ import 'package:sfac_designkit_flutter/util/sfac_color.dart';
 class SfAccordion extends StatefulWidget {
   const SfAccordion({
     super.key,
-    this.defaultIcon,
-    this.selectedIcon,
-    this.title,
-    this.content,
+    this.iconButton,
+    required this.title,
+    required this.content,
     this.contentBackgroundColor,
     this.contentRadius = 10,
     this.contentPadding,
     this.contentMargin,
   });
-  final Widget? defaultIcon; // 접었을 때 기본적인 아이콘
-  final Widget? selectedIcon; // 펼쳤을 때 아이콘
-  final Widget? title; // 접었을 때 보이는 텍스트
-  final Widget? content; // 펼쳤을 때 보이는 텍스트
+  final Widget? iconButton; //  아이콘
+  final Text title; // 접었을 때 보이는 텍스트
+  final Widget content; // 펼쳤을 때 보이는 텍스트
   final Color? contentBackgroundColor; //펼쳤을 때 보이는 텍스트 상자 배경색
   final double contentRadius; //펼쳤을 때 보이는 텍스트 상자 곡선
   final EdgeInsetsGeometry? contentPadding; //펼쳤을 때 보이는 텍스트 상자 패딩
   final EdgeInsetsGeometry? contentMargin; // 펼쳤을 때 보이는 텍스트 상자 마진
-
   @override
   State<SfAccordion> createState() => _SfAccordionState();
 }
@@ -33,31 +30,28 @@ class _SfAccordionState extends State<SfAccordion> {
   Widget build(BuildContext context) {
     Widget? titleText;
     TextStyle? titleStyle;
-    if (widget.title != null) {
-      titleStyle = SfacTextStyle.b3M16(color: SfacColor.grayScale100);
-      titleText = AnimatedDefaultTextStyle(
-        style: titleStyle,
-        duration: kThemeChangeDuration,
-        child: widget.title!,
-      );
-    }
+    titleStyle = SfacTextStyle.b3M16(color: SfacColor.grayScale100);
+    titleText = AnimatedDefaultTextStyle(
+      style: titleStyle,
+      duration: kThemeChangeDuration,
+      child: widget.title,
+    );
     Widget? contentText;
     TextStyle? contentStyle;
-    if (widget.content != null) {
-      contentStyle = SfacTextStyle.b3R16(color: SfacColor.grayScale60);
-      contentText = AnimatedDefaultTextStyle(
-        style: contentStyle,
-        duration: kThemeChangeDuration,
-        child: widget.content!,
-      );
-    }
+    contentStyle = SfacTextStyle.b3R16(color: SfacColor.grayScale60);
+    contentText = AnimatedDefaultTextStyle(
+      style: contentStyle,
+      duration: kThemeChangeDuration,
+      child: widget.content,
+    );
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             GestureDetector(
                 onTap: () {
@@ -65,10 +59,13 @@ class _SfAccordionState extends State<SfAccordion> {
                   setState(() {});
                 },
                 child: isVisible
-                    ? widget.selectedIcon ?? const Icon(Icons.arrow_drop_down)
-                    : widget.defaultIcon ?? const Icon(Icons.play_arrow)),
+                    ? Transform.rotate(
+                        angle: 90 * 3.1415926535 / 180,
+                        child:
+                            widget.iconButton ?? const Icon(Icons.play_arrow))
+                    : widget.iconButton ?? const Icon(Icons.play_arrow)),
             const SizedBox(width: 5),
-            Flexible(child: titleText ?? const SizedBox()),
+            Flexible(child: titleText),
           ],
         ),
         isVisible
