@@ -58,4 +58,7 @@ class SfacIcon{
 
   //스피커 아이콘
   static const String speaker = 'speaker';
+
+  //new 아이콘
+  static const String newIcon = 'newIcon';
 }
