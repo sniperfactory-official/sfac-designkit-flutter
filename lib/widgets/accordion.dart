@@ -72,19 +72,16 @@ class _SfAccordionState extends State<SfAccordion> {
           ],
         ),
         isVisible
-            ? Padding(
-                padding: widget.contentMargin??
+            ? Container(
+                margin: widget.contentMargin ??
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: Container(
-                  decoration: BoxDecoration(
-                      color:
-                          widget.contentBackgroundColor ?? SfacColor.grayScale5,
-                      borderRadius: BorderRadius.all(
-                          Radius.circular(widget.contentRadius))),
-                  child: Padding(
-                      padding: widget.contentPadding ?? const EdgeInsets.all(15),
-                      child: contentText),
-                ),
+                padding: widget.contentPadding ?? const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                    color:
+                        widget.contentBackgroundColor ?? SfacColor.grayScale5,
+                    borderRadius: BorderRadius.all(
+                        Radius.circular(widget.contentRadius))),
+                child: contentText,
               )
             : const SizedBox(),
       ],
