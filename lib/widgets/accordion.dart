@@ -68,25 +68,22 @@ class _SfAccordionState extends State<SfAccordion> {
                     ? widget.selectedIcon ?? const Icon(Icons.arrow_drop_down)
                     : widget.defaultIcon ?? const Icon(Icons.play_arrow)),
             const SizedBox(width: 5),
-            Expanded(child: titleText ?? const SizedBox()),
+            Flexible(child: titleText ?? const SizedBox()),
           ],
         ),
         isVisible
             ? Padding(
-                padding: widget.contentMargin ??
+                padding: widget.contentPadding ??
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                child: Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: widget.contentBackgroundColor ??
-                            SfacColor.grayScale5,
-                        borderRadius: BorderRadius.all(
-                            Radius.circular(widget.contentRadius))),
-                    child: Padding(
-                        padding:
-                            widget.contentPadding ?? const EdgeInsets.all(15),
-                        child: contentText),
-                  ),
+                child: Container(
+                  decoration: BoxDecoration(
+                      color:
+                          widget.contentBackgroundColor ?? SfacColor.grayScale5,
+                      borderRadius: BorderRadius.all(
+                          Radius.circular(widget.contentRadius))),
+                  child: Padding(
+                      padding: widget.contentMargin ?? const EdgeInsets.all(15),
+                      child: contentText),
                 ),
               )
             : const SizedBox(),
