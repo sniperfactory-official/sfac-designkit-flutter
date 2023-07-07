@@ -73,7 +73,7 @@ class _SfAccordionState extends State<SfAccordion> {
         ),
         isVisible
             ? Padding(
-                padding: widget.contentPadding ??
+                padding: widget.contentMargin??
                     const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                 child: Container(
                   decoration: BoxDecoration(
@@ -82,7 +82,7 @@ class _SfAccordionState extends State<SfAccordion> {
                       borderRadius: BorderRadius.all(
                           Radius.circular(widget.contentRadius))),
                   child: Padding(
-                      padding: widget.contentMargin ?? const EdgeInsets.all(15),
+                      padding: widget.contentPadding ?? const EdgeInsets.all(15),
                       child: contentText),
                 ),
               )
