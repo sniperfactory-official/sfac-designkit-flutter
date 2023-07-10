@@ -1,0 +1,4 @@
+commit-msg:
+  commands:
+    validate:
+      run: flutter pub run ./git_hooks/commit_convention.dart
