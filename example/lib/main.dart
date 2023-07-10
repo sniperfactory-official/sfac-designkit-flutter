@@ -13,14 +13,17 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       title: 'SFAC Widget',
       home: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SFAccordion(
-              title: Text('Text'),
-              content: Text('Content'),
-            )
-          ],
+        body: SafeArea(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SFAccordion(
+                title: Text('개발 경험이 없는데 수강이 가능한가요?'),
+                content: Text('''네 가능합니다.
+Flutter 모바일 어플리케이션 개발 과정은 코딩, 앱 개발 경험이 없는 분들도 기초부터 차근차근 배우실 수 있도록 구성되어 있습니다.'''),
+              )
+            ],
+          ),
         ),
       ),
     );
