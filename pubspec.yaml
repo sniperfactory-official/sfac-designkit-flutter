@@ -1,11 +1,11 @@
 name: sfac_design_flutter
 description: A new Flutter plugin project.
 version: 0.0.1
-homepage:
+homepage: 'https://github.com/sniperfactory-official/sfac-designkit-flutter'
 
 environment:
   sdk: '>=3.0.3 <4.0.0'
-  flutter: ">=3.3.0"
+  flutter: '>=3.3.0'
 
 dependencies:
   flutter:
