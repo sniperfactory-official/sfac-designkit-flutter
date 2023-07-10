@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../util/sfac_color.dart';
-import '../util/sfac_text_style.dart';
+import '../../util/sfac_color.dart';
+import '../../util/sfac_text_style.dart';
 
 class SFTab extends StatefulWidget {
   const SFTab(
