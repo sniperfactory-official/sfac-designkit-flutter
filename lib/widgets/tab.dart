@@ -13,7 +13,7 @@ class SfTab extends StatefulWidget {
       this.borderColor,
       this.borderBottom,
       this.borderWidth = 4.0,
-      this.onTap,
+      required this.onTap,
       this.physics,
       this.menuTextStyle});
   final List<Widget?> menu; //메뉴
