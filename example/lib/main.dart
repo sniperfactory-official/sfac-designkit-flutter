@@ -16,7 +16,7 @@ class MyApp extends StatelessWidget {
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SfAccordion(
+            SFAccordion(
               title: Text('Text'),
               content: Text('Content'),
             )

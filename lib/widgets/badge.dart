@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../util/sfac_color.dart';
 import '../util/sfac_text_style.dart';
 
-class SfBadge extends StatelessWidget {
-  const SfBadge({
+class SFBadge extends StatelessWidget {
+  const SFBadge({
     super.key,
     this.child,
     this.backgroundColor,

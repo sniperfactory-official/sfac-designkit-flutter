@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../util/sfac_color.dart';
 import '../util/sfac_text_style.dart';
 
-class SfAccordion extends StatefulWidget {
-  const SfAccordion({
+class SFAccordion extends StatefulWidget {
+  const SFAccordion({
     super.key,
     this.width = double.infinity,
     this.height,
@@ -26,10 +26,10 @@ class SfAccordion extends StatefulWidget {
   final EdgeInsetsGeometry? contentMargin; // 펼쳤을 때 보이는 텍스트 상자 마진
 
   @override
-  State<SfAccordion> createState() => _SfAccordionState();
+  State<SFAccordion> createState() => _SFAccordionState();
 }
 
-class _SfAccordionState extends State<SfAccordion> {
+class _SFAccordionState extends State<SFAccordion> {
   bool isVisible = false;
   @override
   Widget build(BuildContext context) {

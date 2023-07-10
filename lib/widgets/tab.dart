@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../util/sfac_color.dart';
 import '../util/sfac_text_style.dart';
 
-class SfTab extends StatefulWidget {
-  const SfTab(
+class SFTab extends StatefulWidget {
+  const SFTab(
       {super.key,
       required this.menu,
       this.focusedColor,
@@ -30,10 +30,10 @@ class SfTab extends StatefulWidget {
   final TextStyle? menuTextStyle; //메뉴 텍스트 스타일
 
   @override
-  State<SfTab> createState() => _TabState();
+  State<SFTab> createState() => _TabState();
 }
 
-class _TabState extends State<SfTab> {
+class _TabState extends State<SFTab> {
   int focusedText = 0;
   List<bool> ishover = [];
 

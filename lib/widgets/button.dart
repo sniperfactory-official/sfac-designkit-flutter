@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/util/sfac_color.dart';
 import 'package:sfac_design_flutter/util/sfac_text_style.dart';
 
-class SfButton extends StatefulWidget {
-  const SfButton({
+class SFButton extends StatefulWidget {
+  const SFButton({
     super.key,
     this.backgroundColor,
     this.textColor,
@@ -36,10 +36,10 @@ class SfButton extends StatefulWidget {
   final bool isLink; // 링크 버튼(밑줄) true false
 
   @override
-  State<SfButton> createState() => _SfButtonState();
+  State<SFButton> createState() => _SFButtonState();
 }
 
-class _SfButtonState extends State<SfButton> {
+class _SFButtonState extends State<SFButton> {
   bool ishover = false;
   @override
   Widget build(BuildContext context) {

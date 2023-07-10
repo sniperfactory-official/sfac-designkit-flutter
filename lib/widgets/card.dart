@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import '../util/sfac_color.dart';
 import '../util/sfac_text_style.dart';
 
-class SfCard extends StatelessWidget {
-  const SfCard({
+class SFCard extends StatelessWidget {
+  const SFCard({
     super.key,
     this.outlineWidth = 1.0,
     this.outlineRadius = 10,
