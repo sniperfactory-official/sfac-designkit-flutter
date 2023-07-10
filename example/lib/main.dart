@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 void main() {
   runApp(const MyApp());
@@ -9,9 +10,19 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: 'SFAC Widget',
-      home: Scaffold(),
+      home: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SfAccordion(
+              title: Text('Text'),
+              content: Text('Content'),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
