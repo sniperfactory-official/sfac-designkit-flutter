@@ -14,15 +14,25 @@ class SFAccordion extends StatefulWidget {
     this.contentPadding,
     this.contentMargin,
   });
-  final double? width; //아코디언 가로 넓이
-  final double? height; //아코디언 높이
-  final Widget? iconButton; //  아이콘
-  final Widget title; // 접었을 때 보이는 텍스트
-  final Widget content; // 펼쳤을 때 보이는 텍스트
-  final Color? contentBackgroundColor; //펼쳤을 때 보이는 텍스트 상자 배경색
-  final double contentRadius; //펼쳤을 때 보이는 텍스트 상자 곡선
-  final EdgeInsetsGeometry? contentPadding; //펼쳤을 때 보이는 텍스트 상자 패딩
-  final EdgeInsetsGeometry? contentMargin; // 펼쳤을 때 보이는 텍스트 상자 마진
+
+  // 아코디언 가로 넓이
+  final double? width;
+  // 아코디언 높이
+  final double? height;
+  // 아이콘
+  final Widget? iconButton;
+  // 접었을 때 보이는 텍스트
+  final Widget title;
+  // 펼쳤을 때 보이는 텍스트
+  final Widget content;
+  // 펼쳤을 때 보이는 텍스트 상자 배경색
+  final Color? contentBackgroundColor;
+  // 펼쳤을 때 보이는 텍스트 상자 곡선
+  final double contentRadius;
+  // 펼쳤을 때 보이는 텍스트 상자 패딩
+  final EdgeInsetsGeometry? contentPadding;
+  // 펼쳤을 때 보이는 텍스트 상자 마진
+  final EdgeInsetsGeometry? contentMargin;
 
   @override
   State<SFAccordion> createState() => _SFAccordionState();
