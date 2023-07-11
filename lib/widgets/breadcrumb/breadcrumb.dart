@@ -3,7 +3,7 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 class SFBreadcrumb extends StatelessWidget {
   const SFBreadcrumb(
-      {super.key, required this.menu, this.middleIcon, this.menuSpacing = 10});
+      {super.key, required this.menu, this.middleIcon, this.menuSpacing = 4});
 
   // 메뉴 문자열 리스트
   final List<String> menu;
@@ -26,16 +26,17 @@ class SFBreadcrumb extends StatelessWidget {
                   e,
                   style: SfacTextStyle.b2M18(color: SfacColor.grayScale80),
                 ),
-                SizedBox(width: menuSpacing / 2),
-                e == menu.last
-                    ? const SizedBox()
-                    : middleIcon ??
-                        const Icon(
-                          Icons.play_arrow,
-                          color: SfacColor.grayScale40,
-                          size: 15,
-                        ),
-                SizedBox(width: menuSpacing / 2),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: menuSpacing),
+                  child: e == menu.last
+                      ? const SizedBox()
+                      : middleIcon ??
+                          const Icon(
+                            Icons.play_arrow,
+                            color: SfacColor.grayScale40,
+                            size: 15,
+                          ),
+                )
               ],
             ),
           )
