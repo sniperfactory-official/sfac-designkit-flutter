@@ -90,7 +90,7 @@ class _SFAccordionState extends State<SFAccordion> {
           ),
           isVisible
               ? Container(
-                  width: widget.contentWidth,
+                  width: widget.contentWidth ?? double.infinity,
                   margin: widget.contentMargin ??
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   padding: widget.contentPadding ?? const EdgeInsets.all(15),
