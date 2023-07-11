@@ -9,6 +9,7 @@ class SFAccordion extends StatefulWidget {
     this.iconButton,
     required this.title,
     required this.content,
+    this.contentWidth,
     this.contentBackgroundColor,
     this.contentRadius = 10,
     this.contentPadding,
@@ -25,6 +26,8 @@ class SFAccordion extends StatefulWidget {
   final Widget title;
   // 펼쳤을 때 보이는 텍스트
   final Widget content;
+  // 펼쳤을 때 보이는 텍스트 상자의 가로 길이
+  final double? contentWidth;
   // 펼쳤을 때 보이는 텍스트 상자 배경색
   final Color? contentBackgroundColor;
   // 펼쳤을 때 보이는 텍스트 상자 곡선
@@ -87,6 +90,7 @@ class _SFAccordionState extends State<SFAccordion> {
           ),
           isVisible
               ? Container(
+                  width: widget.contentWidth,
                   margin: widget.contentMargin ??
                       const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
                   padding: widget.contentPadding ?? const EdgeInsets.all(15),
