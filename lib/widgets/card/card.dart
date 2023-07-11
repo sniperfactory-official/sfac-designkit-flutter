@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../util/sfac_color.dart';
-import '../../util/sfac_text_style.dart';
+import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 class SFCard extends StatelessWidget {
   const SFCard({
@@ -20,6 +19,7 @@ class SFCard extends StatelessWidget {
     this.cardFooter,
     this.verticalSpacing = 10,
     this.horizontalSpacing = 20,
+    required Text subtitle,
   });
   final Widget? title; //굵은 텍스트스타일 제목
   final Widget? content; //옅은 텍스트스타일 내용

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:sfac_design_flutter/util/sfac_color.dart';
-import 'package:sfac_design_flutter/util/sfac_text_style.dart';
+import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 class SFButton extends StatefulWidget {
   const SFButton({
