@@ -11,6 +11,7 @@ class SFTextArea extends StatelessWidget {
     this.textStyle,
     this.minLines = 11,
     this.maxLines = 11,
+    this.width,
     this.readOnly = false,
     this.radius = 10,
     this.borderColor,
@@ -39,6 +40,9 @@ class SFTextArea extends StatelessWidget {
   //텍스트필드에 허용되는 최대 행 수
   final int? maxLines;
 
+  //가로 너비
+  final double? width;
+
   //읽기전용 텍스트필드
   final bool readOnly;
 
@@ -57,6 +61,7 @@ class SFTextArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: borderColor ?? SfacColor.grayScale20),
