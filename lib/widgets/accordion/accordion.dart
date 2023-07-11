@@ -26,7 +26,7 @@ class SFAccordion extends StatefulWidget {
   final Widget title;
   // 펼쳤을 때 보이는 텍스트
   final Widget content;
-  // 펼쳤을 때 보이는 텍스트 상자의 가로 길이
+  // 펼쳤을 때 보이는 텍스트 상자의 가로 넓이
   final double? contentWidth;
   // 펼쳤을 때 보이는 텍스트 상자 배경색
   final Color? contentBackgroundColor;
