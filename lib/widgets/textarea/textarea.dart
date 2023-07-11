@@ -6,13 +6,13 @@ class SFTextArea extends StatelessWidget {
     super.key,
     this.controller,
     this.writer,
-    this.hintText = '',
+    this.hintText,
     this.hintStyle,
     this.textStyle,
     this.minLines = 11,
     this.maxLines = 11,
     this.readOnly = false,
-    this.radius,
+    this.radius = 10,
     this.borderColor,
     this.onChanged,
     this.onSaved,
@@ -43,7 +43,7 @@ class SFTextArea extends StatelessWidget {
   final bool readOnly;
 
   //radius
-  final double? radius;
+  final double radius;
 
   //테두리 색
   final Color? borderColor;
@@ -58,7 +58,7 @@ class SFTextArea extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(radius ?? 10),
+        borderRadius: BorderRadius.circular(radius),
         border: Border.all(color: borderColor ?? SfacColor.grayScale20),
       ),
       child: Padding(
