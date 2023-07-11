@@ -14,6 +14,8 @@ class SFTextArea extends StatelessWidget {
     this.readOnly = false,
     this.radius,
     this.borderColor,
+    this.onChanged,
+    this.onSaved,
   });
 
   //텍스트 필드 컨트롤러
@@ -46,6 +48,12 @@ class SFTextArea extends StatelessWidget {
   //테두리 색
   final Color? borderColor;
 
+  //onChanged: input 칸의 내용이 바로바로 바뀔 때 호출
+  final Function(String)? onChanged;
+
+  //onSaved: 입력된 텍스트를 저장할 때 호출
+  final Function(String?)? onSaved;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -64,6 +72,8 @@ class SFTextArea extends StatelessWidget {
               minLines: minLines,
               maxLines: maxLines,
               readOnly: readOnly,
+              onChanged: onChanged,
+              onSaved: onSaved,
               style: textStyle ?? const TextStyle(fontSize: 15, color: Colors.black),
               decoration: InputDecoration(
                 hintText: hintText,
