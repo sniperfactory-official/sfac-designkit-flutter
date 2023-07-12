@@ -29,7 +29,7 @@ class SFAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     return CircleAvatar(
       radius: size,
-      backgroundColor: backgroundColor ?? Colors.white,
+      backgroundColor: backgroundColor ?? Colors.grey,
       child: ClipRRect(
           borderRadius: BorderRadius.circular(imageRadius ?? 100),
           child: Padding(
