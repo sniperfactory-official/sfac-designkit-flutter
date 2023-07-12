@@ -4,38 +4,46 @@ import 'package:flutter_svg/flutter_svg.dart';
 class SFAvatar extends StatelessWidget {
   const SFAvatar({
     super.key,
-    this.image,
-    this.imageRadius,
-    this.imagePadding,
-    this.size = 16,
+    this.child,
+    this.borderWidth = 0.5,
+    this.padding = 0,
+    this.size = 42,
     this.backgroundColor,
+    this.borderColor,
   });
-  // image
-  final Widget? image;
+  // 자식 위젯
+  final Widget? child;
 
-  // image 테두리 곡선
-  final double? imageRadius;
+  // 테두리 두께
+  final double borderWidth;
 
-  // image 패딩
-  final double? imagePadding;
+  // 패딩
+  final double padding;
 
   // 위젯 크기
   final double? size;
 
-  // 위젯 배경색
+  // 배경 색
   final Color? backgroundColor;
+
+  // 테두리 색
+  final Color? borderColor;
 
   @override
   Widget build(BuildContext context) {
-    return CircleAvatar(
-      radius: size,
-      backgroundColor: backgroundColor ?? Colors.grey,
+    return Container(
+      width: size,
+      height: size,
+      padding: EdgeInsets.all(padding),
+      decoration: BoxDecoration(
+        color: backgroundColor ?? Colors.grey,
+        borderRadius: BorderRadius.circular(999),
+        border:
+            Border.all(width: borderWidth, color: borderColor ?? Colors.grey),
+      ),
       child: ClipRRect(
-          borderRadius: BorderRadius.circular(imageRadius ?? 100),
-          child: Padding(
-            padding: EdgeInsets.all(imagePadding ?? 0),
-            child: image ?? SvgPicture.asset('images/logo.svg'),
-          )),
+          borderRadius: BorderRadius.circular(999),
+          child: child ?? SvgPicture.asset('assets/svg/logo.svg')),
     );
   }
 }
