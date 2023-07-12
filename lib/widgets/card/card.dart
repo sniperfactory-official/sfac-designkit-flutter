@@ -42,7 +42,7 @@ class SFCard extends StatelessWidget {
     Widget? titleText;
     TextStyle? titleStyle;
     if (title != null) {
-      titleStyle = SfacTextStyle.b3M16(color: SfacColor.grayScale100);
+      titleStyle = SFTextStyle.b3M16(color: SFColor.grayScale100);
       titleText = AnimatedDefaultTextStyle(
         style: titleStyle,
         duration: kThemeChangeDuration,
@@ -52,7 +52,7 @@ class SFCard extends StatelessWidget {
     Widget? contentText;
     TextStyle? contentStyle;
     if (content != null) {
-      contentStyle = SfacTextStyle.b3R16(color: SfacColor.grayScale60);
+      contentStyle = SFTextStyle.b3R16(color: SFColor.grayScale60);
       contentText = AnimatedDefaultTextStyle(
         style: contentStyle,
         duration: kThemeChangeDuration,
@@ -64,7 +64,7 @@ class SFCard extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(outlineRadius),
         border: Border.all(
-          color: outlineColor ?? SfacColor.grayScale20,
+          color: outlineColor ?? SFColor.grayScale20,
           width: outlineWidth,
         ),
       ),

@@ -64,10 +64,10 @@ class SFTextArea extends StatelessWidget {
       width: width,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(radius),
-        border: Border.all(color: borderColor ?? SfacColor.grayScale20),
+        border: Border.all(color: borderColor ?? SFColor.grayScale20),
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
@@ -79,23 +79,28 @@ class SFTextArea extends StatelessWidget {
               readOnly: readOnly,
               onChanged: onChanged,
               onSaved: onSaved,
-              style: textStyle ?? const TextStyle(fontSize: 15, color: Colors.black),
+              style: textStyle ??
+                  const TextStyle(fontSize: 15, color: Colors.black),
               decoration: InputDecoration(
                 hintText: hintText,
-                hintStyle: hintStyle ?? SfacTextStyle.b3R16(color: SfacColor.grayScale30),
+                hintStyle:
+                    hintStyle ?? SFTextStyle.b3R16(color: SFColor.grayScale30),
                 border: InputBorder.none,
               ),
             ),
-            if(writer != null) Padding(
-              padding: const EdgeInsets.only(bottom: 14),
-              child: Row(
-                children: [
-                  Text('작성자',style: SfacTextStyle.b5B12(color: SfacColor.grayScale40)),
-                  const SizedBox(width: 6),
-                  Text(writer!, style: SfacTextStyle.b5B12(color: SfacColor.grayScale60)),
-                ],
+            if (writer != null)
+              Padding(
+                padding: const EdgeInsets.only(bottom: 14),
+                child: Row(
+                  children: [
+                    Text('작성자',
+                        style: SFTextStyle.b5B12(color: SFColor.grayScale40)),
+                    const SizedBox(width: 6),
+                    Text(writer!,
+                        style: SFTextStyle.b5B12(color: SFColor.grayScale60)),
+                  ],
+                ),
               ),
-            ),
           ],
         ),
       ),

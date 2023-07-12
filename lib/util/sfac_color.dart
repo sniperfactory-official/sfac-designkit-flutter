@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class SfacColor {
+class SFColor {
   static const Color primary100 = Color(0xFF0059FF);
   static const Color primary90 = Color(0xFF196AFF);
   static const Color primary80 = Color(0xFF337AFF);

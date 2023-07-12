@@ -54,9 +54,9 @@ class _TabState extends State<SFTab> {
           Widget? menuText;
           TextStyle? menuStyle;
           menuStyle = widget.menuTextStyle ??
-              SfacTextStyle.b3M16(
+              SFTextStyle.b3M16(
                   color: focusedText == index
-                      ? widget.focusedColor ?? SfacColor.primary100
+                      ? widget.focusedColor ?? SFColor.primary100
                       : Colors.black);
           menuText = AnimatedDefaultTextStyle(
             style: menuStyle,
@@ -88,14 +88,13 @@ class _TabState extends State<SFTab> {
                     bottom: ishover[index]
                         ? widget.borderBottom ??
                             BorderSide(
-                                color:
-                                    widget.borderColor ?? SfacColor.primary100,
+                                color: widget.borderColor ?? SFColor.primary100,
                                 width: widget.borderWidth)
                         : focusedText == index
                             ? widget.borderBottom ??
                                 BorderSide(
                                     color: widget.borderColor ??
-                                        SfacColor.primary100,
+                                        SFColor.primary100,
                                     width: widget.borderWidth)
                             : BorderSide.none,
                   )),

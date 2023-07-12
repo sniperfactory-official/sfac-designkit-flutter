@@ -53,13 +53,13 @@ class _SFButtonState extends State<SFButton> {
                   fontFamily: 'PretendardBold',
                   fontSize: 16,
                   color: widget.onPressed == null
-                      ? widget.disabledTextColor ?? SfacColor.grayScale20
-                      : widget.textColor ?? SfacColor.primary60)
-          : SfacTextStyle.b3B16(
+                      ? widget.disabledTextColor ?? SFColor.grayScale20
+                      : widget.textColor ?? SFColor.primary60)
+          : SFTextStyle.b3B16(
               color: widget.onPressed == null
-                  ? widget.disabledTextColor ?? SfacColor.grayScale20
+                  ? widget.disabledTextColor ?? SFColor.grayScale20
                   : widget.isLink
-                      ? widget.textColor ?? SfacColor.primary60
+                      ? widget.textColor ?? SFColor.primary60
                       : widget.textColor ?? Colors.white);
       childText = AnimatedDefaultTextStyle(
         style: childStyle,
@@ -84,8 +84,8 @@ class _SFButtonState extends State<SFButton> {
           color: widget.isLink
               ? Colors.transparent
               : widget.onPressed == null
-                  ? widget.disabledbackgroundColor ?? SfacColor.grayScale5
-                  : widget.backgroundColor ?? SfacColor.primary100,
+                  ? widget.disabledbackgroundColor ?? SFColor.grayScale5
+                  : widget.backgroundColor ?? SFColor.primary100,
           borderRadius: BorderRadius.circular(widget.outlineRadius),
           border: Border.all(
             color: widget.outlineColor ?? Colors.transparent,

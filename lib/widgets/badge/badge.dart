@@ -39,7 +39,7 @@ class SFBadge extends StatelessWidget {
     Widget? childText;
     TextStyle? childStyle;
     if (child != null) {
-      childStyle = SfacTextStyle.b5R12(color: SfacColor.grayScale60);
+      childStyle = SFTextStyle.b5R12(color: SFColor.grayScale60);
       childText = AnimatedDefaultTextStyle(
         style: childStyle,
         duration: kThemeChangeDuration,
@@ -50,8 +50,8 @@ class SFBadge extends StatelessWidget {
       width: width,
       height: height,
       decoration: BoxDecoration(
-          color: backgroundColor ?? SfacColor.grayScale5,
-          border: Border.all(color: outlineColor ?? SfacColor.grayScale5),
+          color: backgroundColor ?? SFColor.grayScale5,
+          border: Border.all(color: outlineColor ?? SFColor.grayScale5),
           borderRadius: BorderRadius.circular(borderRadius)),
       child: Padding(
           padding:

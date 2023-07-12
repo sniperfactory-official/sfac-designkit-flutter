@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class SfacTextStyle{
+class SFTextStyle {
   //헤더 볼드폰트 32사이즈
-  static TextStyle h1B32({Color color = Colors.black}) => 
-      TextStyle(fontFamily: 'PretendardBold', fontSize: 32,color: color);
+  static TextStyle h1B32({Color color = Colors.black}) =>
+      TextStyle(fontFamily: 'PretendardBold', fontSize: 32, color: color);
 
   //헤더 볼드폰트 28사이즈
   static TextStyle h2B28({Color color = Colors.black}) =>
@@ -17,9 +17,7 @@ class SfacTextStyle{
   static TextStyle h4B20({Color color = Colors.black}) =>
       TextStyle(fontFamily: 'PretendardBold', fontSize: 20, color: color);
 
-
   //아래부터 Body
-
 
   //본문 볼드폰트 20사이즈
   static TextStyle b1B20({Color color = Colors.black}) =>
@@ -36,7 +34,7 @@ class SfacTextStyle{
   //본문 볼드폰트 18사이즈
   static TextStyle b2B18({Color color = Colors.black}) =>
       TextStyle(fontFamily: 'PretendardBold', fontSize: 18, color: color);
-  
+
   //본문 미디엄폰트 18사이즈
   static TextStyle b2M18({Color color = Colors.black}) =>
       TextStyle(fontFamily: 'PretendardMedium', fontSize: 18, color: color);

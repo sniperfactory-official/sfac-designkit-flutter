@@ -1,4 +1,4 @@
-class SfacIcon{
+class SFIcon {
   //뒤로가기 아이콘
   static const String backarrow = 'backarrow';
 

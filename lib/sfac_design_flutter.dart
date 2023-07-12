@@ -11,3 +11,6 @@ export 'package:sfac_design_flutter/widgets/badge/badge.dart';
 export 'package:sfac_design_flutter/widgets/button/button.dart';
 export 'package:sfac_design_flutter/widgets/card/card.dart';
 export 'package:sfac_design_flutter/widgets/tab/tab.dart';
+export 'package:sfac_design_flutter/widgets/avatar/avatar.dart';
+export 'package:sfac_design_flutter/widgets/breadcrumb/breadcrumb.dart';
+export 'package:sfac_design_flutter/widgets/textarea/textarea.dart';

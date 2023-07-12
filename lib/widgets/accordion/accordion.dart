@@ -47,7 +47,7 @@ class _SFAccordionState extends State<SFAccordion> {
   Widget build(BuildContext context) {
     Widget? titleText;
     TextStyle? titleStyle;
-    titleStyle = SfacTextStyle.b3M16(color: SfacColor.grayScale100);
+    titleStyle = SFTextStyle.b3M16(color: SFColor.grayScale100);
     titleText = AnimatedDefaultTextStyle(
       style: titleStyle,
       duration: kThemeChangeDuration,
@@ -55,7 +55,7 @@ class _SFAccordionState extends State<SFAccordion> {
     );
     Widget? contentText;
     TextStyle? contentStyle;
-    contentStyle = SfacTextStyle.b3R16(color: SfacColor.grayScale60);
+    contentStyle = SFTextStyle.b3R16(color: SFColor.grayScale60);
     contentText = AnimatedDefaultTextStyle(
       style: contentStyle,
       duration: kThemeChangeDuration,
@@ -96,7 +96,7 @@ class _SFAccordionState extends State<SFAccordion> {
                   padding: widget.contentPadding ?? const EdgeInsets.all(15),
                   decoration: BoxDecoration(
                       color:
-                          widget.contentBackgroundColor ?? SfacColor.grayScale5,
+                          widget.contentBackgroundColor ?? SFColor.grayScale5,
                       borderRadius: BorderRadius.all(
                           Radius.circular(widget.contentRadius))),
                   child: contentText,

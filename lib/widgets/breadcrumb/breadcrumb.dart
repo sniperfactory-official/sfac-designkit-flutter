@@ -24,7 +24,7 @@ class SFBreadcrumb extends StatelessWidget {
               children: [
                 Text(
                   e,
-                  style: SfacTextStyle.b2M18(color: SfacColor.grayScale80),
+                  style: SFTextStyle.b2M18(color: SFColor.grayScale80),
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: menuSpacing),
@@ -33,7 +33,7 @@ class SFBreadcrumb extends StatelessWidget {
                       : middleIcon ??
                           const Icon(
                             Icons.play_arrow,
-                            color: SfacColor.grayScale40,
+                            color: SFColor.grayScale40,
                             size: 15,
                           ),
                 )
