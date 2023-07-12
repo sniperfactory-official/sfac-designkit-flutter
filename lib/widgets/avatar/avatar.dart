@@ -7,7 +7,7 @@ class SFAvatar extends StatelessWidget {
     this.image,
     this.imageRadius,
     this.imagePadding,
-    this.size = 35,
+    this.size = 16,
     this.backgroundColor,
   });
   // image
