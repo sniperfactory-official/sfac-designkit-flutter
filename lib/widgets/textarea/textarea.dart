@@ -52,7 +52,7 @@ class SFTextArea extends StatelessWidget {
   //테두리 색
   final Color? borderColor;
 
-  //onChanged: input 칸의 내용이 바로바로 바뀔 때 호출
+  //onChanged: TextArea 칸의 내용이 바로바로 바뀔 때 호출
   final Function(String)? onChanged;
 
   //onSaved: 입력된 텍스트를 저장할 때 호출
@@ -60,6 +60,8 @@ class SFTextArea extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Color hintColor = readOnly ? SFColor.grayScale10 : SFColor.grayScale30;
+
     return Container(
       width: width,
       decoration: BoxDecoration(
@@ -84,7 +86,7 @@ class SFTextArea extends StatelessWidget {
               decoration: InputDecoration(
                 hintText: hintText,
                 hintStyle:
-                    hintStyle ?? SFTextStyle.b3R16(color: SFColor.grayScale30),
+                    hintStyle ?? SFTextStyle.b3R16(color: hintColor),
                 border: InputBorder.none,
               ),
             ),
