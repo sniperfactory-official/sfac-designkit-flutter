@@ -4,7 +4,7 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 class SFBadge extends StatelessWidget {
   const SFBadge({
     super.key,
-    this.child,
+    required this.child,
     this.backgroundColor,
     this.outlineColor,
     this.borderRadius = 4,
@@ -14,7 +14,7 @@ class SFBadge extends StatelessWidget {
   });
 
   //Badge안에 위젯
-  final Widget? child;
+  final Widget child;
 
   //Badge배경색
   final Color? backgroundColor;
@@ -38,20 +38,18 @@ class SFBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget? childText;
     TextStyle? childStyle;
-    if (child != null) {
-      childStyle = SFTextStyle.b5R12(color: SFColor.grayScale60);
+      childStyle = SFTextStyle.b5R12(color: Colors.white);
       childText = AnimatedDefaultTextStyle(
         style: childStyle,
         duration: kThemeChangeDuration,
-        child: child!,
+        child: child,
       );
-    }
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
-          color: backgroundColor ?? SFColor.grayScale5,
-          border: Border.all(color: outlineColor ?? SFColor.grayScale5),
+          color: backgroundColor ?? SFColor.primary80,
+          border: Border.all(color: outlineColor ?? Colors.transparent),
           borderRadius: BorderRadius.circular(borderRadius)),
       child: Padding(
           padding:
