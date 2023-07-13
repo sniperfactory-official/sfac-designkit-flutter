@@ -87,7 +87,7 @@ class SFCard extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     cardHeader ?? const SizedBox(),
-                    SizedBox(height: titleText != null ? verticalSpacing : 0),
+                    SizedBox(height: cardHeader != null ? verticalSpacing : 0),
                     titleText ?? const SizedBox(),
                     SizedBox(height: contentText != null ? verticalSpacing : 0),
                     contentText ?? const SizedBox(),
