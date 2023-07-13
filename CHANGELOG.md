@@ -1,3 +1,5 @@
 ## 0.0.1
 
-* TODO: Describe initial release.
+### Added
+
+- initial release with accordion, avatar, badge, breadcrumb, button, card, tab, textarea and color, textStyle.
