@@ -61,4 +61,6 @@ class SFIcon {
 
   //new 아이콘
   static const String newIcon = 'newIcon';
+
+  SFIcon(String coverbox);
 }
