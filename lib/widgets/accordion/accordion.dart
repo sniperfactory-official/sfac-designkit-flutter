@@ -103,7 +103,8 @@ class _SFAccordionState extends State<SFAccordion> {
                           widget.contentBackgroundColor ?? SFColor.grayScale5,
                       borderRadius: BorderRadius.all(
                           Radius.circular(widget.contentRadius))),
-                  child: contentText,
+                  child:
+                      Align(alignment: Alignment.topLeft, child: contentText),
                 )
               : const SizedBox(),
         ],
