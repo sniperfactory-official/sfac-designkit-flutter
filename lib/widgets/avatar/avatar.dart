@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 class SFAvatar extends StatelessWidget {
   const SFAvatar({
@@ -36,14 +37,14 @@ class SFAvatar extends StatelessWidget {
       height: size,
       padding: EdgeInsets.all(padding),
       decoration: BoxDecoration(
-        color: backgroundColor ?? Colors.grey,
+        color: backgroundColor ?? SFColor.grayScale10,
         borderRadius: BorderRadius.circular(999),
         border:
-            Border.all(width: borderWidth, color: borderColor ?? Colors.grey),
+            Border.all(width: borderWidth, color: borderColor ?? SFColor.grayScale10),
       ),
       child: ClipRRect(
           borderRadius: BorderRadius.circular(999),
-          child: child ?? SvgPicture.asset('assets/svg/logo.svg')),
+          child: child ?? SvgPicture.asset('images/logo.svg')),
     );
   }
 }
