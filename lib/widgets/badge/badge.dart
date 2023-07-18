@@ -14,7 +14,7 @@ class SFBadge extends StatefulWidget {
     this.child,
     this.borderRadius = 4,
     this.padding,
-    required this.type
+    this.status
   });
 
   //Badge안에 위젯
@@ -27,7 +27,7 @@ class SFBadge extends StatefulWidget {
   final EdgeInsetsGeometry? padding;
 
   //Badge 타입
-  final SFBadgeStatus type;
+  final SFBadgeStatus? status;
 
   @override
   State<SFBadge> createState() => _SFBadgeState();
@@ -42,7 +42,7 @@ class _SFBadgeState extends State<SFBadge> {
   Color? backgroundColor;
 
   initAttributes() {
-    switch (widget.type){
+    switch (widget.status){
       case SFBadgeStatus.primary:
       border = Border.all(color: Colors.transparent);
       backgroundColor = SFColor.primary80;
