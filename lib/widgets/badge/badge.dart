@@ -1,60 +1,100 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
-class SFBadge extends StatelessWidget {
+enum SFBadgeStatus{
+primary,
+secondary,
+outline,
+destructive
+}
+
+class SFBadge extends StatefulWidget {
   const SFBadge({
     super.key,
-    required this.child,
-    this.backgroundColor,
-    this.outlineColor,
+    this.child,
     this.borderRadius = 4,
-    this.width,
-    this.height,
-    this.margin,
+    this.padding,
+    required this.type
   });
 
   //Badge안에 위젯
-  final Widget child;
-
-  //Badge배경색
-  final Color? backgroundColor;
-
-  //Badge테두리 색
-  final Color? outlineColor;
+  final Widget? child;
 
   //Badge모서리 곡선
   final double borderRadius;
 
-  //Badge 가로 너비
-  final double? width;
+  //Badge안에 위젯 padding
+  final EdgeInsetsGeometry? padding;
 
-  //Badge 세로 너비
-  final double? height;
+  //Badge 타입
+  final SFBadgeStatus type;
 
-  //Badge안에 위젯 마진
-  final EdgeInsetsGeometry? margin;
+  @override
+  State<SFBadge> createState() => _SFBadgeState();
+}
+
+class _SFBadgeState extends State<SFBadge> {
+  //Badge 테두리
+  Border? border;
+  //Text위젯의 textStyle
+  TextStyle? textStyle;
+  //Badge 배경색
+  Color? backgroundColor;
+
+  initAttributes() {
+    switch (widget.type){
+      case SFBadgeStatus.primary:
+      border = Border.all(color: Colors.transparent);
+      backgroundColor = SFColor.primary80;
+      textStyle = SFTextStyle.b5R12(color: Colors.white);
+      break;
+      case SFBadgeStatus.secondary:
+      border = Border.all(color: Colors.transparent);
+      backgroundColor = SFColor.grayScale5;
+      textStyle = SFTextStyle.b5R12(color: SFColor.grayScale60);
+      break;
+      case SFBadgeStatus.outline:
+      border = Border.all(color: SFColor.primary40);
+      backgroundColor = SFColor.primary5;
+      textStyle = SFTextStyle.b5R12(color: SFColor.primary60);
+      break;
+      case SFBadgeStatus.destructive:
+      border = Border.all(color: Colors.transparent);
+      backgroundColor = SFColor.red;
+      textStyle = SFTextStyle.b5R12(color: Colors.white);
+      break;
+      default:
+      border = Border.all(color: Colors.transparent);
+      backgroundColor = SFColor.primary80;
+      textStyle = SFTextStyle.b5R12(color: Colors.white);
+      break;
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initAttributes();
+  }
+
 
   @override
   Widget build(BuildContext context) {
-    Widget? childText;
-    TextStyle? childStyle;
-      childStyle = SFTextStyle.b5R12(color: Colors.white);
-      childText = AnimatedDefaultTextStyle(
-        style: childStyle,
-        duration: kThemeChangeDuration,
-        child: child,
-      );
     return Container(
-      width: width,
-      height: height,
       decoration: BoxDecoration(
-          color: backgroundColor ?? SFColor.primary80,
-          border: Border.all(color: outlineColor ?? Colors.transparent),
-          borderRadius: BorderRadius.circular(borderRadius)),
+          color: backgroundColor,
+          border: border,
+          borderRadius: BorderRadius.circular(widget.borderRadius)
+          ),
       child: Padding(
           padding:
-              margin ?? const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-          child: childText),
+              widget.padding ?? const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+          child: AnimatedDefaultTextStyle(
+            style: textStyle!,
+            duration: kThemeChangeDuration,
+            child: widget.child ?? const Text(''),
+          )
+      ),
     );
   }
 }
