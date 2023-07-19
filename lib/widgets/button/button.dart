@@ -1,13 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
+enum SFButtonStatus {
+  primary,
+  secondary,
+  outline,
+  destructive,
+  disabled,
+  asChild,
+  link,
+  ghost
+}
+
 class SFButton extends StatefulWidget {
   const SFButton({
     super.key,
+    required this.onPressed,
     this.backgroundColor,
     this.textColor,
     this.outlineColor,
-    required this.onPressed,
     this.disabledTextColor,
     this.disabledbackgroundColor,
     this.width,
@@ -16,7 +27,7 @@ class SFButton extends StatefulWidget {
     this.outlineRadius = 10,
     this.hoverTextStyle,
     this.hoverbackgroundColor,
-    this.isLink = false,
+    this.status = SFButtonStatus.primary,
     this.isAsChild = false,
     required this.child,
   });
@@ -59,10 +70,10 @@ class SFButton extends StatefulWidget {
   // 호버 배경색
   final Color? hoverbackgroundColor;
 
-  // 링크 버튼(밑줄) true false
-  final bool isLink;
+  // 버튼 상태 enum
+  final SFButtonStatus status;
 
-  // child 크기에 맞춤 크기
+  //child 크기만큼의 버튼 크기
   final bool isAsChild;
 
   @override
@@ -70,28 +81,70 @@ class SFButton extends StatefulWidget {
 }
 
 class _SFButtonState extends State<SFButton> {
-  bool ishover = false;
+  bool _ishover = false;
+  bool _isLink = false;
+  bool _isAsChild = false;
+  Color? _backgroundColor;
+  Color? _textColor;
+  Color? _outlineColor;
+  Color? _hoverBackgroundColor;
+
   @override
   Widget build(BuildContext context) {
+    void Function()? onPressed = widget.onPressed;
+    _isAsChild = widget.isAsChild;
+    switch (widget.status) {
+      case SFButtonStatus.primary:
+        _backgroundColor = SFColor.primary80;
+        _textColor = Colors.white;
+        break;
+      case SFButtonStatus.secondary:
+        _backgroundColor = SFColor.grayScale5;
+        _textColor = SFColor.grayScale60;
+        break;
+      case SFButtonStatus.outline:
+        _outlineColor = SFColor.primary40;
+        _backgroundColor = SFColor.primary5;
+        _textColor = SFColor.primary60;
+        break;
+      case SFButtonStatus.destructive:
+        _backgroundColor = SFColor.red;
+        _textColor = Colors.white;
+        break;
+      case SFButtonStatus.disabled:
+        onPressed = null;
+        _backgroundColor = widget.disabledbackgroundColor ?? SFColor.grayScale5;
+        _textColor = widget.disabledTextColor ?? SFColor.grayScale20;
+        break;
+      case SFButtonStatus.asChild:
+        _backgroundColor = SFColor.grayScale5;
+        _textColor = SFColor.grayScale60;
+        _isAsChild = true;
+        break;
+      case SFButtonStatus.link:
+        _backgroundColor = Colors.transparent;
+        _textColor = SFColor.primary60;
+        _isLink = true;
+        break;
+      case SFButtonStatus.ghost:
+        _backgroundColor = Colors.transparent;
+        _textColor = SFColor.primary60;
+        _hoverBackgroundColor = SFColor.primary5;
+        break;
+    }
+
     Widget? childText;
     TextStyle? childStyle;
     if (widget.child != null) {
-      childStyle = ishover && widget.isLink
+      childStyle = _ishover && _isLink
           ? widget.hoverTextStyle ??
               TextStyle(
                   decoration: TextDecoration.underline,
                   decorationThickness: 1.5,
                   fontFamily: 'PretendardBold',
                   fontSize: 16,
-                  color: widget.onPressed == null
-                      ? widget.disabledTextColor ?? SFColor.grayScale20
-                      : widget.textColor ?? SFColor.primary60)
-          : SFTextStyle.b3B16(
-              color: widget.onPressed == null
-                  ? widget.disabledTextColor ?? SFColor.grayScale20
-                  : widget.isLink
-                      ? widget.textColor ?? SFColor.primary60
-                      : widget.textColor ?? Colors.white);
+                  color: widget.textColor ?? _textColor)
+          : SFTextStyle.b3B16(color: widget.textColor ?? _textColor!);
       childText = AnimatedDefaultTextStyle(
         style: childStyle,
         duration: kThemeChangeDuration,
@@ -100,37 +153,40 @@ class _SFButtonState extends State<SFButton> {
     }
     return FittedBox(
       child: InkWell(
-        onTap: widget.onPressed,
+        onTap: onPressed,
         onHover: (value) {
-          ishover = value;
+          _ishover = value;
           setState(() {});
         },
         borderRadius: BorderRadius.all(
           Radius.circular(widget.outlineRadius),
         ),
-        hoverColor: widget.hoverbackgroundColor ?? Colors.transparent,
+        hoverColor: widget.hoverbackgroundColor ??
+            _hoverBackgroundColor ??
+            Colors.transparent,
         child: Ink(
-          width: widget.isAsChild
+          width: _isAsChild
               ? null
               : widget.width ?? MediaQuery.of(context).size.width,
-          height: widget.isAsChild ? null : widget.height ?? 50,
+          height: _isAsChild ? null : widget.height ?? 50,
           decoration: BoxDecoration(
-            color: widget.isLink
-                ? Colors.transparent
-                : widget.onPressed == null
-                    ? widget.disabledbackgroundColor ?? SFColor.grayScale5
-                    : widget.backgroundColor ?? SFColor.primary100,
+            color: widget.backgroundColor ?? _backgroundColor,
             borderRadius: BorderRadius.circular(widget.outlineRadius),
             border: Border.all(
-              color: widget.outlineColor ?? Colors.transparent,
+              color: widget.outlineColor ?? _outlineColor ?? Colors.transparent,
               width: widget.outlineWidth,
             ),
           ),
           child: Center(
-              child: Padding(
-            padding: EdgeInsets.all(widget.isAsChild ? 10 : 0),
-            child: childText,
-          )),
+            child: Padding(
+              padding: EdgeInsets.all(_isAsChild
+                  ? widget.isAsChild
+                      ? 0
+                      : 10
+                  : 0),
+              child: childText,
+            ),
+          ),
         ),
       ),
     );
