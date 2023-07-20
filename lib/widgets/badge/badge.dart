@@ -6,7 +6,7 @@ enum SFBadgeStatus { primary, secondary, outline, destructive }
 class SFBadge extends StatelessWidget {
   const SFBadge(
       {super.key,
-      this.child,
+      required this.child,
       this.status = SFBadgeStatus.primary,
       this.backgroundColor,
       this.textColor,
@@ -15,7 +15,7 @@ class SFBadge extends StatelessWidget {
       this.padding});
 
   //Badge안에 위젯
-  final Widget? child;
+  final Widget child;
 
   //Badge 타입
   final SFBadgeStatus status;
@@ -48,37 +48,53 @@ class SFBadge extends StatelessWidget {
 
     switch (status) {
       case SFBadgeStatus.primary:
-        statusBorder = Border.all(color: Colors.transparent);
+        statusBorder = Border.all(
+          color: Colors.transparent,
+        );
         statusBackgroundColor = SFColor.primary80;
         statusTextColor = Colors.white;
         break;
       case SFBadgeStatus.secondary:
-        statusBorder = Border.all(color: Colors.transparent);
+        statusBorder = Border.all(
+          color: Colors.transparent,
+        );
         statusBackgroundColor = SFColor.grayScale5;
         statusTextColor = SFColor.grayScale60;
         break;
       case SFBadgeStatus.outline:
-        statusBorder = Border.all(color: SFColor.primary40);
+        statusBorder = Border.all(
+          color: SFColor.primary40,
+        );
         statusBackgroundColor = SFColor.primary5;
         statusTextColor = SFColor.primary60;
         break;
       case SFBadgeStatus.destructive:
-        statusBorder = Border.all(color: Colors.transparent);
+        statusBorder = Border.all(
+          color: Colors.transparent,
+        );
         statusBackgroundColor = SFColor.red;
         statusTextColor = Colors.white;
         break;
     }
 
     return Container(
-      padding:
-          padding ?? const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
+      padding: padding ??
+          const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 8,
+          ),
       decoration: BoxDecoration(
-          color: backgroundColor ?? statusBackgroundColor,
-          border: border ?? statusBorder,
-          borderRadius: BorderRadius.circular(borderRadius)),
+        color: backgroundColor ?? statusBackgroundColor,
+        border: border ?? statusBorder,
+        borderRadius: BorderRadius.circular(
+          borderRadius,
+        ),
+      ),
       child: DefaultTextStyle(
-        style: SFTextStyle.b5R12(color: textColor ?? statusTextColor),
-        child: child ?? const Text(''),
+        style: SFTextStyle.b5R12(
+          color: textColor ?? statusTextColor,
+        ),
+        child: child,
       ),
     );
   }
