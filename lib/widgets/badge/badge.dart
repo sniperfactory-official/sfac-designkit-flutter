@@ -1,60 +1,101 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
+enum SFBadgeStatus { primary, secondary, outline, destructive }
+
 class SFBadge extends StatelessWidget {
-  const SFBadge({
-    super.key,
-    required this.child,
-    this.backgroundColor,
-    this.outlineColor,
-    this.borderRadius = 4,
-    this.width,
-    this.height,
-    this.margin,
-  });
+  const SFBadge(
+      {super.key,
+      required this.child,
+      this.status = SFBadgeStatus.primary,
+      this.backgroundColor,
+      this.textColor,
+      this.border,
+      this.borderRadius = 4,
+      this.padding});
 
   //Badge안에 위젯
   final Widget child;
 
-  //Badge배경색
-  final Color? backgroundColor;
-
-  //Badge테두리 색
-  final Color? outlineColor;
+  //Badge 타입
+  final SFBadgeStatus status;
 
   //Badge모서리 곡선
   final double borderRadius;
 
-  //Badge 가로 너비
-  final double? width;
+  //Badge안에 위젯 padding
+  final EdgeInsetsGeometry? padding;
 
-  //Badge 세로 너비
-  final double? height;
+  //Badge color
+  final Color? backgroundColor;
 
-  //Badge안에 위젯 마진
-  final EdgeInsetsGeometry? margin;
+  //Badge textStyle
+  final Color? textColor;
+
+  //Badge 테두리
+  final Border? border;
 
   @override
   Widget build(BuildContext context) {
-    Widget? childText;
-    TextStyle? childStyle;
-      childStyle = SFTextStyle.b5R12(color: Colors.white);
-      childText = AnimatedDefaultTextStyle(
-        style: childStyle,
-        duration: kThemeChangeDuration,
-        child: child,
-      );
+    // Badge statusBorder
+    Border? statusBorder;
+
+    // statusTextColor
+    Color? statusTextColor;
+
+    // statusBackgroundColor
+    Color? statusBackgroundColor;
+
+    switch (status) {
+      case SFBadgeStatus.primary:
+        statusBorder = Border.all(
+          color: Colors.transparent,
+        );
+        statusBackgroundColor = SFColor.primary80;
+        statusTextColor = Colors.white;
+        break;
+      case SFBadgeStatus.secondary:
+        statusBorder = Border.all(
+          color: Colors.transparent,
+        );
+        statusBackgroundColor = SFColor.grayScale5;
+        statusTextColor = SFColor.grayScale60;
+        break;
+      case SFBadgeStatus.outline:
+        statusBorder = Border.all(
+          color: SFColor.primary40,
+        );
+        statusBackgroundColor = SFColor.primary5;
+        statusTextColor = SFColor.primary60;
+        break;
+      case SFBadgeStatus.destructive:
+        statusBorder = Border.all(
+          color: Colors.transparent,
+        );
+        statusBackgroundColor = SFColor.red;
+        statusTextColor = Colors.white;
+        break;
+    }
+
     return Container(
-      width: width,
-      height: height,
+      padding: padding ??
+          const EdgeInsets.symmetric(
+            vertical: 5,
+            horizontal: 8,
+          ),
       decoration: BoxDecoration(
-          color: backgroundColor ?? SFColor.primary80,
-          border: Border.all(color: outlineColor ?? Colors.transparent),
-          borderRadius: BorderRadius.circular(borderRadius)),
-      child: Padding(
-          padding:
-              margin ?? const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-          child: childText),
+        color: backgroundColor ?? statusBackgroundColor,
+        border: border ?? statusBorder,
+        borderRadius: BorderRadius.circular(
+          borderRadius,
+        ),
+      ),
+      child: DefaultTextStyle(
+        style: SFTextStyle.b5R12(
+          color: textColor ?? statusTextColor,
+        ),
+        child: child,
+      ),
     );
   }
 }
