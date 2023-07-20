@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
-enum SFBadgeStatus{
-primary,
-secondary,
-outline,
-destructive
-}
+enum SFBadgeStatus { primary, secondary, outline, destructive }
 
-class SFBadge extends StatefulWidget {
-  const SFBadge({
-    super.key,
-    this.child,
-    this.borderRadius = 4,
-    this.padding,
-    this.status
-  });
+class SFBadge extends StatelessWidget {
+  const SFBadge(
+      {super.key,
+      this.child,
+      this.status = SFBadgeStatus.primary,
+      this.backgroundColor,
+      this.textColor,
+      this.border,
+      this.borderRadius = 4,
+      this.padding});
 
   //Badge안에 위젯
   final Widget? child;
+
+  //Badge 타입
+  final SFBadgeStatus status;
 
   //Badge모서리 곡선
   final double borderRadius;
@@ -26,74 +26,59 @@ class SFBadge extends StatefulWidget {
   //Badge안에 위젯 padding
   final EdgeInsetsGeometry? padding;
 
-  //Badge 타입
-  final SFBadgeStatus? status;
+  //Badge color
+  final Color? backgroundColor;
 
-  @override
-  State<SFBadge> createState() => _SFBadgeState();
-}
+  //Badge textStyle
+  final Color? textColor;
 
-class _SFBadgeState extends State<SFBadge> {
   //Badge 테두리
-  Border? border;
-  //Text위젯의 textStyle
-  TextStyle? textStyle;
-  //Badge 배경색
-  Color? backgroundColor;
-
-  initAttributes() {
-    switch (widget.status){
-      case SFBadgeStatus.primary:
-      border = Border.all(color: Colors.transparent);
-      backgroundColor = SFColor.primary80;
-      textStyle = SFTextStyle.b5R12(color: Colors.white);
-      break;
-      case SFBadgeStatus.secondary:
-      border = Border.all(color: Colors.transparent);
-      backgroundColor = SFColor.grayScale5;
-      textStyle = SFTextStyle.b5R12(color: SFColor.grayScale60);
-      break;
-      case SFBadgeStatus.outline:
-      border = Border.all(color: SFColor.primary40);
-      backgroundColor = SFColor.primary5;
-      textStyle = SFTextStyle.b5R12(color: SFColor.primary60);
-      break;
-      case SFBadgeStatus.destructive:
-      border = Border.all(color: Colors.transparent);
-      backgroundColor = SFColor.red;
-      textStyle = SFTextStyle.b5R12(color: Colors.white);
-      break;
-      default:
-      border = Border.all(color: Colors.transparent);
-      backgroundColor = SFColor.primary80;
-      textStyle = SFTextStyle.b5R12(color: Colors.white);
-      break;
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initAttributes();
-  }
-
+  final Border? border;
 
   @override
   Widget build(BuildContext context) {
+    // Badge statusBorder
+    Border? statusBorder;
+
+    // statusTextColor
+    Color? statusTextColor;
+
+    // statusBackgroundColor
+    Color? statusBackgroundColor;
+
+    switch (status) {
+      case SFBadgeStatus.primary:
+        statusBorder = Border.all(color: Colors.transparent);
+        statusBackgroundColor = SFColor.primary80;
+        statusTextColor = Colors.white;
+        break;
+      case SFBadgeStatus.secondary:
+        statusBorder = Border.all(color: Colors.transparent);
+        statusBackgroundColor = SFColor.grayScale5;
+        statusTextColor = SFColor.grayScale60;
+        break;
+      case SFBadgeStatus.outline:
+        statusBorder = Border.all(color: SFColor.primary40);
+        statusBackgroundColor = SFColor.primary5;
+        statusTextColor = SFColor.primary60;
+        break;
+      case SFBadgeStatus.destructive:
+        statusBorder = Border.all(color: Colors.transparent);
+        statusBackgroundColor = SFColor.red;
+        statusTextColor = Colors.white;
+        break;
+    }
+
     return Container(
+      padding:
+          padding ?? const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
       decoration: BoxDecoration(
-          color: backgroundColor,
-          border: border,
-          borderRadius: BorderRadius.circular(widget.borderRadius)
-          ),
-      child: Padding(
-          padding:
-              widget.padding ?? const EdgeInsets.symmetric(vertical: 5, horizontal: 8),
-          child: AnimatedDefaultTextStyle(
-            style: textStyle!,
-            duration: kThemeChangeDuration,
-            child: widget.child ?? const Text(''),
-          )
+          color: backgroundColor ?? statusBackgroundColor,
+          border: border ?? statusBorder,
+          borderRadius: BorderRadius.circular(borderRadius)),
+      child: DefaultTextStyle(
+        style: SFTextStyle.b5R12(color: textColor ?? statusTextColor),
+        child: child ?? const Text(''),
       ),
     );
   }
