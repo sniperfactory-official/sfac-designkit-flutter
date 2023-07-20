@@ -1,15 +1,49 @@
-# sfac_design_flutter
+### __스나이퍼팩토리 디자인시스템 디자인킷__ : 플러터
 
-A new Flutter plugin project.
+<img src='/images/hero.png' style="margin-top:16px; margin-bottom:16px; border: 1px solid #eaeaea;"/>
 
-## Getting Started
+디자인시스템이란 디자인과 관련된 모든 것을 통합하는 시스템입니다.  
+스나이퍼팩토리의 디자인시스템은 개발자와 디자이너가 함께 만들어가는 시스템이며  
+앱/웹 개발에 필요한 디자인된 모든 위젯과 컴포넌트를 제공하는데 목표를 두고 있습니다.
 
-This project is a starting point for a Flutter
-[plug-in package](https://flutter.dev/developing-packages/),
-a specialized package that includes platform-specific implementation code for
-Android and/or iOS.
+사용법은 다음 페이지에서 확인하실 수 있습니다. [사용법(Documentation)](https://design.sniperfactory.com)
+IT전문 전문교육기관 [스나이퍼팩토리](https://sniperfactory.com/)에서 함께하세요.
 
-For help getting started with Flutter development, view the
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 지원 위젯
+|위젯 명|지원여부|
+|---|---|
+|Accordion|✅|
+|Badge|✅|
+|Button|✅|
+|Card|✅|
+|Tab|✅|
+|Avatar|✅|
+|Breadcrumb|✅|
+|Textarea|✅|
+|Pagenation|-|
+|ProgressBar|-|
 
+
+---
+### 🎖 Install
+```yaml
+dependencies:
+  sfac_design_flutter: ^0.0.1
+```
+
+
+### ⚡️ Import
+
+```dart
+import 'package:sfac_design_flutter/sfac_design_flutter.dart';
+```
+
+
+### 🎮 How To Use
+
+```dart
+SFAccordion(
+    title: Text('개발 경험이 없는데 수강이 가능한가요?'),
+    content: Text('네 가능합니다. Flutter 모바일 어플리케이션 개발 과정은 코딩, 앱 개발 경험이 없는 분들도 기초부터 차근차근 배우실 있도록 구성되어 있습니다.'),
+)
+```
