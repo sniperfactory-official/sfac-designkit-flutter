@@ -8,7 +8,7 @@ dynamic main() {
   final commitMessage = commitFile.readAsStringSync();
 
   final regExp = RegExp(
-    '(teddy|juno|marco|judy), (Feat|Update|Fix|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Chore|Docs|Test|Rename|Remove)::.+',
+    '(teddy|juno|marco|judy), (Feat|Update|Fix|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Chore|Docs|Test|Rename|Remove)::.*(#\\d+)',
   );
 
   final valid = regExp.hasMatch(commitMessage);
