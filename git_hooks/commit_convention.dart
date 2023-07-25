@@ -8,7 +8,7 @@ dynamic main() {
   final commitMessage = commitFile.readAsStringSync();
 
   final regExp = RegExp(
-    '(teddy|juno|marco|judy), (Feat|Update|Fix|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Chore|Docs|Test|Rename|Remove)::.+',
+    '(teddy|juno|marco|judy), (Feat|Update|Fix|!BREAKING CHANGE|!HOTFIX|Style|Refactor|Comment|Chore|Docs|Test|Rename|Remove)::.*(#\\d+)',
   );
 
   final valid = regExp.hasMatch(commitMessage);
@@ -17,9 +17,9 @@ dynamic main() {
 
   아래 예제를 참고해주세요
   ------------------------------------------------------
-  " <작업자 이름>, <Prefix>:: 커밋 내용 "
+  " <작업자 이름>, <Prefix>:: 커밋 내용 #{issue number}"
 
-  " juno, Feat:: 구글 로그인 기능 추가 " 
+  " juno, Feat:: 구글 로그인 기능 추가 #123" 
   ------------------------------------------------------
 
   사용가능한 commit의 Prefix는 아래와 같습니다.
