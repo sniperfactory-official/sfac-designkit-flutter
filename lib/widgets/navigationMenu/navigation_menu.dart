@@ -8,7 +8,7 @@ class SFNavigationMenu extends StatefulWidget {
     this.width,
     required this.height,
     this.menuSize,
-    this.menuSpacing = 5,
+    this.menuSpacing = 10,
     this.backgroundColor,
     this.focusedBackgroundColor,
     this.textColor,
@@ -115,6 +115,9 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
             ishover[index] = value;
             setState(() {});
           },
+          borderRadius: BorderRadius.all(
+            Radius.circular(widget.radius),
+          ),
           child: Ink(
             width: widget.menuSize,
             height: widget.menuSize,
