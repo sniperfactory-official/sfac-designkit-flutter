@@ -3,7 +3,7 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 class SFNavigationMenu extends StatefulWidget {
   const SFNavigationMenu({
-    Key? key,
+    super.key,
     required this.menu,
     this.width,
     required this.height,
@@ -20,9 +20,8 @@ class SFNavigationMenu extends StatefulWidget {
     this.onTap,
     this.padding,
     this.physics,
-    this.initialIndex = 0,
-  })  : assert(initialIndex <= menu.length && initialIndex >= 0),
-        super(key: key);
+    this.initialIndex,
+  });
   // 리스트 메뉴
   final List<String> menu;
 
@@ -72,7 +71,7 @@ class SFNavigationMenu extends StatefulWidget {
   final ScrollPhysics? physics;
 
   // 사적 인덱스
-  final int initialIndex;
+  final int? initialIndex;
 
   @override
   State<SFNavigationMenu> createState() => _SFNavigationMenu();
