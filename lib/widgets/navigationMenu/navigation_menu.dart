@@ -7,8 +7,7 @@ class SFNavigationMenu extends StatefulWidget {
     required this.menu,
     this.width,
     required this.height,
-    this.menuWidth,
-    this.menuHeigh,
+    this.menuSize,
     this.menuSpacing = 5,
     this.backgroundColor,
     this.focusedBackgroundColor,
@@ -31,11 +30,8 @@ class SFNavigationMenu extends StatefulWidget {
   // 높이
   final double height;
 
-  // 메뉴 가로 넓이
-  final double? menuWidth;
-
-  // 메뉴 높이
-  final double? menuHeigh;
+  // 메뉴 가로 크기
+  final double? menuSize;
 
   // 메뉴 사이 spacing
   final double? menuSpacing;
@@ -110,9 +106,9 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
             ishover[index] = value;
             setState(() {});
           },
-          child: Container(
-            width: widget.menuWidth,
-            height: widget.menuHeigh,
+          child: Ink(
+            width: widget.menuSize,
+            height: widget.menuSize,
             padding: widget.padding ?? const EdgeInsets.all(12.0),
             decoration: BoxDecoration(
                 color: focusedChild == index
@@ -122,14 +118,16 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
                     width: widget.outlineWidth ?? 0,
                     color: widget.outlineColor ?? Colors.transparent),
                 borderRadius: BorderRadius.circular(widget.radius)),
-            child: Text(
-              widget.menu[index],
-              style: SFTextStyle.b3M16(
-                  color: ishover[index]
-                      ? widget.focusedTextColor ?? SFColor.primary80
-                      : focusedChild == index
-                          ? widget.focusedTextColor ?? SFColor.primary80
-                          : widget.textColor ?? Colors.black),
+            child: Center(
+              child: Text(
+                widget.menu[index],
+                style: SFTextStyle.b3M16(
+                    color: ishover[index]
+                        ? widget.focusedTextColor ?? SFColor.primary80
+                        : focusedChild == index
+                            ? widget.focusedTextColor ?? SFColor.primary80
+                            : widget.textColor ?? Colors.black),
+              ),
             ),
           ),
         ),
