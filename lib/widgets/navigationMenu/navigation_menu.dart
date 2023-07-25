@@ -3,7 +3,7 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 class SFNavigationMenu extends StatefulWidget {
   const SFNavigationMenu({
-    super.key,
+    Key? key,
     required this.menu,
     this.width,
     required this.height,
@@ -20,7 +20,9 @@ class SFNavigationMenu extends StatefulWidget {
     this.onTap,
     this.padding,
     this.physics,
-  });
+    this.initialIndex = 0,
+  })  : assert(initialIndex <= menu.length && initialIndex >= 0),
+        super(key: key);
   // 리스트 메뉴
   final List<String> menu;
 
@@ -69,17 +71,24 @@ class SFNavigationMenu extends StatefulWidget {
   // 네비게이션 메뉴 ScrollPhysics
   final ScrollPhysics? physics;
 
+  // 사적 인덱스
+  final int initialIndex;
+
   @override
   State<SFNavigationMenu> createState() => _SFNavigationMenu();
 }
 
 class _SFNavigationMenu extends State<SFNavigationMenu> {
-  int focusedChild = 0;
+  int? focusedChild;
   List<bool> ishover = [];
+  double? widthSpacing;
+  double? heightSpacing;
   @override
   void initState() {
     super.initState();
     ishover = List.generate(widget.menu.length, (index) => false);
+    focusedChild = widget.initialIndex;
+    spacing();
   }
 
   @override
@@ -92,8 +101,8 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
         scrollDirection: widget.direction,
         itemCount: widget.menu.length,
         itemBuilder: (context, index) => InkWell(
-          splashColor: Colors.transparent,
-          highlightColor: Colors.transparent,
+          splashColor: Colors.transparent, // 클릭할 때 나오는 효과 색상
+          highlightColor: Colors.transparent, // 클릭 유지 시 나오는 효과 색상
           onTap: () {
             if (widget.onTap != null) {
               widget.onTap!(index);
@@ -131,9 +140,22 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
             ),
           ),
         ),
-        separatorBuilder: (context, index) =>
-            SizedBox(width: widget.menuSpacing),
+        separatorBuilder: (context, index) => SizedBox(
+          width: widthSpacing,
+          height: heightSpacing,
+        ),
       ),
     );
+  }
+
+  spacing() {
+    switch (widget.direction) {
+      case Axis.vertical:
+        heightSpacing = widget.menuSpacing;
+        break;
+      case Axis.horizontal:
+        widthSpacing = widget.menuSpacing;
+        break;
+    }
   }
 }
