@@ -2,6 +2,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
+import 'package:sfac_design_flutter/widgets/tabs/tab.dart';
+import 'package:sfac_design_flutter/widgets/tabs/tabar_view.dart';
 import 'package:sfac_design_flutter_example/combo_box.dart';
 import 'package:sfac_design_flutter_example/select_menu.dart';
 import 'package:sfac_design_flutter_example/selected_main.dart';
@@ -17,9 +19,18 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this);
+  }
+
   @override
   Widget build(BuildContext context) {
+    print(tabController.length);
     return MaterialApp(
       title: 'SFAC Widget',
       home: Scaffold(
@@ -27,10 +38,29 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              SFComboBox(selectMenu: [
-                SFSelectMenu(text: 'g'),
-                SFSelectMenu(text: '(text)')
-              ], height: 20)
+              SFTabBar(
+                menu: [Text('data'), Text('acc')],
+                height: 50,
+                pageController: tabController,
+              ),
+              SizedBox(
+                height: 500,
+                child: SFTabBarView(
+                  tabController: tabController,
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.amber,
+                    ),
+                    Container(
+                      width: 50,
+                      height: 50,
+                      color: Colors.blue,
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
