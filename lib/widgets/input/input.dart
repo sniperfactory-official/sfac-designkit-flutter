@@ -92,7 +92,8 @@ class SFInput extends StatelessWidget {
             padding: const EdgeInsets.only(left: 10, bottom: 3),
             child: Text(
               label!,
-              style: labelStyle ?? SFTextStyle.b4B14(color: labelColor ?? SFColor.primary80),
+              style: labelStyle ??
+                  SFTextStyle.b4B14(color: labelColor ?? SFColor.primary80),
             ),
           ),
         SizedBox(
@@ -103,18 +104,29 @@ class SFInput extends StatelessWidget {
             obscureText: obscureText,
             style: const TextStyle(decorationThickness: 0),
             decoration: InputDecoration(
-                hintText: hintText,
-                hintStyle: SFTextStyle.b4M14(color: hintColor ?? SFColor.grayScale20),
-                filled: true,
-                fillColor: fillColor ?? SFColor.grayScale5,
-                helperText: withText==true ? helperText : '',
-                helperStyle: helperTextStyle ?? SFTextStyle.b5R12(color: helperTextColor ?? SFColor.grayScale40),
-                errorText: errorText,
-                errorStyle: errorStyle ?? SFTextStyle.b5R12(color: errorTextColor ?? SFColor.red),
-                border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                    borderRadius:
-                        BorderRadius.circular(inputDecorationBorderRadius))),
+              hintText: hintText,
+              hintStyle: SFTextStyle.b4M14(
+                color: hintColor ?? SFColor.grayScale20,
+              ),
+              filled: true,
+              fillColor: fillColor ?? SFColor.grayScale5,
+              helperText: withText == true ? helperText : '',
+              helperStyle: helperTextStyle ??
+                  SFTextStyle.b5R12(
+                    color: helperTextColor ?? SFColor.grayScale40,
+                  ),
+              errorText: errorText,
+              errorStyle: errorStyle ??
+                  SFTextStyle.b5R12(
+                    color: errorTextColor ?? SFColor.red,
+                  ),
+              border: OutlineInputBorder(
+                borderSide: BorderSide.none,
+                borderRadius: BorderRadius.circular(
+                  inputDecorationBorderRadius,
+                ),
+              ),
+            ),
           ),
         ),
       ],
