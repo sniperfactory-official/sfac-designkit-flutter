@@ -240,21 +240,23 @@ class _SFComboBoxState extends State<SFComboBox> {
             toggleDropdown();
             toggleDropdown();
           },
-          // onSubmitted: (value) {
-          //   textEditingController.text = widget.selectMenu
-          //       .where((e) => e.text.contains(value))
-          //       .toList()
-          //       .first
-          //       .text;
-          //   hideDropdown();
-          //   isDropdownVisible = false;
-          //   for (int i = 0; i < widget.selectMenu.length; i++) {
-          //     if (widget.selectMenu[i].text == textEditingController.text) {
-          //       initialndex = i;
-          //       widget.onTap!(i);
-          //     }
-          //   }
-          // },
+          onSubmitted: (value) {
+            textEditingController.text = widget.selectMenu
+                .where((e) => e.text.contains(value))
+                .toList()
+                .first
+                .text;
+            hideDropdown();
+            isDropdownVisible = false;
+            for (int i = 0; i < widget.selectMenu.length; i++) {
+              if (widget.selectMenu[i].text == textEditingController.text) {
+                initialndex = i;
+                if (widget.onTap != null) {
+                  widget.onTap!(i);
+                }
+              }
+            }
+          },
           decoration: InputDecoration(
             filled: true,
             fillColor: widget.backgroundColor ?? Colors.white,
