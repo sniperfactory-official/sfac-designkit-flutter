@@ -5,7 +5,9 @@ class SFInput extends StatelessWidget {
   const SFInput({
     super.key,
     this.onChanged,
+    this.onFieldSubmitted,
     this.controller,
+    this.validator,
     this.width,
     this.label,
     this.labelColor,
@@ -26,8 +28,14 @@ class SFInput extends StatelessWidget {
   //onChanged 이벤트
   final Function(String)? onChanged;
 
+  //onFieldSubmitted 이벤트
+  final Function(String)? onFieldSubmitted;
+
   //텍스트 필드 컨트롤러
   final TextEditingController? controller;
+
+  //유효성 검사 validator
+  final String? Function(String?)? validator;
 
   //가로 너비
   final double? width;
@@ -91,9 +99,11 @@ class SFInput extends StatelessWidget {
         SizedBox(
           width: width,
           child: TextFormField(
+            onFieldSubmitted: onFieldSubmitted,
             onChanged: onChanged,
             controller: controller,
             obscureText: obscureText,
+            validator: validator,
             style: const TextStyle(decorationThickness: 0),
             decoration: InputDecoration(
               hintText: hintText,
