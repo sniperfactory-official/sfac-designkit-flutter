@@ -4,41 +4,40 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 class SFInput extends StatelessWidget {
   const SFInput({
     super.key,
+    this.onChanged,
     this.controller,
-    this.withText = false,
-    this.helperTextColor,
-    this.helperTextStyle,
+    this.width,
     this.withLabel = false,
+    this.label,
     this.labelColor,
     this.labelStyle,
-    this.width,
-    this.label,
+    this.helperText,
+    this.helperTextColor,
+    this.helperTextStyle,
     this.fillColor,
-    required this.hintText,
+    this.hintText,
     this.hintColor,
     this.errorText,
-    this.errorStyle,
-    this.onChanged,
-    this.obscureText = false,
     this.errorTextColor,
-    this.helperText,
+    this.errorStyle,
+    this.obscureText = false,
     this.inputDecorationBorderRadius = 10,
   });
+
+  //onChanged 이벤트
+  final Function(String)? onChanged;
 
   //텍스트 필드 컨트롤러
   final TextEditingController? controller;
 
-  //helperText와 함께 쓰이는지에 대한 bool값
-  final bool? withText;
-
-  //helperText Color
-  final Color? helperTextColor;
-
-  //helperText Style
-  final TextStyle? helperTextStyle;
+  //가로 너비
+  final double? width;
 
   //Label과 함께 쓰이는지에 대한 bool값
   final bool? withLabel;
+
+  //텍스트필드 위에 Label Text(withLabel값을 true로 해야 보인다.)
+  final String? label;
 
   //Label Color(withLabel값을 true로 해야 보인다.)
   final Color? labelColor;
@@ -46,11 +45,14 @@ class SFInput extends StatelessWidget {
   //Label Style(withLabel값을 true로 해야 보인다.)
   final TextStyle? labelStyle;
 
-  //텍스트필드 위에 Label Text(withLabel값을 true로 해야 보인다.)
-  final String? label;
+  //텍스트필드 아래 helperText
+  final String? helperText;
 
-  //가로 너비
-  final double? width;
+  //helperText Color
+  final Color? helperTextColor;
+
+  //helperText Style
+  final TextStyle? helperTextStyle;
 
   //텍스트필드 색상
   final Color? fillColor;
@@ -70,14 +72,8 @@ class SFInput extends StatelessWidget {
   //error텍스트 Style
   final TextStyle? errorStyle;
 
-  //onChanged 이벤트
-  final Function(String)? onChanged;
-
   //텍스트 가림 여부
   final bool obscureText;
-
-  //텍스트필드 아래 helperText
-  final String? helperText;
 
   //텍스트필드 모서리둥글게
   final double inputDecorationBorderRadius;
@@ -110,7 +106,7 @@ class SFInput extends StatelessWidget {
               ),
               filled: true,
               fillColor: fillColor ?? SFColor.grayScale5,
-              helperText: withText == true ? helperText : '',
+              helperText: helperText,
               helperStyle: helperTextStyle ??
                   SFTextStyle.b5R12(
                     color: helperTextColor ?? SFColor.grayScale40,
