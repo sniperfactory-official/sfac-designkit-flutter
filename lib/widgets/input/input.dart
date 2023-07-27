@@ -7,7 +7,6 @@ class SFInput extends StatelessWidget {
     this.onChanged,
     this.controller,
     this.width,
-    this.withLabel = false,
     this.label,
     this.labelColor,
     this.labelStyle,
@@ -32,9 +31,6 @@ class SFInput extends StatelessWidget {
 
   //가로 너비
   final double? width;
-
-  //Label과 함께 쓰이는지에 대한 bool값
-  final bool? withLabel;
 
   //텍스트필드 위에 Label Text(withLabel값을 true로 해야 보인다.)
   final String? label;
@@ -83,7 +79,7 @@ class SFInput extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        if (withLabel == true)
+        if (label != null)
           Padding(
             padding: const EdgeInsets.only(left: 10, bottom: 3),
             child: Text(
