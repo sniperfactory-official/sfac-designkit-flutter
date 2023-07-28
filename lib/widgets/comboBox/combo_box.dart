@@ -3,7 +3,10 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 import 'package:sfac_design_flutter/widgets/comboBox/select_group.dart';
 import 'package:sfac_design_flutter/widgets/comboBox/select_main.dart';
 
-enum SFComboBoxnStatus { select, searchSelect, multiSelect }
+enum SFComboBoxnStatus {
+  select,
+  searchSelect, //multiSelect 추후 추가 예정
+}
 
 class SFComboBox extends StatefulWidget {
   const SFComboBox({
