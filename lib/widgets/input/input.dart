@@ -40,13 +40,13 @@ class SFInput extends StatelessWidget {
   //가로 너비
   final double? width;
 
-  //텍스트필드 위에 Label Text(withLabel값을 true로 해야 보인다.)
+  //텍스트필드 위에 Label Text
   final String? label;
 
-  //Label Color(withLabel값을 true로 해야 보인다.)
+  //Label Color
   final Color? labelColor;
 
-  //Label Style(withLabel값을 true로 해야 보인다.)
+  //Label Style
   final TextStyle? labelStyle;
 
   //텍스트필드 아래 helperText
