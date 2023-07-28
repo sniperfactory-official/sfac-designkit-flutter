@@ -4,27 +4,27 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 class SFSelectSub extends StatefulWidget {
   const SFSelectSub({
     super.key,
-    required this.selectMenu,
+    required this.menu,
     this.width,
-    required this.height,
+    this.height,
     this.focusedColor,
     this.textColor,
     this.direction = Axis.vertical,
     this.onTap,
-    this.padding,
-    this.menuPadding,
+    this.spacing = 14,
     this.physics,
     this.initialndex,
+    this.textStyle,
   });
 
   // 셀렉트 메뉴 리스트
-  final List<String> selectMenu;
+  final List<String> menu;
 
   // 셀렉트 메뉴 가로 넓이
   final double? width;
 
   // 셀렉트 메뉴 높이
-  final double height;
+  final double? height;
 
   // 포커스된 메뉴 컬러
   final Color? focusedColor;
@@ -38,17 +38,17 @@ class SFSelectSub extends StatefulWidget {
   // 메뉴 클릭 함수 클릭한 index 값 return
   final Function(int)? onTap;
 
-  // 패딩
-  final EdgeInsetsGeometry? padding;
-
-  // 텍스트 패딩
-  final EdgeInsetsGeometry? menuPadding;
+  // 메뉴 사이 간격
+  final double spacing;
 
   // 셀렉트 메뉴 ScrollPhysics
   final ScrollPhysics? physics;
 
   // 시작 인덱스
   final int? initialndex;
+
+  // 서브 메뉴 텍스트 스타일
+  final TextStyle? textStyle;
 
   @override
   State<SFSelectSub> createState() => _SelectedSubState();
@@ -60,49 +60,54 @@ class _SelectedSubState extends State<SFSelectSub> {
   @override
   void initState() {
     super.initState();
-    ishover = List.generate(widget.selectMenu.length, (index) => false);
+    ishover = List.generate(widget.menu.length, (index) => false);
     focusedChild = widget.initialndex;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: widget.padding ?? const EdgeInsets.only(left: 65.0, top: 8.0),
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height,
-        child: ListView.builder(
-          physics: widget.physics ?? const NeverScrollableScrollPhysics(),
-          scrollDirection: widget.direction,
-          itemCount: widget.selectMenu.length,
-          itemBuilder: (context, index) => InkWell(
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onTap: () {
-              if (widget.onTap != null) {
-                widget.onTap!(index);
-              }
-              focusedChild = index;
-              setState(() {});
-            },
-            onHover: (value) {
-              ishover[index] = value;
-              setState(() {});
-            },
-            hoverColor: Colors.transparent,
-            child: Padding(
-              padding: widget.menuPadding ?? const EdgeInsets.all(8.0),
-              child: Text(
-                widget.selectMenu[index],
-                style: SFTextStyle.b4R14(
+    return SizedBox(
+      width: widget.width,
+      height: widget.height ??
+          widget.menu.length *
+              ((widget.textStyle != null
+                      ? (widget.textStyle!.fontSize ?? 14) + 1
+                      : 15) +
+                  (widget.spacing + 1) +
+                  3),
+      child: ListView.separated(
+        physics: widget.physics ?? const NeverScrollableScrollPhysics(),
+        scrollDirection: widget.direction,
+        itemCount: widget.menu.length,
+        itemBuilder: (context, index) => InkWell(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
+          onTap: () {
+            if (widget.onTap != null) {
+              widget.onTap!(index);
+            }
+            focusedChild = index;
+            setState(() {});
+          },
+          onHover: (value) {
+            ishover[index] = value;
+            setState(() {});
+          },
+          hoverColor: Colors.transparent,
+          child: Text(
+            widget.menu[index],
+            style: widget.textStyle ??
+                SFTextStyle.b4R14(
                     color: ishover[index]
                         ? widget.focusedColor ?? SFColor.primary80
                         : focusedChild == index
                             ? widget.focusedColor ?? SFColor.primary80
                             : widget.textColor ?? Colors.black),
-              ),
-            ),
           ),
+        ),
+        separatorBuilder: (context, index) => SizedBox(
+          width: widget.spacing,
+          height: widget.spacing,
         ),
       ),
     );

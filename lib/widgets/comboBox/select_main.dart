@@ -1,20 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
+import 'package:sfac_design_flutter/widgets/comboBox/select_sub.dart';
 
 class SFSelectMain extends StatelessWidget {
-  const SFSelectMain(
-      {super.key,
-      this.icon,
-      required this.text,
-      this.spacing = 20,
-      this.leadingSpacing = 20,
-      this.textStyle});
+  const SFSelectMain({
+    super.key,
+    this.icon,
+    required this.text,
+    this.selectSub,
+    this.spacing = 20,
+    this.leadingSpacing = 20,
+    this.textStyle,
+  });
 
   // 메뉴 아이콘
   final Widget? icon;
 
   // 메뉴 텍스트
   final String text;
+
+  // 서브 메뉴 
+  final SFSelectSub? selectSub;
 
   // 아이콘 텍스트 사이 넓이
   final double spacing;
@@ -28,6 +34,8 @@ class SFSelectMain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(width: icon == null ? 0 : leadingSpacing),
         icon ?? const SizedBox(),
