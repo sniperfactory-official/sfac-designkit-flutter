@@ -12,6 +12,7 @@ class SFSelectMenu extends StatelessWidget {
     this.leadingSpacing = 20,
     this.textStyle,
     this.overflow = TextOverflow.ellipsis,
+    this.maxLines = 1,
   });
 
   // 메뉴 아이콘
@@ -32,7 +33,11 @@ class SFSelectMenu extends StatelessWidget {
   // 메뉴 텍스트 스타일
   final TextStyle? textStyle;
 
+  // text overflow를 TextOverflow로 제어
   final TextOverflow? overflow;
+
+  // text maxLines
+  final int? maxLines;
 
   @override
   Widget build(BuildContext context) {
@@ -43,11 +48,14 @@ class SFSelectMenu extends StatelessWidget {
         SizedBox(width: icon == null ? 0 : leadingSpacing),
         icon ?? const SizedBox(),
         SizedBox(width: spacing),
-        DefaultTextStyle(
-          style: textStyle ?? SFTextStyle.b3R16(),
-          child: Text(
-            text,
-            overflow: overflow,
+        Expanded(
+          child: DefaultTextStyle(
+            style: textStyle ?? SFTextStyle.b3R16(),
+            child: Text(
+              text,
+              overflow: overflow,
+              maxLines: maxLines,
+            ),
           ),
         ),
       ],

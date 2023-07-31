@@ -5,7 +5,7 @@ import 'package:sfac_design_flutter/widgets/comboBox/select_menu.dart';
 class SFSelectMain extends StatefulWidget {
   const SFSelectMain({
     super.key,
-    required this.selectMain,
+    required this.selectMenu,
     this.width,
     this.height,
     this.mainBackgroundColor,
@@ -26,7 +26,7 @@ class SFSelectMain extends StatefulWidget {
   });
 
   // SFSelectMenu 타입의 메뉴 리스트
-  final List<SFSelectMenu> selectMain;
+  final List<SFSelectMenu> selectMenu;
 
   // 가로 너비
   final double? width;
@@ -92,7 +92,7 @@ class _SFSelectMainState extends State<SFSelectMain>
   String? selectedText;
   double getSubLengthMax() {
     int subLengthMax = 0;
-    for (var main in widget.selectMain) {
+    for (var main in widget.selectMenu) {
       if (main.selectSub != null) {
         int subLength = main.selectSub!.menu.length; // sub의 길이를 계산
         subLengthMax =
@@ -106,8 +106,9 @@ class _SFSelectMainState extends State<SFSelectMain>
   void initState() {
     super.initState();
     double height = widget.height ??
-        (widget.selectMain.length * (16 + 1 + 16 + widget.spacing) +
-            getSubLengthMax() + 20);
+        (widget.selectMenu.length * (16 + 1 + 16 + widget.spacing) +
+            getSubLengthMax() +
+            20);
     _controller = AnimationController(
       duration: widget.downDuration ?? const Duration(milliseconds: 300),
       vsync: this,
@@ -119,10 +120,10 @@ class _SFSelectMainState extends State<SFSelectMain>
     ).animate(_controller);
 
     _controller.forward();
-    isVisibleSub = List.generate(widget.selectMain.length, (index) => false);
+    isVisibleSub = List.generate(widget.selectMenu.length, (index) => false);
     selectedText = widget.selectedMenuText ??
         (widget.initialIndex != null
-            ? widget.selectMain[widget.initialIndex!].text
+            ? widget.selectMenu[widget.initialIndex!].text
             : null);
   }
 
@@ -137,76 +138,73 @@ class _SFSelectMainState extends State<SFSelectMain>
     return Material(
       color: widget.backgroundColor ?? Colors.transparent,
       child: AnimatedBuilder(
-          animation: _animation,
-          builder: (context, child) {
-            return SizedBox(
-              width: widget.width,
-              height: _animation.value,
-              child: ScrollConfiguration(
-                behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
-                child: ListView.separated(
-                  padding: EdgeInsets.zero,
-                  physics:
-                      widget.physics ?? const NeverScrollableScrollPhysics(),
-                  scrollDirection: widget.direction,
-                  itemCount: widget.selectMain.length,
-                  itemBuilder: (context, index) => Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          if (widget.onTap != null) {
-                            widget.onTap!(index);
-                          }
-                          if (!isVisibleSub[index]) {
-                            isVisibleSub.fillRange(
-                                0, isVisibleSub.length, false);
-                          }
-                          isVisibleSub[index] = !isVisibleSub[index];
-                          selectedText = widget.selectMain[index].text;
-                          setState(() {});
-                        },
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(widget.radius),
-                        ),
-                        hoverColor:
-                            widget.focusedBackgroundColor ?? SFColor.primary5,
-                        child: Ink(
-                          padding: widget.padding ?? const EdgeInsets.all(8.0),
-                          decoration: BoxDecoration(
-                              color:
-                                  widget.selectMain[index].text == selectedText
-                                      ? widget.focusedBackgroundColor ??
-                                          SFColor.primary5
-                                      : widget.mainBackgroundColor,
-                              border: Border.all(
-                                  width: widget.outlineWidth ?? 0,
-                                  color: widget.outlineColor ??
-                                      Colors.transparent),
-                              borderRadius:
-                                  BorderRadius.circular(widget.radius)),
-                          child: widget.selectMain[index],
-                        ),
+        animation: _animation,
+        builder: (context, child) {
+          return SizedBox(
+            width: widget.width,
+            height: _animation.value,
+            child: ScrollConfiguration(
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              child: ListView.separated(
+                padding: EdgeInsets.zero,
+                physics: widget.physics ?? const NeverScrollableScrollPhysics(),
+                scrollDirection: widget.direction,
+                itemCount: widget.selectMenu.length,
+                itemBuilder: (context, index) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        if (widget.onTap != null) {
+                          widget.onTap!(index);
+                        }
+                        if (!isVisibleSub[index]) {
+                          isVisibleSub.fillRange(0, isVisibleSub.length, false);
+                        }
+                        isVisibleSub[index] = !isVisibleSub[index];
+                        selectedText = widget.selectMenu[index].text;
+                        setState(() {});
+                      },
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(widget.radius),
                       ),
-                      widget.selectMain[index].selectSub != null &&
-                              isVisibleSub[index]
-                          ? Padding(
-                              padding: widget.subPadding ??
-                                  const EdgeInsets.only(left: 74.0, top: 6.0),
-                              child: widget.selectMain[index].selectSub!,
-                            )
-                          : const SizedBox()
-                    ],
-                  ),
-                  separatorBuilder: (context, index) =>
-                      SizedBox(height: widget.spacing),
+                      hoverColor:
+                          widget.focusedBackgroundColor ?? SFColor.primary5,
+                      child: Ink(
+                        padding: widget.padding ?? const EdgeInsets.all(8.0),
+                        decoration: BoxDecoration(
+                            color: widget.selectMenu[index].text == selectedText
+                                ? widget.focusedBackgroundColor ??
+                                    SFColor.primary5
+                                : widget.mainBackgroundColor,
+                            border: Border.all(
+                                width: widget.outlineWidth ?? 0,
+                                color:
+                                    widget.outlineColor ?? Colors.transparent),
+                            borderRadius: BorderRadius.circular(widget.radius)),
+                        child: widget.selectMenu[index],
+                      ),
+                    ),
+                    widget.selectMenu[index].selectSub != null &&
+                            isVisibleSub[index]
+                        ? Padding(
+                            padding: widget.subPadding ??
+                                const EdgeInsets.only(left: 74.0, top: 6.0),
+                            child: widget.selectMenu[index].selectSub!,
+                          )
+                        : const SizedBox()
+                  ],
                 ),
+                separatorBuilder: (context, index) =>
+                    SizedBox(height: widget.spacing),
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 }

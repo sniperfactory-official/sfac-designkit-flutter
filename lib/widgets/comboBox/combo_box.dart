@@ -124,8 +124,9 @@ class _SFComboBoxState extends State<SFComboBox> {
                         ? null
                         : const Duration(milliseconds: 300),
                     direction: Axis.vertical,
+                    width: widget.width,
                     height: widget.height,
-                    selectMain: selectMain,
+                    selectMenu: selectMain,
                     initialIndex: initialIndex,
                     physics: widget.scrollPhysics,
                     selectedMenuText: initialIndex != null
