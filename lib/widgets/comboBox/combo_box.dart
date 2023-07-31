@@ -74,18 +74,16 @@ class SFComboBox extends StatefulWidget {
 }
 
 class _SFComboBoxState extends State<SFComboBox> {
-  bool isTap = false;
   String hintText = '';
   Widget? icon;
   int? initialIndex;
   List<SFSelectMenu> selectMain = [];
   bool isDropdownVisible = false;
-  bool isInput = false;
 
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
-  Size? size;
   final GlobalKey _buttonKey = GlobalKey();
+  Size? size;
 
   void createOverlayEntry() {
     _overlayEntry = OverlayEntry(

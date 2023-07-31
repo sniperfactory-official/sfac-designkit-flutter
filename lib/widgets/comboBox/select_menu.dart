@@ -11,6 +11,7 @@ class SFSelectMenu extends StatelessWidget {
     this.spacing = 20,
     this.leadingSpacing = 20,
     this.textStyle,
+    this.overflow = TextOverflow.ellipsis,
   });
 
   // 메뉴 아이콘
@@ -19,7 +20,7 @@ class SFSelectMenu extends StatelessWidget {
   // 메뉴 텍스트
   final String text;
 
-  // 서브 메뉴 
+  // 서브 메뉴
   final SFSelectSub? selectSub;
 
   // 아이콘 텍스트 사이 간격
@@ -30,6 +31,8 @@ class SFSelectMenu extends StatelessWidget {
 
   // 메뉴 텍스트 스타일
   final TextStyle? textStyle;
+
+  final TextOverflow? overflow;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +45,10 @@ class SFSelectMenu extends StatelessWidget {
         SizedBox(width: spacing),
         DefaultTextStyle(
           style: textStyle ?? SFTextStyle.b3R16(),
-          child: Text(text),
+          child: Text(
+            text,
+            overflow: overflow,
+          ),
         ),
       ],
     );
