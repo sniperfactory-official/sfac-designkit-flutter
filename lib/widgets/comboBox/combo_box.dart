@@ -77,7 +77,7 @@ class _SFComboBoxState extends State<SFComboBox> {
   bool isTap = false;
   String hintText = '';
   Widget? icon;
-  int? initialndex;
+  int? initialIndex;
   List<SFSelectMenu> selectMain = [];
   bool isDropdownVisible = false;
   bool isInput = false;
@@ -128,10 +128,10 @@ class _SFComboBoxState extends State<SFComboBox> {
                     direction: Axis.vertical,
                     height: widget.height,
                     selectMain: selectMain,
-                    initialndex: initialndex,
+                    initialIndex: initialIndex,
                     physics: widget.scrollPhysics,
-                    selectedMenuText: initialndex != null
-                        ? widget.selectMain[initialndex!].text
+                    selectedMenuText: initialIndex != null
+                        ? widget.selectMain[initialIndex!].text
                         : null,
                     focusedBackgroundColor: widget.focusedBackgroundColor,
                     onTap: (index) {
@@ -141,7 +141,7 @@ class _SFComboBoxState extends State<SFComboBox> {
                       textEditingController.text = selectMain[index].text;
                       hintText = selectMain[index].text;
                       icon = selectMain[index].icon;
-                      initialndex = index;
+                      initialIndex = index;
                       if (_overlayEntry != null) {
                         hideDropdown();
                       }
@@ -257,7 +257,7 @@ class _SFComboBoxState extends State<SFComboBox> {
               isDropdownVisible = false;
               for (int i = 0; i < widget.selectMain.length; i++) {
                 if (widget.selectMain[i].text == textEditingController.text) {
-                  initialndex = i;
+                  initialIndex = i;
                   if (widget.onTap != null) {
                     widget.onTap!(i);
                   }

@@ -19,7 +19,7 @@ class SFSelectMain extends StatefulWidget {
     this.subPadding,
     this.physics,
     this.spacing = 10,
-    this.initialndex,
+    this.initialIndex,
     this.downDuration,
     this.backgroundColor,
     this.selectedMenuText,
@@ -71,7 +71,7 @@ class SFSelectMain extends StatefulWidget {
   final double spacing;
 
   // 시작 인덱스
-  final int? initialndex;
+  final int? initialIndex;
 
   // 애니메이션 동작 시간
   final Duration? downDuration;
@@ -121,8 +121,8 @@ class _SFSelectMainState extends State<SFSelectMain>
     _controller.forward();
     isVisibleSub = List.generate(widget.selectMain.length, (index) => false);
     selectedText = widget.selectedMenuText ??
-        (widget.initialndex != null
-            ? widget.selectMain[widget.initialndex!].text
+        (widget.initialIndex != null
+            ? widget.selectMain[widget.initialIndex!].text
             : null);
   }
 
