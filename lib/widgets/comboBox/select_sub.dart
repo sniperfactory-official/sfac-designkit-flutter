@@ -13,14 +13,14 @@ class SFSelectSub extends StatefulWidget {
     this.onTap,
     this.spacing = 14,
     this.physics,
-    this.initialndex,
+    this.initialIndex,
     this.textStyle,
   });
 
   // 셀렉트 메뉴 리스트
   final List<String> menu;
 
-  // 셀렉트 메뉴 가로 넓이
+  // 셀렉트 메뉴 가로 너비
   final double? width;
 
   // 셀렉트 메뉴 높이
@@ -45,7 +45,7 @@ class SFSelectSub extends StatefulWidget {
   final ScrollPhysics? physics;
 
   // 시작 인덱스
-  final int? initialndex;
+  final int? initialIndex;
 
   // 서브 메뉴 텍스트 스타일
   final TextStyle? textStyle;
@@ -61,7 +61,7 @@ class _SelectedSubState extends State<SFSelectSub> {
   void initState() {
     super.initState();
     ishover = List.generate(widget.menu.length, (index) => false);
-    focusedChild = widget.initialndex;
+    focusedChild = widget.initialIndex;
   }
 
   @override

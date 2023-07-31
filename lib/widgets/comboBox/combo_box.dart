@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
-import 'package:sfac_design_flutter/widgets/comboBox/select_group.dart';
 import 'package:sfac_design_flutter/widgets/comboBox/select_main.dart';
+import 'package:sfac_design_flutter/widgets/comboBox/select_menu.dart';
 
-enum SFComboBoxnStatus {
+enum SFComboBoxStatus {
   select,
   searchSelect, //multiSelect 추후 추가 예정
 }
@@ -11,7 +11,7 @@ enum SFComboBoxnStatus {
 class SFComboBox extends StatefulWidget {
   const SFComboBox({
     Key? key,
-    this.status = SFComboBoxnStatus.select,
+    this.status = SFComboBoxStatus.select,
     required this.selectMain,
     this.hintText,
     this.padding = 10,
@@ -20,21 +20,21 @@ class SFComboBox extends StatefulWidget {
     this.outlineRadius = 10,
     this.width,
     this.height,
-    this.trailingIcon,
+    this.suffixIcon,
     this.onTap,
-    this.boxScorllPhysics,
+    this.scrollPhysics,
     this.backgroundColor,
     this.focusedBackgroundColor,
   }) : super(key: key);
 
   // 콤보박스 상태
-  final SFComboBoxnStatus status;
+  final SFComboBoxStatus status;
 
   // 메뉴 선택 전 텍스트
   final String? hintText;
 
   // 셀렉트 메뉴 타입의 셀렉트 메뉴 리스트
-  final List<SFSelectMain> selectMain;
+  final List<SFSelectMenu> selectMain;
 
   // 메뉴 패딩
   final double padding;
@@ -48,20 +48,20 @@ class SFComboBox extends StatefulWidget {
   // 콤보 박스 테두리 곡선
   final double outlineRadius;
 
-  // 콤보박스 가로 넓이
+  // 콤보박스 가로 너비
   final double? width;
 
   // 콤보박스 펼친 박스 높이
   final double? height;
 
   // 콤보박스 펼치기 전 박스 trailing icon
-  final Widget? trailingIcon;
+  final Widget? suffixIcon;
 
   // 메뉴 클릭 함수 클릭한 index 값 return
   final Function(int)? onTap;
 
   // 콤보박스 펼친 박스 ScrollPhysics
-  final ScrollPhysics? boxScorllPhysics;
+  final ScrollPhysics? scrollPhysics;
 
   // 콤보 박스 전체 배경색
   final Color? backgroundColor;
@@ -77,8 +77,8 @@ class _SFComboBoxState extends State<SFComboBox> {
   bool isTap = false;
   String hintText = '';
   Widget? icon;
-  int initialndex = 0;
-  List<SFSelectMain> selectMain = [];
+  int? initialndex;
+  List<SFSelectMenu> selectMain = [];
   bool isDropdownVisible = false;
   bool isInput = false;
 
@@ -95,6 +95,7 @@ class _SFComboBoxState extends State<SFComboBox> {
             onTap: () {
               hideDropdown();
               isDropdownVisible = false;
+              FocusScope.of(context).unfocus();
             },
             child: Container(
               color: Colors.transparent,
@@ -120,7 +121,7 @@ class _SFComboBoxState extends State<SFComboBox> {
                       width: widget.outlineWidth,
                     ),
                   ),
-                  child: SFSelectGroup(
+                  child: SFSelectMain(
                     downDuration: isDropdownVisible
                         ? null
                         : const Duration(milliseconds: 300),
@@ -128,8 +129,10 @@ class _SFComboBoxState extends State<SFComboBox> {
                     height: widget.height,
                     selectMain: selectMain,
                     initialndex: initialndex,
-                    physics: widget.boxScorllPhysics,
-                    selectedMenuText: widget.selectMain[initialndex].text,
+                    physics: widget.scrollPhysics,
+                    selectedMenuText: initialndex != null
+                        ? widget.selectMain[initialndex!].text
+                        : null,
                     focusedBackgroundColor: widget.focusedBackgroundColor,
                     onTap: (index) {
                       if (widget.onTap != null) {
@@ -143,6 +146,7 @@ class _SFComboBoxState extends State<SFComboBox> {
                         hideDropdown();
                       }
                       isDropdownVisible = false;
+                      FocusScope.of(context).unfocus();
                       setState(() {});
                     },
                   ),
@@ -208,62 +212,77 @@ class _SFComboBoxState extends State<SFComboBox> {
     }
   }
 
+  void popOverlay() {
+    if (_overlayEntry != null) {
+      hideDropdown();
+      isDropdownVisible = false;
+      FocusScope.of(context).unfocus();
+    }
+  }
+
   TextEditingController textEditingController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.width,
-      child: CompositedTransformTarget(
-        link: _layerLink,
-        child: TextField(
-          key: _buttonKey,
-          readOnly:
-              widget.status == SFComboBoxnStatus.searchSelect ? false : true,
-          onTap: () async {
-            showDropdown();
-            await Future.delayed(const Duration(milliseconds: 300));
-            isDropdownVisible = true;
-          },
-          controller: textEditingController,
-          onChanged: (value) {
-            filterMenu(value);
-            toggleDropdown();
-            toggleDropdown();
-          },
-          onSubmitted: (value) {
-            textEditingController.text = widget.selectMain
-                .where((e) => e.text.contains(value))
-                .toList()
-                .first
-                .text;
-            hideDropdown();
-            isDropdownVisible = false;
-            for (int i = 0; i < widget.selectMain.length; i++) {
-              if (widget.selectMain[i].text == textEditingController.text) {
-                initialndex = i;
-                if (widget.onTap != null) {
-                  widget.onTap!(i);
+    return WillPopScope(
+      onWillPop: () async {
+        popOverlay();
+        return true;
+      },
+      child: SizedBox(
+        width: widget.width,
+        child: CompositedTransformTarget(
+          link: _layerLink,
+          child: TextField(
+            key: _buttonKey,
+            readOnly:
+                widget.status == SFComboBoxStatus.searchSelect ? false : true,
+            onTap: () async {
+              showDropdown();
+              await Future.delayed(const Duration(milliseconds: 300));
+              isDropdownVisible = true;
+            },
+            controller: textEditingController,
+            onChanged: (value) {
+              filterMenu(value);
+              toggleDropdown();
+              toggleDropdown();
+            },
+            onSubmitted: (value) {
+              textEditingController.text = widget.selectMain
+                  .where((e) => e.text.contains(value))
+                  .toList()
+                  .first
+                  .text;
+              hideDropdown();
+              isDropdownVisible = false;
+              for (int i = 0; i < widget.selectMain.length; i++) {
+                if (widget.selectMain[i].text == textEditingController.text) {
+                  initialndex = i;
+                  if (widget.onTap != null) {
+                    widget.onTap!(i);
+                  }
                 }
               }
-            }
-          },
-          decoration: InputDecoration(
-            filled: true,
-            fillColor: widget.backgroundColor ?? Colors.white,
-            hintText: widget.hintText ?? 'Select framework',
-            hintStyle: SFTextStyle.b3R16(color: SFColor.grayScale40),
-            suffixIcon: Transform.rotate(
-              angle: 90 * 3.1415926535 / 180,
-              child: widget.trailingIcon ??
-                  const Icon(
-                      Icons.navigate_next), // const SFIcon(SFIcon.coverbox),
+              FocusScope.of(context).unfocus();
+            },
+            decoration: InputDecoration(
+              filled: true,
+              fillColor: widget.backgroundColor ?? Colors.white,
+              hintText: widget.hintText ?? 'Select framework',
+              hintStyle: SFTextStyle.b3R16(color: SFColor.grayScale40),
+              suffixIcon: Transform.rotate(
+                angle: 90 * 3.1415926535 / 180,
+                child: widget.suffixIcon ??
+                    const Icon(
+                        Icons.navigate_next), // const SFIcon(SFIcon.coverbox),
+              ),
+              focusedBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: SFColor.primary30, width: 2),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
+              enabledBorder: const OutlineInputBorder(
+                  borderSide: BorderSide(color: SFColor.grayScale20),
+                  borderRadius: BorderRadius.all(Radius.circular(10))),
             ),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: SFColor.primary30, width: 2),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            enabledBorder: const OutlineInputBorder(
-                borderSide: BorderSide(color: SFColor.grayScale20),
-                borderRadius: BorderRadius.all(Radius.circular(10))),
           ),
         ),
       ),
