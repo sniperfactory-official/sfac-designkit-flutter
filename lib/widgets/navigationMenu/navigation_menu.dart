@@ -28,13 +28,13 @@ class SFNavigationMenu extends StatefulWidget {
   // 리스트 메뉴
   final List<Widget> menu;
 
-  // 가로 넓이
+  // 가로 너비
   final double? width;
 
   // 높이
   final double? height;
 
-  // 메뉴 가로 크기
+  // 메뉴 크기
   final double? menuSize;
 
   // 메뉴 사이 spacing
