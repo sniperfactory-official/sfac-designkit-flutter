@@ -55,13 +55,13 @@ class SFSelectSub extends StatefulWidget {
 }
 
 class _SelectedSubState extends State<SFSelectSub> {
-  int? focusedChild;
-  List<bool> ishover = [];
+  int? _focusedIndex;
+  List<bool> _ishover = [];
   @override
   void initState() {
     super.initState();
-    ishover = List.generate(widget.menu.length, (index) => false);
-    focusedChild = widget.initialIndex;
+    _ishover = List.generate(widget.menu.length, (index) => false);
+    _focusedIndex = widget.initialIndex;
   }
 
   @override
@@ -86,11 +86,11 @@ class _SelectedSubState extends State<SFSelectSub> {
             if (widget.onTap != null) {
               widget.onTap!(index);
             }
-            focusedChild = index;
+            _focusedIndex = index;
             setState(() {});
           },
           onHover: (value) {
-            ishover[index] = value;
+            _ishover[index] = value;
             setState(() {});
           },
           hoverColor: Colors.transparent,
@@ -98,9 +98,9 @@ class _SelectedSubState extends State<SFSelectSub> {
             widget.menu[index],
             style: widget.textStyle ??
                 SFTextStyle.b4R14(
-                    color: ishover[index]
+                    color: _ishover[index]
                         ? widget.focusedColor ?? SFColor.primary80
-                        : focusedChild == index
+                        : _focusedIndex == index
                             ? widget.focusedColor ?? SFColor.primary80
                             : widget.textColor ?? Colors.black),
           ),

@@ -74,16 +74,14 @@ class SFComboBox extends StatefulWidget {
 }
 
 class _SFComboBoxState extends State<SFComboBox> {
-  String hintText = '';
-  Widget? icon;
-  int? initialIndex;
-  List<SFSelectMenu> selectMain = [];
-  bool isDropdownVisible = false;
+  int? _initialIndex;
+  List<SFSelectMenu> _selectMain = [];
+  bool _isDropdownVisible = false;
 
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _buttonKey = GlobalKey();
-  Size? size;
+  Size? _size;
 
   void createOverlayEntry() {
     _overlayEntry = OverlayEntry(
@@ -92,7 +90,7 @@ class _SFComboBoxState extends State<SFComboBox> {
           GestureDetector(
             onTap: () {
               hideDropdown();
-              isDropdownVisible = false;
+              _isDropdownVisible = false;
               FocusScope.of(context).unfocus();
             },
             child: Container(
@@ -105,7 +103,7 @@ class _SFComboBoxState extends State<SFComboBox> {
             width: widget.width,
             child: CompositedTransformFollower(
               link: _layerLink,
-              offset: Offset(0, size!.height),
+              offset: Offset(0, _size!.height),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
@@ -120,31 +118,30 @@ class _SFComboBoxState extends State<SFComboBox> {
                     ),
                   ),
                   child: SFSelectMain(
-                    downDuration: isDropdownVisible
+                    downDuration: _isDropdownVisible
                         ? null
                         : const Duration(milliseconds: 300),
                     direction: Axis.vertical,
                     width: widget.width,
                     height: widget.height,
-                    selectMenu: selectMain,
-                    initialIndex: initialIndex,
+                    selectMenu: _selectMain,
+                    initialIndex: _initialIndex,
                     physics: widget.scrollPhysics,
-                    selectedMenuText: initialIndex != null
-                        ? widget.selectMain[initialIndex!].text
+                    selectedMenuText: _initialIndex != null
+                        ? widget.selectMain[_initialIndex!].text
                         : null,
                     focusedBackgroundColor: widget.focusedBackgroundColor,
                     onTap: (index) {
+                      textEditingController.text = _selectMain[index].text;
+                      _initialIndex = widget.selectMain.indexWhere(
+                          (element) => element.text == _selectMain[index].text);
                       if (widget.onTap != null) {
-                        widget.onTap!(index);
+                        widget.onTap!(_initialIndex!);
                       }
-                      textEditingController.text = selectMain[index].text;
-                      hintText = selectMain[index].text;
-                      icon = selectMain[index].icon;
-                      initialIndex = index;
                       if (_overlayEntry != null) {
                         hideDropdown();
                       }
-                      isDropdownVisible = false;
+                      _isDropdownVisible = false;
                       FocusScope.of(context).unfocus();
                       setState(() {});
                     },
@@ -192,21 +189,21 @@ class _SFComboBoxState extends State<SFComboBox> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       setState(() {
-        size = _getSize();
+        _size = _getSize();
       });
     });
-    selectMain = widget.selectMain;
+    _selectMain = widget.selectMain;
   }
 
   filterMenu(String value) {
     if (value.isNotEmpty) {
       setState(() {
-        selectMain =
+        _selectMain =
             widget.selectMain.where((e) => e.text.contains(value)).toList();
       });
     } else {
       setState(() {
-        selectMain = widget.selectMain;
+        _selectMain = widget.selectMain;
       });
     }
   }
@@ -214,7 +211,7 @@ class _SFComboBoxState extends State<SFComboBox> {
   void popOverlay() {
     if (_overlayEntry != null) {
       hideDropdown();
-      isDropdownVisible = false;
+      _isDropdownVisible = false;
       FocusScope.of(context).unfocus();
     }
   }
@@ -238,7 +235,7 @@ class _SFComboBoxState extends State<SFComboBox> {
             onTap: () async {
               showDropdown();
               await Future.delayed(const Duration(milliseconds: 300));
-              isDropdownVisible = true;
+              _isDropdownVisible = true;
             },
             controller: textEditingController,
             onChanged: (value) {
@@ -253,10 +250,10 @@ class _SFComboBoxState extends State<SFComboBox> {
                   .first
                   .text;
               hideDropdown();
-              isDropdownVisible = false;
+              _isDropdownVisible = false;
               for (int i = 0; i < widget.selectMain.length; i++) {
                 if (widget.selectMain[i].text == textEditingController.text) {
-                  initialIndex = i;
+                  _initialIndex = i;
                   if (widget.onTap != null) {
                     widget.onTap!(i);
                   }

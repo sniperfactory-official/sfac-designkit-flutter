@@ -86,10 +86,11 @@ class SFSelectMain extends StatefulWidget {
 
 class _SFSelectMainState extends State<SFSelectMain>
     with SingleTickerProviderStateMixin {
-  List<bool> isVisibleSub = [];
+  List<bool> _isVisibleSub = [];
   late AnimationController _controller;
   late Animation<double> _animation;
-  String? selectedText;
+  String? _selectedText;
+  
   double getSubLengthMax() {
     int subLengthMax = 0;
     for (var main in widget.selectMenu) {
@@ -120,8 +121,8 @@ class _SFSelectMainState extends State<SFSelectMain>
     ).animate(_controller);
 
     _controller.forward();
-    isVisibleSub = List.generate(widget.selectMenu.length, (index) => false);
-    selectedText = widget.selectedMenuText ??
+    _isVisibleSub = List.generate(widget.selectMenu.length, (index) => false);
+    _selectedText = widget.selectedMenuText ??
         (widget.initialIndex != null
             ? widget.selectMenu[widget.initialIndex!].text
             : null);
@@ -161,11 +162,11 @@ class _SFSelectMainState extends State<SFSelectMain>
                         if (widget.onTap != null) {
                           widget.onTap!(index);
                         }
-                        if (!isVisibleSub[index]) {
-                          isVisibleSub.fillRange(0, isVisibleSub.length, false);
+                        if (!_isVisibleSub[index]) {
+                          _isVisibleSub.fillRange(0, _isVisibleSub.length, false);
                         }
-                        isVisibleSub[index] = !isVisibleSub[index];
-                        selectedText = widget.selectMenu[index].text;
+                        _isVisibleSub[index] = !_isVisibleSub[index];
+                        _selectedText = widget.selectMenu[index].text;
                         setState(() {});
                       },
                       borderRadius: BorderRadius.all(
@@ -176,7 +177,7 @@ class _SFSelectMainState extends State<SFSelectMain>
                       child: Ink(
                         padding: widget.padding ?? const EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
-                            color: widget.selectMenu[index].text == selectedText
+                            color: widget.selectMenu[index].text == _selectedText
                                 ? widget.focusedBackgroundColor ??
                                     SFColor.primary5
                                 : widget.mainBackgroundColor,
@@ -189,7 +190,7 @@ class _SFSelectMainState extends State<SFSelectMain>
                       ),
                     ),
                     widget.selectMenu[index].selectSub != null &&
-                            isVisibleSub[index]
+                            _isVisibleSub[index]
                         ? Padding(
                             padding: widget.subPadding ??
                                 const EdgeInsets.only(left: 74.0, top: 6.0),

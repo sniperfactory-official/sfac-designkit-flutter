@@ -5,7 +5,7 @@ import 'package:sfac_design_flutter/widgets/comboBox/select_sub.dart';
 class SFSelectMenu extends StatelessWidget {
   const SFSelectMenu({
     super.key,
-    this.icon,
+    this.leading,
     required this.text,
     this.selectSub,
     this.spacing = 20,
@@ -16,7 +16,7 @@ class SFSelectMenu extends StatelessWidget {
   });
 
   // 메뉴 아이콘
-  final Icon? icon;
+  final Widget? leading;
 
   // 메뉴 텍스트
   final String text;
@@ -45,8 +45,8 @@ class SFSelectMenu extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        SizedBox(width: icon == null ? 0 : leadingSpacing),
-        icon ?? const SizedBox(),
+        SizedBox(width: leading == null ? 0 : leadingSpacing),
+        leading ?? const SizedBox(),
         SizedBox(width: spacing),
         Expanded(
           child: DefaultTextStyle(
