@@ -90,19 +90,19 @@ class SFNavigationMenu extends StatefulWidget {
 }
 
 class _SFNavigationMenu extends State<SFNavigationMenu> {
-  int? focusedChild;
-  List<bool> ishover = [];
-  double? widthSpacing;
-  double? heightSpacing;
-  double? height;
+  int? _focusedIndex;
+  List<bool> _ishover = [];
+  double? _widthSpacing;
+  double? _heightSpacing;
+  double? _height;
   List<int> _disabledPaddingIndex = [];
   List<int> _disabledHoverIndex = [];
 
   @override
   void initState() {
     super.initState();
-    ishover = List.generate(widget.menu.length, (index) => false);
-    focusedChild = widget.initialIndex;
+    _ishover = List.generate(widget.menu.length, (index) => false);
+    _focusedIndex = widget.initialIndex;
     _disabledPaddingIndex = widget.disabledPaddingIndex ?? [];
     _disabledHoverIndex = widget.disabledHoverIndex ?? [];
     spacing();
@@ -112,7 +112,7 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
-      height: widget.height ?? height,
+      height: widget.height ?? _height,
       child: ScrollConfiguration(
         behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
         child: ListView.separated(
@@ -127,14 +127,14 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
               if (widget.onTap != null) {
                 widget.onTap!(index);
               }
-              focusedChild = index;
+              _focusedIndex = index;
               setState(() {});
             },
             hoverColor: _disabledHoverIndex.contains(index)
                 ? Colors.transparent
                 : widget.focusedBackgroundColor ?? SFColor.primary5,
             onHover: (value) {
-              ishover[index] = value;
+              _ishover[index] = value;
               setState(() {});
             },
             borderRadius: BorderRadius.all(
@@ -147,7 +147,7 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
                   EdgeInsets.all(
                       _disabledPaddingIndex.contains(index) ? 0 : 12.0),
               decoration: BoxDecoration(
-                  color: focusedChild == index &&
+                  color: _focusedIndex == index &&
                           !_disabledHoverIndex.contains(index)
                       ? widget.focusedBackgroundColor ?? SFColor.primary5
                       : widget.backgroundColor,
@@ -159,10 +159,10 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
                 child: DefaultTextStyle(
                   style: widget.textStyle ??
                       SFTextStyle.b3M16(
-                          color: ishover[index] &&
+                          color: _ishover[index] &&
                                   !_disabledHoverIndex.contains(index)
                               ? widget.focusedTextColor ?? SFColor.primary80
-                              : focusedChild == index
+                              : _focusedIndex == index
                                   ? widget.focusedTextColor ?? SFColor.primary80
                                   : widget.textColor ?? Colors.black),
                   child: widget.menu[index],
@@ -171,8 +171,8 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
             ),
           ),
           separatorBuilder: (context, index) => SizedBox(
-            width: widthSpacing,
-            height: heightSpacing,
+            width: _widthSpacing,
+            height: _heightSpacing,
           ),
         ),
       ),
@@ -185,14 +185,14 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
             4.8;
     switch (widget.direction) {
       case Axis.vertical:
-        heightSpacing = widget.menuSpacing;
-        height = (heightSpacing! + (widget.menuSize ?? fontSize + 26)) *
+        _heightSpacing = widget.menuSpacing;
+        _height = (_heightSpacing! + (widget.menuSize ?? fontSize + 26)) *
                 widget.menu.length -
             (26 * _disabledPaddingIndex.length);
         break;
       case Axis.horizontal:
-        widthSpacing = widget.menuSpacing;
-        height = fontSize + 26;
+        _widthSpacing = widget.menuSpacing;
+        _height = fontSize + 26;
         break;
     }
   }
