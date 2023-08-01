@@ -22,9 +22,11 @@ class SFNavigationMenu extends StatefulWidget {
     this.physics,
     this.initialIndex,
     this.textStyle,
+    this.disabledPaddingIndex,
+    this.disabledHoverIndex,
   });
   // 리스트 메뉴
-  final List<String> menu;
+  final List<Widget> menu;
 
   // 가로 넓이
   final double? width;
@@ -77,6 +79,12 @@ class SFNavigationMenu extends StatefulWidget {
   // 메뉴 텍스트 스타일
   final TextStyle? textStyle;
 
+  // padding 적용 안 시킬 menu index List
+  final List<int>? disabledPaddingIndex;
+
+  // hover효과 적용 안 시킬 menu index List
+  final List<int>? disabledHoverIndex;
+
   @override
   State<SFNavigationMenu> createState() => _SFNavigationMenu();
 }
@@ -87,12 +95,16 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
   double? widthSpacing;
   double? heightSpacing;
   double? height;
+  List<int> _disabledPaddingIndex = [];
+  List<int> _disabledHoverIndex = [];
 
   @override
   void initState() {
     super.initState();
     ishover = List.generate(widget.menu.length, (index) => false);
     focusedChild = widget.initialIndex;
+    _disabledPaddingIndex = widget.disabledPaddingIndex ?? [];
+    _disabledHoverIndex = widget.disabledHoverIndex ?? [];
     spacing();
   }
 
@@ -118,7 +130,9 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
               focusedChild = index;
               setState(() {});
             },
-            hoverColor: widget.focusedBackgroundColor ?? SFColor.primary5,
+            hoverColor: _disabledHoverIndex.contains(index)
+                ? Colors.transparent
+                : widget.focusedBackgroundColor ?? SFColor.primary5,
             onHover: (value) {
               ishover[index] = value;
               setState(() {});
@@ -129,9 +143,12 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
             child: Ink(
               width: widget.menuSize,
               height: widget.menuSize,
-              padding: widget.padding ?? const EdgeInsets.all(12.0),
+              padding: widget.padding ??
+                  EdgeInsets.all(
+                      _disabledPaddingIndex.contains(index) ? 0 : 12.0),
               decoration: BoxDecoration(
-                  color: focusedChild == index
+                  color: focusedChild == index &&
+                          !_disabledHoverIndex.contains(index)
                       ? widget.focusedBackgroundColor ?? SFColor.primary5
                       : widget.backgroundColor,
                   border: Border.all(
@@ -139,15 +156,16 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
                       color: widget.outlineColor ?? Colors.transparent),
                   borderRadius: BorderRadius.circular(widget.radius)),
               child: Center(
-                child: Text(
-                  widget.menu[index],
+                child: DefaultTextStyle(
                   style: widget.textStyle ??
                       SFTextStyle.b3M16(
-                          color: ishover[index]
+                          color: ishover[index] &&
+                                  !_disabledHoverIndex.contains(index)
                               ? widget.focusedTextColor ?? SFColor.primary80
                               : focusedChild == index
                                   ? widget.focusedTextColor ?? SFColor.primary80
                                   : widget.textColor ?? Colors.black),
+                  child: widget.menu[index],
                 ),
               ),
             ),
@@ -169,7 +187,8 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
       case Axis.vertical:
         heightSpacing = widget.menuSpacing;
         height = (heightSpacing! + (widget.menuSize ?? fontSize + 26)) *
-            widget.menu.length;
+                widget.menu.length -
+            (26 * _disabledPaddingIndex.length);
         break;
       case Axis.horizontal:
         widthSpacing = widget.menuSpacing;
