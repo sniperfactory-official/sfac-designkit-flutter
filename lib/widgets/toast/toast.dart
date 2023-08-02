@@ -4,39 +4,40 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 enum SFToastStatus { withAction, withTitle, simple, error, success }
 
 class SFToast extends StatefulWidget {
-  const SFToast(
-      {super.key,
-      required this.content,
-      this.title,
-      this.status,
-      this.contentPadding,
-      this.top,
-      this.left,
-      this.right,
-      this.textColor,
-      required this.onTap,
-      this.toastRadius,
-      this.toastDuration,
-      this.animationDuration});
+  const SFToast({
+    super.key,
+    required this.content,
+    required this.title,
+    required this.status,
+    required this.contentPadding,
+    required this.top,
+    required this.left,
+    required this.right,
+    this.textColor,
+    required this.onTap,
+    this.toastRadius,
+    required this.toastDuration,
+    required this.animationDuration,
+  });
 
   // 굵은 글씨의 제목 부분으로 status가 SFToastStatus.withAction, SFToastStatus.withTitle일 때 출력 가능
   final String? title;
 
   // Toast 본문
-  final String? content;
+  final String content;
 
   // Toast status로 withAction, withTitle, simple, error, success 사용 가능
-  final SFToastStatus? status;
+  final SFToastStatus status;
 
   // Toast 내용의 padding 값
-  final EdgeInsets? contentPadding;
+  final EdgeInsets contentPadding;
 
   // Toast의 세로 축 위치를 지정, 0.0 부터 1.0까지 사용가능
-  final double? top;
+  final double top;
 
   // Toast의 왼쪽, 오른쪽 위치 값
-  final double? left;
-  final double? right;
+  final double left;
+  final double right;
 
   // Toast 본문 내용의 컬러
   final Color? textColor;
@@ -48,11 +49,11 @@ class SFToast extends StatefulWidget {
   final BorderRadius? toastRadius;
 
   // Toast가 떠있는 시간, withAction을 제외한 상태에서 적용가능
-  final Duration? toastDuration;
+  final Duration toastDuration;
 
   // Toast가 사라지는 애니메이션의 시간
   // 0으로 설정할 경우 애니메이션 없이 바로 사라짐
-  final Duration? animationDuration;
+  final Duration animationDuration;
 
   @override
   State<SFToast> createState() => _SFToastState();
@@ -68,7 +69,7 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
 
     _animationController = AnimationController(
       vsync: this,
-      duration: widget.animationDuration ?? const Duration(seconds: 1),
+      duration: widget.animationDuration,
     );
 
     _opacityAnimation =
@@ -80,8 +81,8 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
 
     void showToastAnimation() {
       if (widget.status != SFToastStatus.withAction) {
-        Future.delayed(widget.toastDuration ?? const Duration(seconds: 3),
-            () => _animationController.forward());
+        Future.delayed(
+            widget.toastDuration, () => _animationController.forward());
         _animationController.addStatusListener((status) {
           if (status == AnimationStatus.completed) {
             widget.onTap.call();
@@ -104,8 +105,8 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
     bool isButtonEnabled = false;
     bool isTitleEnable = false;
     Color statusTextColor = SFColor.grayScale60;
-    Color? borderColor;
-    Color? toastColor;
+    Color borderColor = SFColor.grayScale10;
+    Color toastColor = Colors.white;
     switch (widget.status) {
       case SFToastStatus.withAction:
         isButtonEnabled = true;
@@ -130,17 +131,14 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
         break;
     }
     return Positioned(
-      top: widget.top != null
-          ? MediaQuery.of(context).size.height * widget.top!
-          : MediaQuery.of(context).size.height * 0.1,
-      left: widget.left ?? 16,
-      right: widget.right ?? 16,
+      top: MediaQuery.of(context).size.height * widget.top,
+      left: widget.left,
+      right: widget.right,
       child: Material(
         child: Opacity(
           opacity: _opacityAnimation.value,
           child: Container(
-            padding: widget.contentPadding ??
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            padding: widget.contentPadding,
             decoration: BoxDecoration(
               boxShadow: const [
                 BoxShadow(
@@ -149,10 +147,10 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
                   blurRadius: 9,
                 )
               ],
-              color: toastColor ?? Colors.white,
+              color: toastColor,
               borderRadius: widget.toastRadius ?? BorderRadius.circular(10.0),
               border: Border.all(
-                color: borderColor ?? SFColor.grayScale10,
+                color: borderColor,
               ),
             ),
             child: Row(
@@ -162,12 +160,12 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
                   children: [
                     isTitleEnable
                         ? Text(
-                            widget.title!,
+                            widget.title ?? 'Title',
                             style: SFTextStyle.b4B14(color: Colors.black),
                           )
                         : const SizedBox.shrink(),
                     Text(
-                      widget.content!,
+                      widget.content,
                       style: SFTextStyle.b5R12(
                           color: widget.textColor ?? statusTextColor),
                     )
@@ -208,18 +206,19 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
 void showToast(
   BuildContext context, {
   String? title,
-  required String? content,
+  required String content,
   SFToastStatus status = SFToastStatus.simple,
-  EdgeInsets? contentPadding,
-  double? top,
-  double? left,
-  double? right,
+  EdgeInsets contentPadding =
+      const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+  double top = 0.1,
+  double left = 16,
+  double right = 16,
   Color? textColor,
   BorderRadius? toastRadius,
-  Duration? toastDuration,
-  Duration? animationDuration,
+  Duration toastDuration = const Duration(seconds: 3),
+  Duration animationDuration = const Duration(seconds: 1),
 }) {
-  if (top != null && (top < 0.0 || top > 1.0)) {
+  if (top < 0.0 || top > 1.0) {
     throw ArgumentError('top value must be between 0.0 and 1.0');
   }
   OverlayState overlayState = Overlay.of(context);
