@@ -258,7 +258,7 @@ void showToast(
   Duration? toastDuration,
   Duration? animationDuration,
 }) {
-  if (top != null && top < 0.0 || top! > 1.0) {
+  if (top != null && (top < 0.0 || top > 1.0)) {
     throw ArgumentError('top value must be between 0.0 and 1.0');
   }
   OverlayState overlayState = Overlay.of(context);
