@@ -6,7 +6,7 @@ class SFSelectMenu extends StatelessWidget {
   const SFSelectMenu({
     super.key,
     this.leading,
-    required this.text,
+    required this.title,
     this.selectSub,
     this.spacing = 20,
     this.leadingSpacing = 20,
@@ -18,25 +18,25 @@ class SFSelectMenu extends StatelessWidget {
   // 메뉴 아이콘
   final Widget? leading;
 
-  // 메뉴 텍스트
-  final String text;
+  // 메뉴 제목
+  final String title;
 
   // 서브 메뉴
   final SFSelectSub? selectSub;
 
-  // 아이콘 텍스트 사이 간격
+  // 아이콘 제목 사이 간격
   final double spacing;
 
   // 아이콘 앞 공백
   final double leadingSpacing;
 
-  // 메뉴 텍스트 스타일
+  // 메뉴 제목 스타일
   final TextStyle? textStyle;
 
-  // text overflow를 TextOverflow로 제어
+  // 메뉴 제목 overflow를 TextOverflow로 제어
   final TextOverflow? overflow;
 
-  // text maxLines
+  // 메뉴 제목 maxLines
   final int? maxLines;
 
   @override
@@ -52,7 +52,7 @@ class SFSelectMenu extends StatelessWidget {
           child: DefaultTextStyle(
             style: textStyle ?? SFTextStyle.b3R16(),
             child: Text(
-              text,
+              title,
               overflow: overflow,
               maxLines: maxLines,
             ),

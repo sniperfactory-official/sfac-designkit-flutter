@@ -4,9 +4,9 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 class SFSelectSub extends StatefulWidget {
   const SFSelectSub({
     super.key,
-    required this.menu,
+    required this.subs,
     this.width,
-    this.height,
+    //this.height,
     this.focusedColor,
     this.textColor,
     this.direction = Axis.vertical,
@@ -18,13 +18,13 @@ class SFSelectSub extends StatefulWidget {
   });
 
   // 셀렉트 메뉴 리스트
-  final List<String> menu;
+  final List<String> subs;
 
   // 셀렉트 메뉴 가로 너비
   final double? width;
 
   // 셀렉트 메뉴 높이
-  final double? height;
+  //final double? height;
 
   // 포커스된 메뉴 컬러
   final Color? focusedColor;
@@ -60,7 +60,7 @@ class _SelectedSubState extends State<SFSelectSub> {
   @override
   void initState() {
     super.initState();
-    _ishover = List.generate(widget.menu.length, (index) => false);
+    _ishover = List.generate(widget.subs.length, (index) => false);
     _focusedIndex = widget.initialIndex;
   }
 
@@ -68,17 +68,11 @@ class _SelectedSubState extends State<SFSelectSub> {
   Widget build(BuildContext context) {
     return SizedBox(
       width: widget.width,
-      height: widget.height ??
-          widget.menu.length *
-              ((widget.textStyle != null
-                      ? (widget.textStyle!.fontSize ?? 14) + 1
-                      : 15) +
-                  (widget.spacing + 1) +
-                  3),
       child: ListView.separated(
+        shrinkWrap: true,
         physics: widget.physics ?? const NeverScrollableScrollPhysics(),
         scrollDirection: widget.direction,
-        itemCount: widget.menu.length,
+        itemCount: widget.subs.length,
         itemBuilder: (context, index) => InkWell(
           splashColor: Colors.transparent,
           highlightColor: Colors.transparent,
@@ -95,7 +89,7 @@ class _SelectedSubState extends State<SFSelectSub> {
           },
           hoverColor: Colors.transparent,
           child: Text(
-            widget.menu[index],
+            widget.subs[index],
             style: widget.textStyle ??
                 SFTextStyle.b4R14(
                     color: _ishover[index]

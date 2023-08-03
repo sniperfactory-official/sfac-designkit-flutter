@@ -12,7 +12,7 @@ class SFComboBox extends StatefulWidget {
   const SFComboBox({
     Key? key,
     this.status = SFComboBoxStatus.select,
-    required this.selectMain,
+    required this.menus,
     this.hintText,
     this.padding = 10,
     this.outlineColor,
@@ -24,7 +24,10 @@ class SFComboBox extends StatefulWidget {
     this.onTap,
     this.scrollPhysics,
     this.backgroundColor,
+    this.menuBackgroundColor,
     this.focusedBackgroundColor,
+    this.menuHeight = 40,
+    this.spacing = 10,
   }) : super(key: key);
 
   // 콤보박스 상태
@@ -34,7 +37,7 @@ class SFComboBox extends StatefulWidget {
   final String? hintText;
 
   // 셀렉트 메뉴 타입의 셀렉트 메뉴 리스트
-  final List<SFSelectMenu> selectMain;
+  final List<SFSelectMenu> menus;
 
   // 메뉴 패딩
   final double padding;
@@ -66,8 +69,17 @@ class SFComboBox extends StatefulWidget {
   // 콤보 박스 전체 배경색
   final Color? backgroundColor;
 
+  // 메뉴 배경 색
+  final Color? menuBackgroundColor;
+
   // 포커스 또는 hover 된 메뉴 배경색
   final Color? focusedBackgroundColor;
+
+  // 메뉴 하나의 높이
+  final double menuHeight;
+
+  // 메뉴 간격
+  final double spacing;
 
   @override
   State<SFComboBox> createState() => _SFComboBoxState();
@@ -118,23 +130,25 @@ class _SFComboBoxState extends State<SFComboBox> {
                     ),
                   ),
                   child: SFSelectMain(
+                    spacing: widget.spacing,
+                    menuHeight: widget.menuHeight,
                     downDuration: _isDropdownVisible
                         ? null
                         : const Duration(milliseconds: 300),
                     direction: Axis.vertical,
                     width: widget.width,
                     height: widget.height,
-                    selectMenu: _selectMain,
+                    menus: _selectMain,
                     initialIndex: _initialIndex,
                     physics: widget.scrollPhysics,
                     selectedMenuText: _initialIndex != null
-                        ? widget.selectMain[_initialIndex!].text
+                        ? widget.menus[_initialIndex!].title
                         : null,
                     focusedBackgroundColor: widget.focusedBackgroundColor,
                     onTap: (index) {
-                      textEditingController.text = _selectMain[index].text;
-                      _initialIndex = widget.selectMain.indexWhere(
-                          (element) => element.text == _selectMain[index].text);
+                      textEditingController.text = _selectMain[index].title;
+                      _initialIndex = widget.menus.indexWhere(
+                          (element) => element.title == _selectMain[index].title);
                       if (widget.onTap != null) {
                         widget.onTap!(_initialIndex!);
                       }
@@ -192,18 +206,18 @@ class _SFComboBoxState extends State<SFComboBox> {
         _size = _getSize();
       });
     });
-    _selectMain = widget.selectMain;
+    _selectMain = widget.menus;
   }
 
   filterMenu(String value) {
     if (value.isNotEmpty) {
       setState(() {
         _selectMain =
-            widget.selectMain.where((e) => e.text.contains(value)).toList();
+            widget.menus.where((e) => e.title.contains(value)).toList();
       });
     } else {
       setState(() {
-        _selectMain = widget.selectMain;
+        _selectMain = widget.menus;
       });
     }
   }
@@ -244,15 +258,15 @@ class _SFComboBoxState extends State<SFComboBox> {
               toggleDropdown();
             },
             onSubmitted: (value) {
-              textEditingController.text = widget.selectMain
-                  .where((e) => e.text.contains(value))
+              textEditingController.text = widget.menus
+                  .where((e) => e.title.contains(value))
                   .toList()
                   .first
-                  .text;
+                  .title;
               hideDropdown();
               _isDropdownVisible = false;
-              for (int i = 0; i < widget.selectMain.length; i++) {
-                if (widget.selectMain[i].text == textEditingController.text) {
+              for (int i = 0; i < widget.menus.length; i++) {
+                if (widget.menus[i].title == textEditingController.text) {
                   _initialIndex = i;
                   if (widget.onTap != null) {
                     widget.onTap!(i);

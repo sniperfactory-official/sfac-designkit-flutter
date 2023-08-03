@@ -5,7 +5,7 @@ import 'package:sfac_design_flutter/widgets/comboBox/select_menu.dart';
 class SFSelectMain extends StatefulWidget {
   const SFSelectMain({
     super.key,
-    required this.selectMenu,
+    required this.menus,
     this.width,
     this.height,
     this.mainBackgroundColor,
@@ -23,10 +23,11 @@ class SFSelectMain extends StatefulWidget {
     this.downDuration,
     this.backgroundColor,
     this.selectedMenuText,
+    this.menuHeight = 40,
   });
 
   // SFSelectMenu 타입의 메뉴 리스트
-  final List<SFSelectMenu> selectMenu;
+  final List<SFSelectMenu> menus;
 
   // 가로 너비
   final double? width;
@@ -80,36 +81,33 @@ class SFSelectMain extends StatefulWidget {
   // selectMain.text와  selectedMenuText이 같으면 선택 포커스된다
   final String? selectedMenuText;
 
+  // 메뉴 하나의 높이
+  final double menuHeight;
+
   @override
   State<SFSelectMain> createState() => _SFSelectMainState();
 }
 
 class _SFSelectMainState extends State<SFSelectMain>
-    with SingleTickerProviderStateMixin {
+    with TickerProviderStateMixin  {
   List<bool> _isVisibleSub = [];
   late AnimationController _controller;
   late Animation<double> _animation;
   String? _selectedText;
-  
-  double getSubLengthMax() {
-    int subLengthMax = 0;
-    for (var main in widget.selectMenu) {
-      if (main.selectSub != null) {
-        int subLength = main.selectSub!.menu.length; // sub의 길이를 계산
-        subLengthMax =
-            subLength > subLengthMax ? subLength : subLengthMax; // 최대값 갱신
-      }
-    }
-    return subLengthMax * (15 + 15 + 3 + 6);
-  }
+  bool isscrollbars = false;
 
   @override
-  void initState() {
-    super.initState();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
     double height = widget.height ??
-        (widget.selectMenu.length * (16 + 1 + 16 + widget.spacing) +
-            getSubLengthMax() +
-            20);
+        (widget.menus.length * widget.menuHeight +
+            (widget.menus.length - 1) * widget.spacing);
+    if (height > MediaQuery.of(context).size.height * 0.9) {
+      height = widget.height ?? MediaQuery.of(context).size.height * 0.8;
+      isscrollbars = true;
+    }
+
     _controller = AnimationController(
       duration: widget.downDuration ?? const Duration(milliseconds: 300),
       vsync: this,
@@ -121,10 +119,15 @@ class _SFSelectMainState extends State<SFSelectMain>
     ).animate(_controller);
 
     _controller.forward();
-    _isVisibleSub = List.generate(widget.selectMenu.length, (index) => false);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _isVisibleSub = List.generate(widget.menus.length, (index) => false);
     _selectedText = widget.selectedMenuText ??
         (widget.initialIndex != null
-            ? widget.selectMenu[widget.initialIndex!].text
+            ? widget.menus[widget.initialIndex!].title
             : null);
   }
 
@@ -145,13 +148,14 @@ class _SFSelectMainState extends State<SFSelectMain>
             width: widget.width,
             height: _animation.value,
             child: ScrollConfiguration(
-              behavior:
-                  ScrollConfiguration.of(context).copyWith(scrollbars: false),
+              behavior: ScrollConfiguration.of(context)
+                  .copyWith(scrollbars: isscrollbars),
               child: ListView.separated(
+                shrinkWrap: true,
                 padding: EdgeInsets.zero,
-                physics: widget.physics ?? const NeverScrollableScrollPhysics(),
+                physics: widget.physics ?? const BouncingScrollPhysics(),
                 scrollDirection: widget.direction,
-                itemCount: widget.selectMenu.length,
+                itemCount: widget.menus.length,
                 itemBuilder: (context, index) => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -163,10 +167,11 @@ class _SFSelectMainState extends State<SFSelectMain>
                           widget.onTap!(index);
                         }
                         if (!_isVisibleSub[index]) {
-                          _isVisibleSub.fillRange(0, _isVisibleSub.length, false);
+                          _isVisibleSub.fillRange(
+                              0, _isVisibleSub.length, false);
                         }
                         _isVisibleSub[index] = !_isVisibleSub[index];
-                        _selectedText = widget.selectMenu[index].text;
+                        _selectedText = widget.menus[index].title;
                         setState(() {});
                       },
                       borderRadius: BorderRadius.all(
@@ -177,7 +182,7 @@ class _SFSelectMainState extends State<SFSelectMain>
                       child: Ink(
                         padding: widget.padding ?? const EdgeInsets.all(8.0),
                         decoration: BoxDecoration(
-                            color: widget.selectMenu[index].text == _selectedText
+                            color: widget.menus[index].title == _selectedText
                                 ? widget.focusedBackgroundColor ??
                                     SFColor.primary5
                                 : widget.mainBackgroundColor,
@@ -186,15 +191,15 @@ class _SFSelectMainState extends State<SFSelectMain>
                                 color:
                                     widget.outlineColor ?? Colors.transparent),
                             borderRadius: BorderRadius.circular(widget.radius)),
-                        child: widget.selectMenu[index],
+                        child: widget.menus[index],
                       ),
                     ),
-                    widget.selectMenu[index].selectSub != null &&
+                    widget.menus[index].selectSub != null &&
                             _isVisibleSub[index]
                         ? Padding(
                             padding: widget.subPadding ??
                                 const EdgeInsets.only(left: 74.0, top: 6.0),
-                            child: widget.selectMenu[index].selectSub!,
+                            child: widget.menus[index].selectSub!,
                           )
                         : const SizedBox()
                   ],
