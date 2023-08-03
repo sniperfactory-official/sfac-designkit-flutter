@@ -200,7 +200,8 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
                     isTitleEnable
                         ? Text(
                             widget.title ?? 'Title',
-                            style: SFTextStyle.b4B14(color: Colors.black),
+                            style: widget.titleTextStyle ??
+                                SFTextStyle.b4B14(color: Colors.black),
                           )
                         : const SizedBox.shrink(),
                     Text(
