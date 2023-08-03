@@ -4,7 +4,7 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 enum SFToastStatus { withAction, withTitle, simple, error, success }
 
 class SFToast extends StatefulWidget {
-  const SFToast({
+  SFToast({
     super.key,
     this.top,
     this.left,
@@ -16,6 +16,8 @@ class SFToast extends StatefulWidget {
     this.contentPadding,
     this.contentTextStyle,
     this.contentColor,
+    required this.toastColor,
+    required this.borderColor,
     this.buttonText,
     this.buttonTextStyle,
     this.buttonPadding,
@@ -54,6 +56,12 @@ class SFToast extends StatefulWidget {
 
   // Toast 본문 내용의 컬러
   final Color? contentColor;
+
+  // Toast 배경색, status가 success, error일 땐 사용불가
+  Color toastColor;
+
+  // Toast 테두리 색, status가 success, error일 땐 사용불가
+  Color borderColor;
 
   // Button의 텍스트
   final String? buttonText;
@@ -133,8 +141,7 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
     bool isButtonEnabled = false;
     bool isTitleEnable = false;
     Color statusTextColor = SFColor.grayScale60;
-    Color borderColor = SFColor.grayScale10;
-    Color toastColor = Colors.white;
+
     switch (widget.status) {
       case SFToastStatus.withAction:
         isButtonEnabled = true;
@@ -147,13 +154,13 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
         break;
       case SFToastStatus.success:
         statusTextColor = SFColor.green;
-        borderColor = SFColor.green;
-        toastColor = const Color(0xffF4FBF5);
+        widget.borderColor = SFColor.green;
+        widget.toastColor = const Color(0xffF4FBF5);
         break;
       case SFToastStatus.error:
         statusTextColor = SFColor.red;
-        borderColor = SFColor.red;
-        toastColor = const Color(0xffFFF4F4);
+        widget.borderColor = SFColor.red;
+        widget.toastColor = const Color(0xffFFF4F4);
         break;
       default:
         break;
@@ -165,6 +172,7 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
       left: widget.left ?? 16,
       right: widget.right ?? 16,
       child: Material(
+        color: Colors.transparent,
         child: Opacity(
           opacity: _opacityAnimation.value,
           child: Container(
@@ -178,10 +186,10 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
                   blurRadius: 9,
                 )
               ],
-              color: toastColor,
+              color: widget.toastColor,
               borderRadius: widget.toastRadius ?? BorderRadius.circular(10.0),
               border: Border.all(
-                color: borderColor,
+                color: widget.borderColor,
               ),
             ),
             child: Row(
@@ -249,6 +257,8 @@ void showToast(
   EdgeInsets? contentPadding,
   TextStyle? contentTextStyle,
   Color? contentColor,
+  Color toastColor = Colors.white,
+  Color borderColor = SFColor.grayScale10,
   String? buttonText,
   TextStyle? buttonTextStyle,
   EdgeInsets? buttonPadding,
@@ -275,6 +285,8 @@ void showToast(
       contentPadding: contentPadding,
       contentTextStyle: contentTextStyle,
       contentColor: contentColor,
+      toastColor: toastColor,
+      borderColor: borderColor,
       buttonText: buttonText,
       buttonTextStyle: buttonTextStyle,
       buttonPadding: buttonPadding,
