@@ -4,7 +4,7 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 enum SFToastStatus { withAction, withTitle, simple, error, success }
 
 class SFToast extends StatefulWidget {
-  SFToast({
+  const SFToast({
     super.key,
     this.top,
     this.left,
@@ -58,10 +58,10 @@ class SFToast extends StatefulWidget {
   final Color? contentColor;
 
   // Toast 배경색, status가 success, error일 땐 사용불가
-  Color toastColor;
+  final Color toastColor;
 
   // Toast 테두리 색, status가 success, error일 땐 사용불가
-  Color borderColor;
+  final Color borderColor;
 
   // Button의 텍스트
   final String? buttonText;
@@ -141,7 +141,8 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
     bool isButtonEnabled = false;
     bool isTitleEnable = false;
     Color statusTextColor = SFColor.grayScale60;
-
+    Color toastColor = widget.toastColor;
+    Color borderColor = widget.borderColor;
     switch (widget.status) {
       case SFToastStatus.withAction:
         isButtonEnabled = true;
@@ -154,13 +155,13 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
         break;
       case SFToastStatus.success:
         statusTextColor = SFColor.green;
-        widget.borderColor = SFColor.green;
-        widget.toastColor = const Color(0xffF4FBF5);
+        toastColor = SFColor.green;
+        borderColor = const Color(0xffF4FBF5);
         break;
       case SFToastStatus.error:
         statusTextColor = SFColor.red;
-        widget.borderColor = SFColor.red;
-        widget.toastColor = const Color(0xffFFF4F4);
+        toastColor = SFColor.red;
+        borderColor = const Color(0xffFFF4F4);
         break;
       default:
         break;
@@ -186,10 +187,10 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
                   blurRadius: 9,
                 )
               ],
-              color: widget.toastColor,
+              color: borderColor,
               borderRadius: widget.toastRadius ?? BorderRadius.circular(10.0),
               border: Border.all(
-                color: widget.borderColor,
+                color: toastColor,
               ),
             ),
             child: Row(
