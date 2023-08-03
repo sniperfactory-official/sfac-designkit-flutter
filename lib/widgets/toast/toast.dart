@@ -220,18 +220,17 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
                               const EdgeInsets.symmetric(
                                   horizontal: 16, vertical: 8),
                           decoration: BoxDecoration(
-                            color:
-                                widget.buttonColor ?? const Color(0xffF5F8FF),
+                            color: widget.buttonColor ?? SFColor.primary5,
                             border: widget.buttonBorder ??
                                 Border.all(
-                                  color: const Color(0xff99BDFF),
+                                  color: SFColor.primary40,
                                 ),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Text(
                             widget.buttonText ?? '확인',
                             style: widget.buttonTextStyle ??
-                                const TextStyle(color: Color(0xff99BDFF)),
+                                const TextStyle(color: SFColor.primary40),
                           ),
                         ),
                       )
