@@ -256,17 +256,17 @@ class _SFComboBoxState extends State<SFComboBox> {
       //드롭박스 밑으로 쭉
       //print('1 메뉴가 가지는 높이가 드롭박스 밑으로 내릴 수 있는 높이보다 작을 때');
     }
-    // 드롭박스가 밑으로 내릴 수 있는 높이가 각 메뉴의 높이 *2 보다 작을 떄
-    else if (widget.menus.length > 2 &&
-        _widgetBottomPosition! < (widget.menuHeight * 2 + widget.padding)) {
+    // 드롭박스가 밑으로 내릴 수 있는 높이가 각 메뉴의 높이 *3.5 + 패딩 보다 작을 떄
+    else if (widget.menus.length > 3 &&
+        _widgetBottomPosition! < (widget.menuHeight * 3.5 + widget.padding)) {
       //드롭박스를 Top에서 시작
-      _startPosition = -_widgetTopPosition! + 10;
       //print('2 드롭박스를 Top에서 시작 $_menuBoxheight $windowHeight');
       if (_menuBoxheight! > windowHeight) {
         //메뉴 높이가 화면 높이보다 클 때
         _menuBoxheight = windowHeight * 0.9;
         //print('3 메뉴 높이가 화면 높이보다 클 때');
       }
+      _startPosition = -_menuBoxheight! + _widgetBottomPosition!;
     }
     //메뉴가 가지는 높이가 밑으로 내릴 수 있는 높이보다 클 때
     else if (_widgetBottomPosition! < _menuBoxheight!) {
