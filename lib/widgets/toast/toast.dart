@@ -9,7 +9,7 @@ class SFToast extends StatefulWidget {
     this.top,
     this.left,
     this.right,
-    this.status,
+    required this.status,
     this.title,
     this.titleTextStyle,
     required this.content,
@@ -187,10 +187,10 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
                   blurRadius: 9,
                 )
               ],
-              color: borderColor,
+              color: toastColor,
               borderRadius: widget.toastRadius ?? BorderRadius.circular(10.0),
               border: Border.all(
-                color: toastColor,
+                color: borderColor,
               ),
             ),
             child: Row(
@@ -251,7 +251,7 @@ void showToast(
   double? top,
   double? left,
   double? right,
-  SFToastStatus? status,
+  SFToastStatus status = SFToastStatus.simple,
   String? title,
   TextStyle? titleTextStyle,
   required String content,
