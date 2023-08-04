@@ -155,13 +155,13 @@ class _SFToastState extends State<SFToast> with SingleTickerProviderStateMixin {
         break;
       case SFToastStatus.success:
         statusTextColor = SFColor.green;
-        toastColor = SFColor.green;
-        borderColor = const Color(0xffF4FBF5);
+        toastColor = const Color(0xffF4FBF5);
+        borderColor = SFColor.green;
         break;
       case SFToastStatus.error:
         statusTextColor = SFColor.red;
-        toastColor = SFColor.red;
-        borderColor = const Color(0xffFFF4F4);
+        toastColor = const Color(0xffFFF4F4);
+        borderColor = SFColor.red;
         break;
       default:
         break;
