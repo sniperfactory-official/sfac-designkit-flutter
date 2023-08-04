@@ -28,19 +28,20 @@ class SFSelectMain extends StatefulWidget {
     _checkForDuplicates();
   }
 
- void _checkForDuplicates() {
-  final titles = <String>{};
-  final duplicateTitles = <String>{};
-  for (var menu in menus) {
-    if (!titles.add(menu.title)) {
-      duplicateTitles.add(menu.title);
+  void _checkForDuplicates() {
+    final titles = <String>{};
+    final duplicateTitles = <String>{};
+    for (var menu in menus) {
+      if (!titles.add(menu.title)) {
+        duplicateTitles.add(menu.title);
+      }
+    }
+    if (duplicateTitles.isNotEmpty) {
+      final duplicateMenuTitles = duplicateTitles.join(', ');
+      throw FlutterError(
+          'Menu titles must be unique. The following titles are duplicated: $duplicateMenuTitles');
     }
   }
-  if (duplicateTitles.isNotEmpty) {
-    final duplicateMenuTitles = duplicateTitles.join(', ');
-    throw FlutterError('Menu titles must be unique. The following titles are duplicated: $duplicateMenuTitles');
-  }
-}
 
   // SFSelectMenu 타입의 메뉴 리스트
   // 메뉴의 title로 포커스되기 때문에 메뉴의 title들은 모두 유니크해야한다
@@ -118,7 +119,7 @@ class _SFSelectMainState extends State<SFSelectMain>
     double height = widget.height ??
         (widget.menus.length * widget.menuHeight +
             (widget.menus.length > 1 ? widget.menus.length - 1 : 0) *
-                widget.spacing);
+                (widget.spacing / 2));
     _controller = AnimationController(
       duration: widget.downDuration ?? const Duration(milliseconds: 300),
       vsync: this,
@@ -152,66 +153,68 @@ class _SFSelectMainState extends State<SFSelectMain>
         builder: (context, child) {
           return SizedBox(
             width: widget.width,
-            height: _animation.value,
+            height: widget.downDuration  !=null ? _animation.value : null,
             child: ScrollConfiguration(
               behavior:
                   ScrollConfiguration.of(context).copyWith(scrollbars: true),
-              child: ListView.separated(
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                physics: widget.physics ?? const BouncingScrollPhysics(),
-                scrollDirection: widget.direction,
-                itemCount: widget.menus.length,
-                itemBuilder: (context, index) => Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    InkWell(
-                      onTap: () {
-                        if (widget.onTap != null) {
-                          widget.onTap!(index);
-                        }
-                        if (!_isVisibleSub[index]) {
-                          _isVisibleSub.fillRange(
-                              0, _isVisibleSub.length, false);
-                        }
-                        _isVisibleSub[index] = !_isVisibleSub[index];
-                        _selectedText = widget.menus[index].title;
-                        setState(() {});
-                      },
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(widget.radius),
+              child: Center(
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  padding: EdgeInsets.zero,
+                  physics: widget.physics ?? const BouncingScrollPhysics(),
+                  scrollDirection: widget.direction,
+                  itemCount: widget.menus.length,
+                  itemBuilder: (context, index) => Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          if (widget.onTap != null) {
+                            widget.onTap!(index);
+                          }
+                          if (!_isVisibleSub[index]) {
+                            _isVisibleSub.fillRange(
+                                0, _isVisibleSub.length, false);
+                          }
+                          _isVisibleSub[index] = !_isVisibleSub[index];
+                          _selectedText = widget.menus[index].title;
+                          setState(() {});
+                        },
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(widget.radius),
+                        ),
+                        hoverColor:
+                            widget.focusedBackgroundColor ?? SFColor.primary5,
+                        child: Ink(
+                          padding: widget.padding ?? const EdgeInsets.all(8.0),
+                          decoration: BoxDecoration(
+                              color: widget.menus[index].title == _selectedText
+                                  ? widget.focusedBackgroundColor ??
+                                      SFColor.primary5
+                                  : widget.mainBackgroundColor,
+                              border: Border.all(
+                                  width: widget.outlineWidth ?? 0,
+                                  color:
+                                      widget.outlineColor ?? Colors.transparent),
+                              borderRadius: BorderRadius.circular(widget.radius)),
+                          child: widget.menus[index],
+                        ),
                       ),
-                      hoverColor:
-                          widget.focusedBackgroundColor ?? SFColor.primary5,
-                      child: Ink(
-                        padding: widget.padding ?? const EdgeInsets.all(8.0),
-                        decoration: BoxDecoration(
-                            color: widget.menus[index].title == _selectedText
-                                ? widget.focusedBackgroundColor ??
-                                    SFColor.primary5
-                                : widget.mainBackgroundColor,
-                            border: Border.all(
-                                width: widget.outlineWidth ?? 0,
-                                color:
-                                    widget.outlineColor ?? Colors.transparent),
-                            borderRadius: BorderRadius.circular(widget.radius)),
-                        child: widget.menus[index],
-                      ),
-                    ),
-                    widget.menus[index].selectSub != null &&
-                            _isVisibleSub[index]
-                        ? Padding(
-                            padding: widget.subPadding ??
-                                const EdgeInsets.only(left: 74.0, top: 6.0),
-                            child: widget.menus[index].selectSub!,
-                          )
-                        : const SizedBox()
-                  ],
+                      widget.menus[index].selectSub != null &&
+                              _isVisibleSub[index]
+                          ? Padding(
+                              padding: widget.subPadding ??
+                                  const EdgeInsets.only(left: 74.0, top: 6.0),
+                              child: widget.menus[index].selectSub!,
+                            )
+                          : const SizedBox()
+                    ],
+                  ),
+                  separatorBuilder: (context, index) =>
+                      SizedBox(height: widget.spacing),
                 ),
-                separatorBuilder: (context, index) =>
-                    SizedBox(height: widget.spacing),
               ),
             ),
           );

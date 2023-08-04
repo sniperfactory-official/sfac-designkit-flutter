@@ -6,7 +6,6 @@ class SFSelectSub extends StatefulWidget {
     super.key,
     required this.subs,
     this.width,
-    //this.height,
     this.focusedColor,
     this.textColor,
     this.direction = Axis.vertical,
@@ -22,9 +21,6 @@ class SFSelectSub extends StatefulWidget {
 
   // 셀렉트 메뉴 가로 너비
   final double? width;
-
-  // 셀렉트 메뉴 높이
-  //final double? height;
 
   // 포커스된 메뉴 컬러
   final Color? focusedColor;
