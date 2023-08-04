@@ -3,8 +3,8 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 import 'package:sfac_design_flutter/widgets/comboBox/select_menu.dart';
 
 class SFSelectMain extends StatefulWidget {
-  const SFSelectMain({
-    super.key,
+  SFSelectMain({
+    Key? key,
     required this.menus,
     this.width,
     this.height,
@@ -24,9 +24,26 @@ class SFSelectMain extends StatefulWidget {
     this.backgroundColor,
     this.selectedMenuText,
     this.menuHeight = 40,
-  });
+  }) : super(key: key) {
+    _checkForDuplicates();
+  }
+
+ void _checkForDuplicates() {
+  final titles = <String>{};
+  final duplicateTitles = <String>{};
+  for (var menu in menus) {
+    if (!titles.add(menu.title)) {
+      duplicateTitles.add(menu.title);
+    }
+  }
+  if (duplicateTitles.isNotEmpty) {
+    final duplicateMenuTitles = duplicateTitles.join(', ');
+    throw FlutterError('Menu titles must be unique. The following titles are duplicated: $duplicateMenuTitles');
+  }
+}
 
   // SFSelectMenu 타입의 메뉴 리스트
+  // 메뉴의 title로 포커스되기 때문에 메뉴의 title들은 모두 유니크해야한다
   final List<SFSelectMenu> menus;
 
   // 가로 너비
@@ -89,25 +106,19 @@ class SFSelectMain extends StatefulWidget {
 }
 
 class _SFSelectMainState extends State<SFSelectMain>
-    with TickerProviderStateMixin  {
+    with TickerProviderStateMixin {
   List<bool> _isVisibleSub = [];
   late AnimationController _controller;
   late Animation<double> _animation;
   String? _selectedText;
-  bool isscrollbars = false;
 
   @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-
+  void initState() {
+    super.initState();
     double height = widget.height ??
         (widget.menus.length * widget.menuHeight +
-            (widget.menus.length - 1) * widget.spacing);
-    if (height > MediaQuery.of(context).size.height * 0.9) {
-      height = widget.height ?? MediaQuery.of(context).size.height * 0.8;
-      isscrollbars = true;
-    }
-
+            (widget.menus.length > 1 ? widget.menus.length - 1 : 0) *
+                widget.spacing);
     _controller = AnimationController(
       duration: widget.downDuration ?? const Duration(milliseconds: 300),
       vsync: this,
@@ -119,11 +130,6 @@ class _SFSelectMainState extends State<SFSelectMain>
     ).animate(_controller);
 
     _controller.forward();
-  }
-
-  @override
-  void initState() {
-    super.initState();
     _isVisibleSub = List.generate(widget.menus.length, (index) => false);
     _selectedText = widget.selectedMenuText ??
         (widget.initialIndex != null
@@ -148,8 +154,8 @@ class _SFSelectMainState extends State<SFSelectMain>
             width: widget.width,
             height: _animation.value,
             child: ScrollConfiguration(
-              behavior: ScrollConfiguration.of(context)
-                  .copyWith(scrollbars: isscrollbars),
+              behavior:
+                  ScrollConfiguration.of(context).copyWith(scrollbars: true),
               child: ListView.separated(
                 shrinkWrap: true,
                 padding: EdgeInsets.zero,
