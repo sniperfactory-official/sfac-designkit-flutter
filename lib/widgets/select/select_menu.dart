@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
-import 'package:sfac_design_flutter/widgets/comboBox/select_sub.dart';
+import 'package:sfac_design_flutter/widgets/select/select_sub.dart';
 
 class SFSelectMenu extends StatelessWidget {
   const SFSelectMenu({

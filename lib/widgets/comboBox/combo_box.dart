@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
-import 'package:sfac_design_flutter/widgets/comboBox/select_main.dart';
-import 'package:sfac_design_flutter/widgets/comboBox/select_menu.dart';
+import 'package:sfac_design_flutter/widgets/select/select_main.dart';
+import 'package:sfac_design_flutter/widgets/select/select_menu.dart';
 
 enum SFComboBoxStatus {
   select,
@@ -147,8 +147,8 @@ class _SFComboBoxState extends State<SFComboBox> {
                     focusedBackgroundColor: widget.focusedBackgroundColor,
                     onTap: (index) {
                       textEditingController.text = _selectMain[index].title;
-                      _initialIndex = widget.menus.indexWhere(
-                          (element) => element.title == _selectMain[index].title);
+                      _initialIndex = widget.menus.indexWhere((element) =>
+                          element.title == _selectMain[index].title);
                       if (widget.onTap != null) {
                         widget.onTap!(_initialIndex!);
                       }

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
-import 'package:sfac_design_flutter/widgets/comboBox/select_menu.dart';
+import 'package:sfac_design_flutter/widgets/select/select_menu.dart';
 
 class SFSelectMain extends StatefulWidget {
   SFSelectMain({
@@ -153,7 +153,7 @@ class _SFSelectMainState extends State<SFSelectMain>
         builder: (context, child) {
           return SizedBox(
             width: widget.width,
-            height: widget.downDuration  !=null ? _animation.value : null,
+            height: widget.downDuration != null ? _animation.value : null,
             child: ScrollConfiguration(
               behavior:
                   ScrollConfiguration.of(context).copyWith(scrollbars: true),
@@ -196,9 +196,10 @@ class _SFSelectMainState extends State<SFSelectMain>
                                   : widget.mainBackgroundColor,
                               border: Border.all(
                                   width: widget.outlineWidth ?? 0,
-                                  color:
-                                      widget.outlineColor ?? Colors.transparent),
-                              borderRadius: BorderRadius.circular(widget.radius)),
+                                  color: widget.outlineColor ??
+                                      Colors.transparent),
+                              borderRadius:
+                                  BorderRadius.circular(widget.radius)),
                           child: widget.menus[index],
                         ),
                       ),
