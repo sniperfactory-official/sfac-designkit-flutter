@@ -93,7 +93,11 @@ class _SFComboBoxState extends State<SFComboBox> {
   OverlayEntry? _overlayEntry;
   final LayerLink _layerLink = LayerLink();
   final GlobalKey _buttonKey = GlobalKey();
-  Size? _size;
+  double? _widgetTopPosition;
+  double? _widgetBottomPosition;
+  double? _widgetHeight;
+  double? _menuBoxheight;
+  double _startPosition = 0.0;
 
   void createOverlayEntry() {
     _overlayEntry = OverlayEntry(
@@ -115,7 +119,7 @@ class _SFComboBoxState extends State<SFComboBox> {
             width: widget.width,
             child: CompositedTransformFollower(
               link: _layerLink,
-              offset: Offset(0, _size!.height),
+              offset: Offset(0, _startPosition),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
@@ -132,12 +136,13 @@ class _SFComboBoxState extends State<SFComboBox> {
                   child: SFSelectMain(
                     spacing: widget.spacing,
                     menuHeight: widget.menuHeight,
+                    menuBackgroundColor: widget.menuBackgroundColor,
                     downDuration: _isDropdownVisible
                         ? null
                         : const Duration(milliseconds: 300),
                     direction: Axis.vertical,
                     width: widget.width,
-                    height: widget.height,
+                    height: widget.height ?? _menuBoxheight,
                     menus: _selectMain,
                     initialIndex: _initialIndex,
                     physics: widget.scrollPhysics,
@@ -188,25 +193,90 @@ class _SFComboBoxState extends State<SFComboBox> {
     }
   }
 
-  Size? _getSize() {
+  _getSize() {
     if (_buttonKey.currentContext != null) {
       final RenderBox renderBox =
           _buttonKey.currentContext!.findRenderObject() as RenderBox;
-      Size size = renderBox.size;
-      return size;
+      Offset widgetPosition = renderBox.localToGlobal(Offset.zero);
+      _widgetTopPosition = widgetPosition.dy;
+      Offset widgetBottomPosition = renderBox.localToGlobal(Offset.zero) +
+          Offset(0, renderBox.size.height);
+      _widgetBottomPosition =
+          MediaQuery.of(context).size.height - widgetBottomPosition.dy;
+      _widgetHeight = renderBox.size.height;
     }
-    return null;
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      setState(() {
+        _getSize();
+        getHeight();
+      });
+    });
   }
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        _size = _getSize();
-      });
-    });
     _selectMain = widget.menus;
+    _menuBoxheight = widget.height ??
+        (widget.menus.length * widget.menuHeight +
+            (widget.menus.length > 1 ? widget.menus.length - 1 : 0) *
+                (widget.spacing));
+  }
+
+  getHeight() {
+    _menuBoxheight = widget.height ??
+        (widget.menus.length * widget.menuHeight +
+            (widget.menus.length > 1 ? widget.menus.length - 1 : 0) *
+                (widget.spacing));
+    //화면 높이
+    double windowHeight = MediaQuery.of(context).size.height * 0.9;
+
+    //메뉴 박스 높이
+    _menuBoxheight = _menuBoxheight ?? 0;
+    //print('메뉴 박스 높이 $_menuBoxheight');
+
+    //바텀에서 드롭박스 바텀까지의 높이
+    _widgetBottomPosition = _widgetBottomPosition ?? 0;
+    //print('바텀에서 드롭박스 바텀까지의 높이 $_widgetBottomPosition');
+
+    //Top에서 드롭박스 탑까지의 높이
+    _widgetTopPosition = _widgetTopPosition ?? 0;
+    //print('Top에서 드롭박스 탑까지의 높이 $_widgetTopPosition');
+
+    //드롭박스 다운 시작 포지션
+    _startPosition = _widgetHeight ?? 0;
+
+    //메뉴가 가지는 높이가 드롭박스 밑으로 내릴 수 있는 높이보다 작을 때
+    if (_menuBoxheight! < _widgetBottomPosition!) {
+      //드롭박스 밑으로 쭉
+      //print('1 메뉴가 가지는 높이가 드롭박스 밑으로 내릴 수 있는 높이보다 작을 때');
+    }
+    // 드롭박스가 밑으로 내릴 수 있는 높이가 각 메뉴의 높이 *2 보다 작을 떄
+    else if (widget.menus.length > 2 &&
+        _widgetBottomPosition! < (widget.menuHeight * 2 + widget.padding)) {
+      //드롭박스를 Top에서 시작
+      _startPosition = -_widgetTopPosition! + 10;
+      //print('2 드롭박스를 Top에서 시작 $_menuBoxheight $windowHeight');
+      if (_menuBoxheight! > windowHeight) {
+        //메뉴 높이가 화면 높이보다 클 때
+        _menuBoxheight = windowHeight * 0.9;
+        //print('3 메뉴 높이가 화면 높이보다 클 때');
+      }
+    }
+    //메뉴가 가지는 높이가 밑으로 내릴 수 있는 높이보다 클 때
+    else if (_widgetBottomPosition! < _menuBoxheight!) {
+      //print('4 메뉴가 가지는 높이가 밑으로 내릴 수 있는 높이보다 클 때');
+      // 메뉴의 높이를 줄인다
+      // 화면 높이에서 드롭박스 바텀까지의 높이만큼 뺀 높이의 *0.8
+      _menuBoxheight = (windowHeight - (_widgetTopPosition! + _widgetHeight!));
+    }
+    //print('메뉴*2 패딩 :${widget.menuHeight * 2 + widget.padding}');
+    //print('시작 포지션$_startPosition 위젯높이 $_widgetHeight');
   }
 
   filterMenu(String value) {

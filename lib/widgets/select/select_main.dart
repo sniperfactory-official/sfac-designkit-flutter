@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 import 'package:sfac_design_flutter/widgets/select/select_menu.dart';
 
+// 이 위젯만 쓸 때에는 height는 menus 높이에 따라 정해진다
+// 정해진 height보다 height를 작게 준 경우 스크롤이 기본적으로 가능하다 
+// menus에 subs가 있고 menu를 눌러 sub를 열 경우 높이가 늘어난다
 class SFSelectMain extends StatefulWidget {
   SFSelectMain({
     Key? key,
     required this.menus,
     this.width,
     this.height,
-    this.mainBackgroundColor,
+    this.menuBackgroundColor,
     this.focusedBackgroundColor,
     this.outlineColor,
     this.radius = 10,
@@ -57,7 +60,7 @@ class SFSelectMain extends StatefulWidget {
   final Color? backgroundColor;
 
   // 메뉴 배경 색
-  final Color? mainBackgroundColor;
+  final Color? menuBackgroundColor;
 
   // 포커스된 메뉴 배경 색
   final Color? focusedBackgroundColor;
@@ -116,18 +119,14 @@ class _SFSelectMainState extends State<SFSelectMain>
   @override
   void initState() {
     super.initState();
-    double height = widget.height ??
-        (widget.menus.length * widget.menuHeight +
-            (widget.menus.length > 1 ? widget.menus.length - 1 : 0) *
-                (widget.spacing / 2));
     _controller = AnimationController(
       duration: widget.downDuration ?? const Duration(milliseconds: 300),
       vsync: this,
     );
 
     _animation = Tween<double>(
-      begin: widget.downDuration != null ? 0.0 : height,
-      end: height,
+      begin: widget.downDuration != null ? 0.0 : widget.height,
+      end: widget.height,
     ).animate(_controller);
 
     _controller.forward();
@@ -153,7 +152,7 @@ class _SFSelectMainState extends State<SFSelectMain>
         builder: (context, child) {
           return SizedBox(
             width: widget.width,
-            height: widget.downDuration != null ? _animation.value : null,
+            height: widget.downDuration != null ? _animation.value : widget.height,
             child: ScrollConfiguration(
               behavior:
                   ScrollConfiguration.of(context).copyWith(scrollbars: true),
@@ -166,7 +165,7 @@ class _SFSelectMainState extends State<SFSelectMain>
                   itemCount: widget.menus.length,
                   itemBuilder: (context, index) => Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       InkWell(
@@ -188,12 +187,13 @@ class _SFSelectMainState extends State<SFSelectMain>
                         hoverColor:
                             widget.focusedBackgroundColor ?? SFColor.primary5,
                         child: Ink(
+                          height: widget.menuHeight,
                           padding: widget.padding ?? const EdgeInsets.all(8.0),
                           decoration: BoxDecoration(
                               color: widget.menus[index].title == _selectedText
                                   ? widget.focusedBackgroundColor ??
                                       SFColor.primary5
-                                  : widget.mainBackgroundColor,
+                                  : widget.menuBackgroundColor,
                               border: Border.all(
                                   width: widget.outlineWidth ?? 0,
                                   color: widget.outlineColor ??
