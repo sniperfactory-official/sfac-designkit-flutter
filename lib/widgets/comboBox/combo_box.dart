@@ -238,15 +238,12 @@ class _SFComboBoxState extends State<SFComboBox> {
 
     //메뉴 박스 높이
     _menuBoxheight = _menuBoxheight ?? 0;
-    //print('메뉴 박스 높이 $_menuBoxheight');
 
     //바텀에서 드롭박스 바텀까지의 높이
     _widgetBottomPosition = _widgetBottomPosition ?? 0;
-    //print('바텀에서 드롭박스 바텀까지의 높이 $_widgetBottomPosition');
 
     //Top에서 드롭박스 탑까지의 높이
     _widgetTopPosition = _widgetTopPosition ?? 0;
-    //print('Top에서 드롭박스 탑까지의 높이 $_widgetTopPosition');
 
     //드롭박스 다운 시작 포지션
     _startPosition = _widgetHeight ?? 0;
@@ -254,29 +251,23 @@ class _SFComboBoxState extends State<SFComboBox> {
     //메뉴가 가지는 높이가 드롭박스 밑으로 내릴 수 있는 높이보다 작을 때
     if (_menuBoxheight! < _widgetBottomPosition!) {
       //드롭박스 밑으로 쭉
-      //print('1 메뉴가 가지는 높이가 드롭박스 밑으로 내릴 수 있는 높이보다 작을 때');
     }
-    // 드롭박스가 밑으로 내릴 수 있는 높이가 각 메뉴의 높이 *3.5 + 패딩 보다 작을 떄
+    // 드롭박스가 밑으로 내릴 수 있는 높이가 각 메뉴의 높이 *3.5 + 보다 작을 떄
     else if (widget.menus.length > 3 &&
         _widgetBottomPosition! < (widget.menuHeight * 3.5 + widget.padding)) {
       //드롭박스를 Top에서 시작
-      //print('2 드롭박스를 Top에서 시작 $_menuBoxheight $windowHeight');
       if (_menuBoxheight! > windowHeight) {
         //메뉴 높이가 화면 높이보다 클 때
         _menuBoxheight = windowHeight * 0.9;
-        //print('3 메뉴 높이가 화면 높이보다 클 때');
       }
       _startPosition = -_menuBoxheight! + _widgetBottomPosition!;
     }
     //메뉴가 가지는 높이가 밑으로 내릴 수 있는 높이보다 클 때
     else if (_widgetBottomPosition! < _menuBoxheight!) {
-      //print('4 메뉴가 가지는 높이가 밑으로 내릴 수 있는 높이보다 클 때');
       // 메뉴의 높이를 줄인다
       // 화면 높이에서 드롭박스 바텀까지의 높이만큼 뺀 높이의 *0.8
       _menuBoxheight = (windowHeight - (_widgetTopPosition! + _widgetHeight!));
     }
-    //print('메뉴*2 패딩 :${widget.menuHeight * 2 + widget.padding}');
-    //print('시작 포지션$_startPosition 위젯높이 $_widgetHeight');
   }
 
   filterMenu(String value) {
