@@ -95,6 +95,7 @@ class _SFComboBoxState extends State<SFComboBox> {
   final GlobalKey _buttonKey = GlobalKey();
   double? _widgetTopPosition;
   double? _widgetBottomPosition;
+  double? _widgetWidth;
   double? _widgetHeight;
   double? _menuBoxheight;
   double _startPosition = 0.0;
@@ -116,14 +117,14 @@ class _SFComboBoxState extends State<SFComboBox> {
             ),
           ),
           Positioned(
-            width: widget.width,
+            width: widget.width ?? _widgetWidth,
             child: CompositedTransformFollower(
               link: _layerLink,
-              offset: Offset(0, _startPosition),
+              offset: Offset(0, _startPosition + 4),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                  width: widget.width,
+                  width: widget.width ?? _widgetWidth,
                   padding: EdgeInsets.all(widget.padding),
                   decoration: BoxDecoration(
                     color: widget.backgroundColor ?? Colors.white,
@@ -141,7 +142,7 @@ class _SFComboBoxState extends State<SFComboBox> {
                         ? null
                         : const Duration(milliseconds: 300),
                     direction: Axis.vertical,
-                    width: widget.width,
+                    width: widget.width ?? _widgetWidth,
                     height: widget.height ?? _menuBoxheight,
                     menus: _selectMain,
                     initialIndex: _initialIndex,
@@ -204,6 +205,7 @@ class _SFComboBoxState extends State<SFComboBox> {
       _widgetBottomPosition =
           MediaQuery.of(context).size.height - widgetBottomPosition.dy;
       _widgetHeight = renderBox.size.height;
+      _widgetWidth = renderBox.size.width;
     }
   }
 
@@ -229,15 +231,11 @@ class _SFComboBoxState extends State<SFComboBox> {
   }
 
   getHeight() {
+    //메뉴 박스 높이
     _menuBoxheight = widget.height ??
         (_selectMain.length * widget.menuHeight +
             (_selectMain.length > 1 ? _selectMain.length - 1 : 0) *
                 (widget.spacing));
-    //화면 높이
-    double windowHeight = MediaQuery.of(context).size.height * 0.9;
-
-    //메뉴 박스 높이
-    _menuBoxheight = _menuBoxheight ?? 0;
 
     //바텀에서 드롭박스 바텀까지의 높이
     _widgetBottomPosition = _widgetBottomPosition ?? 0;
@@ -252,21 +250,21 @@ class _SFComboBoxState extends State<SFComboBox> {
     if (_menuBoxheight! < _widgetBottomPosition!) {
       //드롭박스 밑으로 쭉
     }
-    // 드롭박스가 밑으로 내릴 수 있는 높이가 각 메뉴의 높이 *3.5 + 보다 작을 떄
-    else if (widget.menus.length > 3 &&
-        _widgetBottomPosition! < (widget.menuHeight * 3.5 + widget.padding)) {
-      //드롭박스를 Top에서 시작
-      if (_menuBoxheight! > windowHeight) {
-        //메뉴 높이가 화면 높이보다 클 때
-        _menuBoxheight = windowHeight * 0.9;
+    // 드롭박스가 밑으로 내릴 수 있는 높이가 각 메뉴의 높이 + 패딩 2배값 보다 작을 떄
+    else if (widget.menus.length > 1 &&
+        _widgetBottomPosition! < (widget.menuHeight + widget.padding * 2)) {
+      //드롭박스를 위로 배치
+      if (_menuBoxheight! > _widgetTopPosition!) {
+        //메뉴 높이가 Top에서 드롭박스 탑까지의 높이보다 클 때
+        _menuBoxheight = _widgetTopPosition! * 0.8 - 8;
       }
-      _startPosition = -_menuBoxheight! + _widgetBottomPosition!;
+      _startPosition = -_menuBoxheight! - widget.padding * 2 - 8;
     }
     //메뉴가 가지는 높이가 밑으로 내릴 수 있는 높이보다 클 때
     else if (_widgetBottomPosition! < _menuBoxheight!) {
       // 메뉴의 높이를 줄인다
-      // 화면 높이에서 드롭박스 바텀까지의 높이만큼 뺀 높이의 *0.8
-      _menuBoxheight = (windowHeight - (_widgetTopPosition! + _widgetHeight!));
+      // 화면 높이에서 드롭박스 바텀까지의 높이만큼 뺀 높이의 0.75배
+      _menuBoxheight = _widgetBottomPosition! * 0.75;
     }
   }
 
