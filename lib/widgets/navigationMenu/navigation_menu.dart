@@ -4,7 +4,7 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 class SFNavigationMenu extends StatefulWidget {
   const SFNavigationMenu({
     super.key,
-    required this.menu,
+    required this.menus,
     this.width,
     this.height,
     this.menuSize,
@@ -26,7 +26,7 @@ class SFNavigationMenu extends StatefulWidget {
     this.disabledHoverIndex,
   });
   // 리스트 메뉴
-  final List<Widget> menu;
+  final List<Widget> menus;
 
   // 가로 너비
   final double? width;
@@ -101,7 +101,7 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
   @override
   void initState() {
     super.initState();
-    _ishover = List.generate(widget.menu.length, (index) => false);
+    _ishover = List.generate(widget.menus.length, (index) => false);
     _focusedIndex = widget.initialIndex;
     _disabledPaddingIndex = widget.disabledPaddingIndex ?? [];
     _disabledHoverIndex = widget.disabledHoverIndex ?? [];
@@ -119,7 +119,7 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
           padding: EdgeInsets.zero,
           physics: widget.physics ?? const NeverScrollableScrollPhysics(),
           scrollDirection: widget.direction,
-          itemCount: widget.menu.length,
+          itemCount: widget.menus.length,
           itemBuilder: (context, index) => InkWell(
             splashColor: Colors.transparent,
             highlightColor: Colors.transparent,
@@ -165,7 +165,7 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
                               : _focusedIndex == index
                                   ? widget.focusedTextColor ?? SFColor.primary80
                                   : widget.textColor ?? Colors.black),
-                  child: widget.menu[index],
+                  child: widget.menus[index],
                 ),
               ),
             ),
@@ -187,7 +187,7 @@ class _SFNavigationMenu extends State<SFNavigationMenu> {
       case Axis.vertical:
         _heightSpacing = widget.menuSpacing;
         _height = (_heightSpacing! + (widget.menuSize ?? fontSize + 26)) *
-                widget.menu.length -
+                widget.menus.length -
             (26 * _disabledPaddingIndex.length);
         break;
       case Axis.horizontal:
