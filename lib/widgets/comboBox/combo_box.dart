@@ -236,8 +236,6 @@ class _SFComboBoxState extends State<SFComboBox> {
         (_selectMain.length * widget.menuHeight +
             (_selectMain.length > 1 ? _selectMain.length - 1 : 0) *
                 (widget.spacing));
-    //화면 높이
-    double windowHeight = MediaQuery.of(context).size.height * 0.9;
 
     //바텀에서 드롭박스 바텀까지의 높이
     _widgetBottomPosition = _widgetBottomPosition ?? 0;
