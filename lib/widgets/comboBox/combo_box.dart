@@ -223,15 +223,15 @@ class _SFComboBoxState extends State<SFComboBox> {
     super.initState();
     _selectMain = widget.menus;
     _menuBoxheight = widget.height ??
-        (widget.menus.length * widget.menuHeight +
-            (widget.menus.length > 1 ? widget.menus.length - 1 : 0) *
+        (_selectMain.length * widget.menuHeight +
+            (_selectMain.length > 1 ? _selectMain.length - 1 : 0) *
                 (widget.spacing));
   }
 
   getHeight() {
     _menuBoxheight = widget.height ??
-        (widget.menus.length * widget.menuHeight +
-            (widget.menus.length > 1 ? widget.menus.length - 1 : 0) *
+        (_selectMain.length * widget.menuHeight +
+            (_selectMain.length > 1 ? _selectMain.length - 1 : 0) *
                 (widget.spacing));
     //화면 높이
     double windowHeight = MediaQuery.of(context).size.height * 0.9;
@@ -272,15 +272,12 @@ class _SFComboBoxState extends State<SFComboBox> {
 
   filterMenu(String value) {
     if (value.isNotEmpty) {
-      setState(() {
-        _selectMain =
-            widget.menus.where((e) => e.title.contains(value)).toList();
-      });
+      _selectMain = widget.menus.where((e) => e.title.contains(value)).toList();
     } else {
-      setState(() {
-        _selectMain = widget.menus;
-      });
+      _selectMain = widget.menus;
     }
+    getHeight();
+    setState(() {});
   }
 
   void popOverlay() {
