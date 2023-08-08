@@ -8,7 +8,7 @@ class SFCard extends StatelessWidget {
     this.outlineRadius = 10,
     this.backgroundColor,
     this.outlineColor,
-    this.padding = const EdgeInsets.all(20),
+    this.padding = const EdgeInsets.all(16),
     this.margin,
     this.width,
     this.height,
@@ -61,6 +61,10 @@ class SFCard extends StatelessWidget {
       );
     }
     return Container(
+      width: width,
+      height: height,
+      padding: padding,
+      margin: margin,
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(outlineRadius),
@@ -69,39 +73,30 @@ class SFCard extends StatelessWidget {
           width: outlineWidth,
         ),
       ),
-      child: Container(
-        width: width,
-        height: height,
-        padding: padding,
-        margin: margin,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            leading ?? const SizedBox(),
-            SizedBox(width: leading != null ? horizontalSpacing : 0),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  cardHeader ?? const SizedBox(),
-                  SizedBox(height: cardHeader != null ? verticalSpacing : 0),
-                  titleText ?? const SizedBox(),
-                  SizedBox(height: contentText != null ? verticalSpacing : 0),
-                  contentText ?? const SizedBox(),
-                  SizedBox(height: cardFooter != null ? verticalSpacing : 0),
-                  cardFooter ?? const SizedBox(),
-                ],
-              ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          leading ?? const SizedBox(),
+          SizedBox(width: leading != null ? horizontalSpacing : 0),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                cardHeader ?? const SizedBox.shrink(),
+                SizedBox(height: cardHeader != null ? verticalSpacing : 0),
+                titleText ?? const SizedBox.shrink(),
+                SizedBox(height: contentText != null ? verticalSpacing : 0),
+                contentText ?? const SizedBox.shrink(),
+                SizedBox(height: cardFooter != null ? verticalSpacing : 0),
+                cardFooter ?? const SizedBox.shrink(),
+              ],
             ),
-            SizedBox(width: trailing != null ? horizontalSpacing : 0),
-            trailing ?? const SizedBox(),
-          ],
-        ),
+          ),
+          SizedBox(width: trailing != null ? horizontalSpacing : 0),
+          trailing ?? const SizedBox.shrink(),
+        ],
       ),
     );
   }
