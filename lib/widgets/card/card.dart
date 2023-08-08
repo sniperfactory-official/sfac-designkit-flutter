@@ -8,7 +8,7 @@ class SFCard extends StatelessWidget {
     this.outlineRadius = 10,
     this.backgroundColor,
     this.outlineColor,
-    this.margin = 20,
+    this.padding = 20,
     this.width,
     this.height,
     this.title,
@@ -30,7 +30,7 @@ class SFCard extends StatelessWidget {
   final double outlineRadius; // 테두리 곡선
   final Color? backgroundColor; // 배경색
   final Color? outlineColor; //테두리 색
-  final double margin; // 태두리 안의 마진
+  final double padding; // 테두리 안의 패딩
   final double? width; // 카드 가로 폭
   final double? height; // 카드 세로 폭
   final double verticalSpacing; // 세로 사이사이 공간
@@ -68,7 +68,7 @@ class SFCard extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: EdgeInsets.all(margin),
+        padding: EdgeInsets.all(padding),
         child: Container(
           width: width,
           height: height,
