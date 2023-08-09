@@ -35,31 +35,84 @@ class SFDatePicker extends StatefulWidget {
   })  : assert(
             verticalSpacing >= 0 && horizontalSpacing >= 0 && contentSize > 0),
         super(key: key);
+  // 드롭박스 text
   final String? text;
+
+  // 드롭박스 TextStyle 
   final TextStyle? textStyle;
+
+  // 캘린더 선택한 날짜 TextStyle
   final TextStyle? selectTextStyle;
-  final Icon? suffixIcon;
+
+  // 드롭박스 suffixIcon
+  final Widget? suffixIcon;
+
+  // 캘린터 status
+  // list 선택한 날짜 리스트
+  // range 선택한 기간
   final SFCalendarStatus status;
+
+  // 캘린터 테마 dart, light
   final SFCalendarTheme theme;
+
+  // 초기 선택한 날짜 리스트
   final List<DateTime>? initialDateList;
+
+  // 초기 선택한 기간
   final DateTimeRange? initialDateRange;
+
+  // 초기 선택한 날짜
   final DateTime? initialDateOne;
+
+  // 캘린더 배경색
   final Color? backgroundColor;
+
+  // 캘린터 텍스트 컬러
   final Color? textColor;
+
+  // 선택한 날짜 배경색
   final Color selectedColor;
+
+  // 선택한 기간 배경색
   final Color rangeColor;
+
+  // 선택한 날짜 텍스트 색
   final Color? selectedTextColor;
+
+  // 캘린터 테두리 곡선
   final BorderRadius borderRadius;
+
+  // 캘린더 내용 사이즈 날짜, 요일, 년도, 아이콘 크기 등 비율은 고정되어있다
   final double contentSize;
+
+  // vertical 간격
   final double verticalSpacing;
+
+  // horizontal 간격
   final double horizontalSpacing;
+
+  // 캘린더 padding
   final EdgeInsetsGeometry? padding;
+
+  // 선택한 list, range(start, end), one 를 받을 수 있다.
   final GetSelectedDate? getSelectedDate;
+
+  // 드롭박스 테두리 색
   final Color? outlineColor;
+
+  // 드롭박스 테두리 굵기
   final double outlineWidth;
+
+  // 캘린터 초기 오늘 날짜 마크를 할 것인지
   final bool todayMark;
+
+  // 드롭박스 가로 너비
   final double? width;
+
+  // 캘린터 가로 너비
   final double? calendarWidth;
+
+  // 캘린더 높이
   final double? calendarHeight;
 
   @override
