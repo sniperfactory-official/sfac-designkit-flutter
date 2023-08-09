@@ -31,7 +31,6 @@ class SFDatePicker extends StatefulWidget {
     this.todayMark = true,
     this.width,
     this.calendarWidth,
-    this.calendarHeight,
   })  : assert(
             verticalSpacing >= 0 && horizontalSpacing >= 0 && contentSize > 0),
         super(key: key);
@@ -112,9 +111,6 @@ class SFDatePicker extends StatefulWidget {
   // 캘린터 가로 너비
   final double? calendarWidth;
 
-  // 캘린더 높이
-  final double? calendarHeight;
-
   @override
   State<SFDatePicker> createState() => _SFDatePickerState();
 }
@@ -146,14 +142,14 @@ class _SFDatePickerState extends State<SFDatePicker> {
             ),
           ),
           Positioned(
-            width: widget.calendarWidth,
+            width: widget.calendarWidth ?? size!.width,
             child: CompositedTransformFollower(
               link: _layerLink,
               offset: Offset(0, size!.height),
               child: Material(
                 color: Colors.transparent,
                 child: Container(
-                    width: widget.calendarWidth,
+                    width: widget.calendarWidth ?? size!.width,
                     decoration: BoxDecoration(
                       color: widget.backgroundColor ?? Colors.white,
                       borderRadius: widget.borderRadius,
@@ -182,8 +178,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                       contentSize: widget.contentSize,
                       verticalSpacing: widget.verticalSpacing,
                       horizontalSpacing: widget.horizontalSpacing,
-                      width: widget.calendarWidth,
-                      height: widget.calendarHeight,
+                      width: widget.calendarWidth ?? size!.width,
                       padding: widget.padding,
                       getSelectedDate:
                           (start, end, selectedDateList, selectedOne) {

@@ -26,7 +26,6 @@ class SFCalendar extends StatefulWidget {
     this.verticalSpacing = 12,
     this.horizontalSpacing = 12,
     this.width,
-    this.height,
     this.padding,
     this.getSelectedDate,
     this.todayMark = true,
@@ -80,9 +79,6 @@ class SFCalendar extends StatefulWidget {
 
   // 가로 너비
   final double? width;
-
-  // 높이
-  final double? height;
 
   // 캘린더 padding
   final EdgeInsetsGeometry? padding;
@@ -239,7 +235,6 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
-      height: widget.height,
       padding: widget.padding ??
           const EdgeInsets.symmetric(
             vertical: 20,
@@ -277,15 +272,19 @@ class _DatePickerWidgetState extends State<SFCalendar> {
                   ),
                 ),
               ),
-              Text(
-                '${_viewMonth.year}년 ${_viewMonth.month}월',
-                style: TextStyle(
-                  fontFamily: 'PretendardBold',
-                  fontSize: widget.contentSize + 4,
-                  color: widget.textColor ??
-                      (widget.theme == SFCalendarTheme.light
-                          ? SFColor.grayScale80
-                          : Colors.white),
+              Expanded(
+                child: Center(
+                  child: Text(
+                    '${_viewMonth.year}년 ${_viewMonth.month}월',
+                    style: TextStyle(
+                      fontFamily: 'PretendardBold',
+                      fontSize: widget.contentSize + 4,
+                      color: widget.textColor ??
+                          (widget.theme == SFCalendarTheme.light
+                              ? SFColor.grayScale80
+                              : Colors.white),
+                    ),
+                  ),
                 ),
               ),
               GestureDetector(
