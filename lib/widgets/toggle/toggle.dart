@@ -5,7 +5,7 @@ class SFToggle extends StatefulWidget {
   const SFToggle({
     super.key,
     this.size = 50,
-    required this.value,
+    this.initialValue  = false,
     this.disabledBackgroundColor,
     this.enabledBackgroundColor,
     this.disabledTrackColor,
@@ -17,7 +17,7 @@ class SFToggle extends StatefulWidget {
   final double size;
 
   //스위치 상태value
-  final bool value;
+  final bool initialValue ;
 
   //비활성화 배경색
   final Color? disabledBackgroundColor;
@@ -42,7 +42,7 @@ class _SFToggleState extends State<SFToggle> {
   late bool isSwitch;
   @override
   void initState() {
-    isSwitch = widget.value;
+    isSwitch = widget.initialValue ;
     super.initState();
   }
 
