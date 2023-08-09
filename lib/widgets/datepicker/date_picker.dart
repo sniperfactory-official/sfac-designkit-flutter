@@ -10,7 +10,7 @@ class SFDatePicker extends StatefulWidget {
     this.textStyle,
     this.selectTextStyle,
     this.suffixIcon,
-    this.status = SFCalendarStatus.range,
+    this.type = SFCalendarStatus.one,
     this.theme = SFCalendarTheme.light,
     this.initialDateList,
     this.initialDateRange,
@@ -49,7 +49,7 @@ class SFDatePicker extends StatefulWidget {
   // 캘린터 status
   // list 선택한 날짜 리스트
   // range 선택한 기간
-  final SFCalendarStatus status;
+  final SFCalendarStatus type;
 
   // 캘린터 테마 dart, light
   final SFCalendarTheme theme;
@@ -159,7 +159,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                       ),
                     ),
                     child: SFCalendar(
-                      status: widget.status,
+                      type: widget.type,
                       theme: widget.theme,
                       initialDateList: _selectedDateList,
                       initialDateRange:
@@ -188,7 +188,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                         }
                         String month;
                         String day;
-                        switch (widget.status) {
+                        switch (widget.type) {
                           case SFCalendarStatus.list:
                             List<String> dateList = [];
                             if (selectedDateList != null &&
@@ -285,7 +285,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
         size = _getSize();
       });
     });
-    switch (widget.status) {
+    switch (widget.type) {
       case SFCalendarStatus.list:
         _selectedDateList.addAll(widget.initialDateList ?? []);
         break;

@@ -11,7 +11,7 @@ enum SFCalendarTheme { light, dark }
 class SFCalendar extends StatefulWidget {
   const SFCalendar({
     Key? key,
-    this.status = SFCalendarStatus.range,
+    this.type = SFCalendarStatus.one,
     this.theme = SFCalendarTheme.light,
     this.initialDateList,
     this.initialDateRange,
@@ -36,7 +36,7 @@ class SFCalendar extends StatefulWidget {
   // list 선택한 날짜 리스트
   // range 선택한 기간
   // one 선택한 날짜 하나
-  final SFCalendarStatus status;
+  final SFCalendarStatus type;
 
   // 캘린터 테마 dart, light
   final SFCalendarTheme theme;
@@ -111,7 +111,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   @override
   void initState() {
     super.initState();
-    switch (widget.status) {
+    switch (widget.type) {
       case SFCalendarStatus.list:
         _selectedDateList.addAll(widget.initialDateList ?? []);
         break;
@@ -197,7 +197,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   }
 
   bool isRange(int index1, int index2) {
-    return widget.status == SFCalendarStatus.range &&
+    return widget.type == SFCalendarStatus.range &&
         _selectRangeStart != null &&
         _selectRangeEnd != null &&
         (_selectRangeStart!.isBefore(_calender[index1 * 7 + index2]) &&
@@ -208,7 +208,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   }
 
   selectedDate(int index1, int index2) {
-    switch (widget.status) {
+    switch (widget.type) {
       case SFCalendarStatus.list:
         selectDate(_calender[index1 * 7 + index2]);
         if (widget.getSelectedDate != null) {
@@ -416,7 +416,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
 
   Color _dayBoxColor(DateTime date) {
     if (_isSelected) {
-      switch (widget.status) {
+      switch (widget.type) {
         case SFCalendarStatus.list:
           return _selectedDateList.indexWhere((e) =>
                       e.year == date.year &&
@@ -454,14 +454,14 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   Color dayTextColor(DateTime date) {
     int overStart = 0;
     int underEnd = 0;
-    if (widget.status == SFCalendarStatus.range &&
+    if (widget.type == SFCalendarStatus.range &&
         _selectRangeStart != null &&
         _selectRangeStart != null) {
       overStart = _selectRangeStart?.compareTo(date) ?? 0;
       underEnd = _selectRangeEnd?.compareTo(date) ?? 0;
     }
     if (_isSelected) {
-      switch (widget.status) {
+      switch (widget.type) {
         case SFCalendarStatus.list:
           return _selectedDateList.indexWhere((e) =>
                       e.year == date.year &&
