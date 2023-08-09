@@ -180,6 +180,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                       horizontalSpacing: widget.horizontalSpacing,
                       width: widget.calendarWidth ?? size!.width,
                       padding: widget.padding,
+                      todayMark: widget.todayMark,
                       getSelectedDate:
                           (start, end, selectedDateList, selectedOne) {
                         if (widget.getSelectedDate != null) {
