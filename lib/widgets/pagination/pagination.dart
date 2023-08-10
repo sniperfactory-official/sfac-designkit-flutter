@@ -9,8 +9,8 @@ class SFPagination extends StatefulWidget {
     required this.currentPage,
     required this.itemsPerPage,
     this.width,
-    this.height,
     this.padding,
+    this.margin,
     this.selectedBoxRadius,
     this.selectedBoxColor,
     this.selectedNumberColor,
@@ -36,11 +36,11 @@ class SFPagination extends StatefulWidget {
   //가로 너비
   final double? width;
 
-  //bottomNavigationBar의 높이
-  final double? height;
-
   //pugeNumber들 selectedBox와의 패딩
-  final double? padding;
+  final EdgeInsets? padding;
+
+  //pagination의 상하여백 margin
+  final double? margin;
 
   //선택된 페이지넘버 박스의 라운드
   final double? selectedBoxRadius;
@@ -112,22 +112,20 @@ class _SFPaginationState extends State<SFPagination> {
       children: [
         SizedBox(
           width: widget.width ?? MediaQuery.of(context).size.width,
-          height: widget.height,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: currentPage > 1
-                        ? () => onPageSelected(currentPage - 1)
-                        : null,
-                    child: widget.previousPageButton ??
-                         Icon(Icons.navigate_before,color: currentPage == 1 ? SFColor.grayScale30 : null,),
-                  ),
-                ],
+              GestureDetector(
+                onTap: currentPage > 1
+                    ? () => onPageSelected(currentPage - 1)
+                    : null,
+                child: widget.previousPageButton ??
+                    Icon(
+                      Icons.navigate_before,
+                      color: currentPage == 1 ? SFColor.grayScale30 : null,
+                    ),
               ),
-              const SizedBox(width: 15),
+              const SizedBox(width: 16),
               Expanded(
                 //IntrinsicHeight 위젯은 자식 위젯의 최소 크기와 최대 크기 사이에서 사용 가능한 모든 공간을 차지하도록 하는 위젯
                 child: IntrinsicHeight(
@@ -137,14 +135,17 @@ class _SFPaginationState extends State<SFPagination> {
                         .map((pageNumber) => InkWell(
                               onTap: () => onPageSelected(pageNumber),
                               child: Container(
-                                padding: EdgeInsets.all( widget.padding ?? 6),
+                                padding:
+                                    widget.padding ?? const EdgeInsets.all(4),
+                                margin: EdgeInsets.symmetric(
+                                    vertical: widget.margin ?? 0),
                                 decoration: BoxDecoration(
                                   color: currentPage == pageNumber
                                       ? widget.selectedBoxColor ??
                                           SFColor.primary70
                                       : Colors.transparent,
                                   borderRadius: BorderRadius.circular(
-                                      widget.selectedBoxRadius ?? 5),
+                                      widget.selectedBoxRadius ?? 4),
                                 ),
                                 child: Center(
                                   child: Text(
@@ -152,12 +153,14 @@ class _SFPaginationState extends State<SFPagination> {
                                     style: currentPage == pageNumber
                                         ? (widget.selectedNumberStyle ??
                                             SFTextStyle.b4B14(
-                                              color: widget.selectedNumberColor ??
-                                                  Colors.white,
+                                              color:
+                                                  widget.selectedNumberColor ??
+                                                      Colors.white,
                                             ))
                                         : (widget.unselectedNumberStyle ??
                                             SFTextStyle.b4B14(
-                                              color: widget.unselectedNumberColor ??
+                                              color: widget
+                                                      .unselectedNumberColor ??
                                                   SFColor.grayScale60,
                                             )),
                                   ),
@@ -168,13 +171,17 @@ class _SFPaginationState extends State<SFPagination> {
                   ),
                 ),
               ),
-              const SizedBox(width: 15),
+              const SizedBox(width: 16),
               GestureDetector(
                 onTap: currentPage < totalPage
                     ? () => onPageSelected(currentPage + 1)
                     : null,
                 child: widget.nextPageButton ??
-                    Icon(Icons.navigate_next,color: currentPage == totalPage ? SFColor.grayScale30 : null,),
+                    Icon(
+                      Icons.navigate_next,
+                      color:
+                          currentPage == totalPage ? SFColor.grayScale30 : null,
+                    ),
               ),
             ],
           ),
