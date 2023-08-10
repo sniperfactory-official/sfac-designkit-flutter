@@ -4,14 +4,14 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 typedef GetSelectedDate = void Function(DateTime? start, DateTime? end,
     List<DateTime>? selectedDateList, DateTime? selectedOne);
 
-enum SFCalendarStatus { list, range, one }
+enum SFCalendarType { list, range, one }
 
 enum SFCalendarTheme { light, dark }
 
 class SFCalendar extends StatefulWidget {
   const SFCalendar({
     Key? key,
-    this.type = SFCalendarStatus.one,
+    this.type = SFCalendarType.one,
     this.theme = SFCalendarTheme.light,
     this.initialDateList,
     this.initialDateRange,
@@ -36,7 +36,7 @@ class SFCalendar extends StatefulWidget {
   // list 선택한 날짜 리스트
   // range 선택한 기간
   // one 선택한 날짜 하나
-  final SFCalendarStatus type;
+  final SFCalendarType type;
 
   // 캘린터 테마 dart, light
   final SFCalendarTheme theme;
@@ -112,15 +112,15 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   void initState() {
     super.initState();
     switch (widget.type) {
-      case SFCalendarStatus.list:
+      case SFCalendarType.list:
         _selectedDateList.addAll(widget.initialDateList ?? []);
         break;
-      case SFCalendarStatus.range:
+      case SFCalendarType.range:
         _selectRangeStart = widget.initialDateRange?.start;
         _selectRangeEnd = widget.initialDateRange?.end;
 
         break;
-      case SFCalendarStatus.one:
+      case SFCalendarType.one:
         _selectOne = widget.initialDateOne;
         break;
     }
@@ -197,7 +197,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   }
 
   bool isRange(int index1, int index2) {
-    return widget.type == SFCalendarStatus.range &&
+    return widget.type == SFCalendarType.range &&
         _selectRangeStart != null &&
         _selectRangeEnd != null &&
         (_selectRangeStart!.isBefore(_calender[index1 * 7 + index2]) &&
@@ -209,20 +209,20 @@ class _DatePickerWidgetState extends State<SFCalendar> {
 
   selectedDate(int index1, int index2) {
     switch (widget.type) {
-      case SFCalendarStatus.list:
+      case SFCalendarType.list:
         selectDate(_calender[index1 * 7 + index2]);
         if (widget.getSelectedDate != null) {
           widget.getSelectedDate!(null, null, _selectedDateList, null);
         }
         break;
-      case SFCalendarStatus.range:
+      case SFCalendarType.range:
         selectDateRange(_calender[index1 * 7 + index2]);
         if (widget.getSelectedDate != null) {
           widget.getSelectedDate!(
               _selectRangeStart, _selectRangeEnd, null, null);
         }
         break;
-      case SFCalendarStatus.one:
+      case SFCalendarType.one:
         selectedOne(_calender[index1 * 7 + index2]);
         if (widget.getSelectedDate != null) {
           widget.getSelectedDate!(null, null, null, _selectOne);
@@ -417,7 +417,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   Color _dayBoxColor(DateTime date) {
     if (_isSelected) {
       switch (widget.type) {
-        case SFCalendarStatus.list:
+        case SFCalendarType.list:
           return _selectedDateList.indexWhere((e) =>
                       e.year == date.year &&
                       e.month == date.month &&
@@ -425,7 +425,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
                   -1
               ? widget.selectedColor
               : Colors.transparent;
-        case SFCalendarStatus.range:
+        case SFCalendarType.range:
           return ((_selectRangeStart?.year == date.year &&
                       _selectRangeStart?.month == date.month &&
                       _selectRangeStart?.day == date.day) ||
@@ -434,7 +434,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
                       _selectRangeEnd?.day == date.day))
               ? widget.selectedColor
               : Colors.transparent;
-        case SFCalendarStatus.one:
+        case SFCalendarType.one:
           return (_selectOne != null &&
                   _selectOne!.year == date.year &&
                   _selectOne!.month == date.month &&
@@ -454,7 +454,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
   Color dayTextColor(DateTime date) {
     int overStart = 0;
     int underEnd = 0;
-    if (widget.type == SFCalendarStatus.range &&
+    if (widget.type == SFCalendarType.range &&
         _selectRangeStart != null &&
         _selectRangeStart != null) {
       overStart = _selectRangeStart?.compareTo(date) ?? 0;
@@ -462,7 +462,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
     }
     if (_isSelected) {
       switch (widget.type) {
-        case SFCalendarStatus.list:
+        case SFCalendarType.list:
           return _selectedDateList.indexWhere((e) =>
                       e.year == date.year &&
                       e.month == date.month &&
@@ -479,7 +479,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
                               (widget.theme == SFCalendarTheme.light
                                   ? SFColor.grayScale80
                                   : Colors.white);
-        case SFCalendarStatus.range:
+        case SFCalendarType.range:
           return ((_selectRangeStart?.year == date.year &&
                       _selectRangeStart?.month == date.month &&
                       _selectRangeStart?.day == date.day) ||
@@ -498,7 +498,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
                               (widget.theme == SFCalendarTheme.light
                                   ? SFColor.grayScale80
                                   : Colors.white);
-        case SFCalendarStatus.one:
+        case SFCalendarType.one:
           return (_selectOne != null &&
                   _selectOne!.year == date.year &&
                   _selectOne!.month == date.month &&

@@ -10,7 +10,7 @@ class SFDatePicker extends StatefulWidget {
     this.textStyle,
     this.selectTextStyle,
     this.suffixIcon,
-    this.type = SFCalendarStatus.one,
+    this.type = SFCalendarType.one,
     this.theme = SFCalendarTheme.light,
     this.initialDateList,
     this.initialDateRange,
@@ -49,7 +49,7 @@ class SFDatePicker extends StatefulWidget {
   // 캘린터 status
   // list 선택한 날짜 리스트
   // range 선택한 기간
-  final SFCalendarStatus type;
+  final SFCalendarType type;
 
   // 캘린터 테마 dart, light
   final SFCalendarTheme theme;
@@ -190,7 +190,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                         String month;
                         String day;
                         switch (widget.type) {
-                          case SFCalendarStatus.list:
+                          case SFCalendarType.list:
                             List<String> dateList = [];
                             if (selectedDateList != null &&
                                 selectedDateList.isNotEmpty) {
@@ -208,7 +208,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                               _selectDate = null;
                             }
                             break;
-                          case SFCalendarStatus.range:
+                          case SFCalendarType.range:
                             if (start != null && end != null) {
                               _selectRangeStart = start;
                               _selectRangeEnd = end;
@@ -225,7 +225,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                               _selectDate = null;
                             }
                             break;
-                          case SFCalendarStatus.one:
+                          case SFCalendarType.one:
                             if (selectedOne != null) {
                               _selectOne = selectedOne;
                               month =
@@ -287,15 +287,15 @@ class _SFDatePickerState extends State<SFDatePicker> {
       });
     });
     switch (widget.type) {
-      case SFCalendarStatus.list:
+      case SFCalendarType.list:
         _selectedDateList.addAll(widget.initialDateList ?? []);
         break;
-      case SFCalendarStatus.range:
+      case SFCalendarType.range:
         _selectRangeStart = widget.initialDateRange?.start;
         _selectRangeEnd = widget.initialDateRange?.end;
 
         break;
-      case SFCalendarStatus.one:
+      case SFCalendarType.one:
         _selectOne = widget.initialDateOne;
         break;
     }
