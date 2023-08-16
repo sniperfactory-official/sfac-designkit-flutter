@@ -154,16 +154,16 @@ class _SFAlertState extends State<SFAlert> with SingleTickerProviderStateMixin {
                             ),
                       ),
                     ),
-                    widget.closeWidget ??
-                        GestureDetector(
-                          onTap: widget.onTap,
-                          child: Icon(
+                    GestureDetector(
+                      onTap: widget.onTap,
+                      child: widget.closeWidget ??
+                          Icon(
                             Icons.close,
                             color: widget.status == SFAlertStatus.primary
                                 ? Colors.white
                                 : const Color(0xFFFF4D4D),
                           ),
-                        ),
+                    ),
                   ],
                 ),
                 SizedBox(height: widget.heightSpacing),
