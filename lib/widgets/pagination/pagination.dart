@@ -9,9 +9,11 @@ class SFPagination extends StatefulWidget {
     required this.currentPage,
     required this.itemsPerPage,
     this.width,
-    this.padding,
-    this.margin,
+    this.height,
+    this.indexBoxPadding,
+    this.indexBoxMargin,
     this.selectedBoxRadius,
+    this.backgroundColor,
     this.selectedBoxColor,
     this.selectedNumberColor,
     this.unselectedNumberColor,
@@ -19,7 +21,8 @@ class SFPagination extends StatefulWidget {
     this.unselectedNumberStyle,
     this.previousPageButton,
     this.nextPageButton,
-  });
+  }): assert(totalPage >= itemsPerPage, "totalPage must be greater than or equal to itemsPerPage"),
+      assert(currentPage >= 1, "currentPage must be greater than or equal to 1");
 
   //페이지 컨트롤러
   final PageController pageController;
@@ -36,14 +39,20 @@ class SFPagination extends StatefulWidget {
   //가로 너비
   final double? width;
 
+  //페이지네이션 높이
+  final double? height;
+
   //pugeNumber들 selectedBox와의 패딩
-  final EdgeInsets? padding;
+  final EdgeInsetsGeometry? indexBoxPadding;
 
   //pagination의 상하여백 margin
-  final double? margin;
+  final EdgeInsetsGeometry? indexBoxMargin;
 
   //선택된 페이지넘버 박스의 라운드
   final double? selectedBoxRadius;
+
+  //Pagination 배경색
+  final Color? backgroundColor;
 
   //선택된 페이지넘버 박스의 색
   final Color? selectedBoxColor;
@@ -78,11 +87,13 @@ class _SFPaginationState extends State<SFPagination> {
       List.generate(widget.itemsPerPage, (index) => index + 1);
 
   void onPageSelected(int page) {
+    if (page >= 1 && page <= totalPage){
     setState(() {
       currentPage = page;
       getPageNumbers();
     });
     widget.pageController.jumpToPage(page - 1);
+    }
   }
 
   getPageNumbers() {
@@ -107,86 +118,94 @@ class _SFPaginationState extends State<SFPagination> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        SizedBox(
-          width: widget.width ?? MediaQuery.of(context).size.width,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              GestureDetector(
-                onTap: currentPage > 1
-                    ? () => onPageSelected(currentPage - 1)
-                    : null,
-                child: widget.previousPageButton ??
-                    Icon(
-                      Icons.navigate_before,
-                      color: currentPage == 1 ? SFColor.grayScale30 : null,
+    return Container(
+      color: widget.backgroundColor,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          SizedBox(
+            width: widget.width ?? MediaQuery.of(context).size.width,
+            height: widget.height,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: currentPage > 1
+                      ? () => onPageSelected(currentPage - 1)
+                      : null,
+                  child: widget.previousPageButton ??
+                      Icon(
+                        Icons.navigate_before,
+                        color: currentPage == 1 ? SFColor.grayScale30 : null,
+                      ),
+                ),
+                Expanded(
+                  //IntrinsicHeight 위젯은 자식 위젯의 최소 크기와 최대 크기 사이에서 사용 가능한 모든 공간을 차지하도록 하는 위젯
+                  child: IntrinsicHeight(
+                    child: Wrap(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: pageNumbers
+                              .map((pageNumber) => InkWell(
+                                    onTap: () => onPageSelected(pageNumber),
+                                    child: Container(
+                                      padding: widget.indexBoxPadding ??
+                                          const EdgeInsets.all(4),
+                                      margin: widget.indexBoxMargin ??
+                                          const EdgeInsets.symmetric(
+                                              vertical: 8, horizontal: 8),
+                                      decoration: BoxDecoration(
+                                        color: currentPage == pageNumber
+                                            ? widget.selectedBoxColor ??
+                                                SFColor.primary70
+                                            : Colors.transparent,
+                                        borderRadius: BorderRadius.circular(
+                                            widget.selectedBoxRadius ?? 4),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          "$pageNumber",
+                                          style: currentPage == pageNumber
+                                              ? (widget.selectedNumberStyle ??
+                                                  SFTextStyle.b4B14(
+                                                    color: widget
+                                                            .selectedNumberColor ??
+                                                        Colors.white,
+                                                  ))
+                                              : (widget.unselectedNumberStyle ??
+                                                  SFTextStyle.b4B14(
+                                                    color: widget
+                                                            .unselectedNumberColor ??
+                                                        SFColor.grayScale60,
+                                                  )),
+                                        ),
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                        ),
+                      ],
                     ),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                //IntrinsicHeight 위젯은 자식 위젯의 최소 크기와 최대 크기 사이에서 사용 가능한 모든 공간을 차지하도록 하는 위젯
-                child: IntrinsicHeight(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: pageNumbers
-                        .map((pageNumber) => InkWell(
-                              onTap: () => onPageSelected(pageNumber),
-                              child: Container(
-                                padding:
-                                    widget.padding ?? const EdgeInsets.all(4),
-                                margin: EdgeInsets.symmetric(
-                                    vertical: widget.margin ?? 0),
-                                decoration: BoxDecoration(
-                                  color: currentPage == pageNumber
-                                      ? widget.selectedBoxColor ??
-                                          SFColor.primary70
-                                      : Colors.transparent,
-                                  borderRadius: BorderRadius.circular(
-                                      widget.selectedBoxRadius ?? 4),
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    "$pageNumber",
-                                    style: currentPage == pageNumber
-                                        ? (widget.selectedNumberStyle ??
-                                            SFTextStyle.b4B14(
-                                              color:
-                                                  widget.selectedNumberColor ??
-                                                      Colors.white,
-                                            ))
-                                        : (widget.unselectedNumberStyle ??
-                                            SFTextStyle.b4B14(
-                                              color: widget
-                                                      .unselectedNumberColor ??
-                                                  SFColor.grayScale60,
-                                            )),
-                                  ),
-                                ),
-                              ),
-                            ))
-                        .toList(),
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-              GestureDetector(
-                onTap: currentPage < totalPage
-                    ? () => onPageSelected(currentPage + 1)
-                    : null,
-                child: widget.nextPageButton ??
-                    Icon(
-                      Icons.navigate_next,
-                      color:
-                          currentPage == totalPage ? SFColor.grayScale30 : null,
-                    ),
-              ),
-            ],
+                const SizedBox(width: 16),
+                GestureDetector(
+                  onTap: currentPage < totalPage
+                      ? () => onPageSelected(currentPage + 1)
+                      : null,
+                  child: widget.nextPageButton ??
+                      Icon(
+                        Icons.navigate_next,
+                        color:
+                            currentPage == totalPage ? SFColor.grayScale30 : null,
+                      ),
+                ),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
