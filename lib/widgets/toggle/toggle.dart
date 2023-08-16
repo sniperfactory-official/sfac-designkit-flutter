@@ -6,6 +6,7 @@ class SFToggle extends StatefulWidget {
     super.key,
     this.size = 50,
     this.initialValue  = false,
+    this.animationDuration,
     this.disabledBackgroundColor,
     this.enabledBackgroundColor,
     this.disabledTrackColor,
@@ -18,6 +19,9 @@ class SFToggle extends StatefulWidget {
 
   //스위치 상태value
   final bool initialValue ;
+
+  //애니메이션 Duration
+  final Duration? animationDuration;
 
   //비활성화 배경색
   final Color? disabledBackgroundColor;
@@ -71,7 +75,7 @@ class _SFToggleState extends State<SFToggle> {
             AnimatedPositioned(
               top: 0,
               bottom: 0,
-              duration: const Duration(milliseconds: 200),
+              duration: widget.animationDuration ?? const Duration(milliseconds: 200),
               curve: Curves.ease,
               left: isSwitch ? widget.size * 0.5 : widget.size * 0.1,
               child: Container(
