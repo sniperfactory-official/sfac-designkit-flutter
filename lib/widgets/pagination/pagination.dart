@@ -189,7 +189,6 @@ class _SFPaginationState extends State<SFPagination> {
                     ),
                   ),
                 ),
-                const SizedBox(width: 16),
                 GestureDetector(
                   onTap: currentPage < totalPage
                       ? () => onPageSelected(currentPage + 1)
