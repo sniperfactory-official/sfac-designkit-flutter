@@ -8,7 +8,6 @@ class SFDatePicker extends StatefulWidget {
     Key? key,
     this.text,
     this.textStyle,
-    this.selectTextStyle,
     this.suffixIcon,
     this.type = SFCalendarType.one,
     this.theme = SFCalendarTheme.light,
@@ -16,7 +15,7 @@ class SFDatePicker extends StatefulWidget {
     this.initialDateRange,
     this.initialDateOne,
     this.backgroundColor,
-    this.textColor,
+    this.calendarTextColor,
     this.selectedColor = SFColor.primary100,
     this.rangeColor = SFColor.primary100,
     this.selectedTextColor,
@@ -39,9 +38,6 @@ class SFDatePicker extends StatefulWidget {
 
   // 드롭박스 TextStyle 
   final TextStyle? textStyle;
-
-  // 캘린더 선택한 날짜 TextStyle
-  final TextStyle? selectTextStyle;
 
   // 드롭박스 suffixIcon
   final Widget? suffixIcon;
@@ -67,7 +63,7 @@ class SFDatePicker extends StatefulWidget {
   final Color? backgroundColor;
 
   // 캘린터 텍스트 컬러
-  final Color? textColor;
+  final Color? calendarTextColor;
 
   // 선택한 날짜 배경색
   final Color selectedColor;
@@ -170,7 +166,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                               : null,
                       initialDateOne: _selectOne,
                       backgroundColor: widget.backgroundColor,
-                      textColor: widget.textColor,
+                      textColor: widget.calendarTextColor,
                       selectedColor: widget.selectedColor,
                       rangeColor: widget.rangeColor,
                       selectedTextColor: widget.selectedTextColor,
