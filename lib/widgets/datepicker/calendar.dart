@@ -544,7 +544,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
             Colors.transparent,
             widget.rangeColor,
           ],
-          stops: const [.4, .5],
+          stops: const [.5, .5],
         );
       } else if (_selectRangeEnd?.year == date.year &&
           _selectRangeEnd?.month == date.month &&
@@ -555,7 +555,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
             widget.rangeColor,
             Colors.transparent,
           ],
-          stops: const [.4, .5],
+          stops: const [.5, .5],
         );
       }
     } else {
