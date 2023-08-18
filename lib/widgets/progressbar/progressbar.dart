@@ -17,25 +17,25 @@ class SFProgressBar extends StatefulWidget {
     this.borderRadius = 16,
     this.textPadding = 16,
   })  : assert(value == null ? true : duration == null),
-        assert(value != null && value >= 0.0 && value <= 1),
+        assert(value != null ? (value >= 0.0 && value <= 100) : true),
         super(key: key);
 
-  // 프로그래머스바 높이
+  // 프로그레스바 높이
   final double? height;
 
-  // 프로그래머스 값
+  // 프로그레스 값
   final double? value;
 
-  // 프로그래머스 duration만큼 시간 증가에 따른 값 증가
+  // 프로그레스 duration 시간에 따른 값 증가
   final Duration? duration;
 
-  // 프로그래머스 텍스트 스타일
+  // 프로그레스 value 텍스트 스타일
   final TextStyle? valueTextStyle;
 
-  // 프로그래머스 배경색
+  // 프로그레스 배경색
   final Color? backgroundColor;
 
-  // 프로그래머스 값 배경색
+  // 프로그레스 value 배경색
   final Color? valueBackgroundColor;
 
   // value일 때 애니메이션 여부
@@ -44,10 +44,10 @@ class SFProgressBar extends StatefulWidget {
   // value일 때 애니메이션 duraition
   final Duration? animationDuration;
 
-  // 프로그래머스 테두리 곡선
+  // 프로그레스 테두리 곡선
   final double borderRadius;
 
-  // 프로그래머스 텍스트 패딩
+  // 프로그레스 텍스트 패딩
   final double textPadding;
 
   @override
@@ -74,7 +74,7 @@ class _SFProgressBarState extends State<SFProgressBar>
         // Call setState to trigger a rebuild when animation updates
       });
     });
-    if (widget.animation) {
+    if (widget.value != null && widget.animation) {
       _animation = Tween(begin: _progressPercent, end: widget.value)
           .animate(_animationController)
         ..addListener(() {
@@ -91,7 +91,9 @@ class _SFProgressBarState extends State<SFProgressBar>
   @override
   void didUpdateWidget(SFProgressBar oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.value != widget.value && widget.animation) {
+    if (widget.value != null &&
+        oldWidget.value != widget.value &&
+        widget.animation) {
       _animationController.duration =
           widget.animationDuration ?? const Duration(milliseconds: 300);
       _animation = Tween(begin: oldWidget.value, end: widget.value)
@@ -110,7 +112,7 @@ class _SFProgressBarState extends State<SFProgressBar>
   Widget build(BuildContext context) {
     TextSpan textSpan = TextSpan(
       text: widget.value != null
-          ? '${((widget.animation ? _progressPercent : widget.value!) * 100).round()}%'
+          ? '${(widget.animation ? _progressPercent : widget.value!).round()}%'
           : '${(_animationController.value * 100).toStringAsFixed(0)}%',
       style: widget.valueTextStyle ?? SFTextStyle.b3M16(color: Colors.white),
     );
@@ -127,7 +129,8 @@ class _SFProgressBarState extends State<SFProgressBar>
               double width = constraints.maxWidth;
               double valueWidth = widget.value != null
                   ? width *
-                      (widget.animation ? _progressPercent : widget.value!)
+                      (widget.animation ? _progressPercent : widget.value!) /
+                      100
                   : _animationController.value * width;
               return Container(
                 width: width,
