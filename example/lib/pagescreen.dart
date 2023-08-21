@@ -36,7 +36,7 @@ class _PageScreenState extends State<PageScreen> {
         ),
         bottomNavigationBar: SFPagination(
           totalPage: 7,
-          currentPage: 1,
+          // initialPage: 1,
           itemsPerPage: 5,
           pageController: _pageController,
         )

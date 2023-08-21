@@ -6,7 +6,7 @@ class SFPagination extends StatefulWidget {
     super.key,
     required this.pageController,
     required this.totalPage,
-    required this.currentPage,
+    this.initialPage,
     required this.itemsPerPage,
     this.width,
     this.height,
@@ -22,7 +22,7 @@ class SFPagination extends StatefulWidget {
     this.previousPageButton,
     this.nextPageButton,
   }): assert(totalPage >= itemsPerPage, "totalPage must be greater than or equal to itemsPerPage"),
-      assert(currentPage >= 1, "currentPage must be greater than or equal to 1");
+      assert(initialPage == null || initialPage >= 1, "initialPage must be greater than or equal to 1");
 
   //페이지 컨트롤러
   final PageController pageController;
@@ -31,7 +31,7 @@ class SFPagination extends StatefulWidget {
   final int totalPage;
 
   //현재 표시 중인 페이지를 추적하고 관리하는 변수
-  final int currentPage;
+  final int? initialPage;
 
   //화면에 보여지는 페이지 항목 수
   final int itemsPerPage;
@@ -81,7 +81,7 @@ class SFPagination extends StatefulWidget {
 
 class _SFPaginationState extends State<SFPagination> {
   late int totalPage = widget.totalPage;
-  late int currentPage = widget.currentPage;
+  late int initialPage = widget.initialPage ?? 1;
   late int itemsPerPage = widget.itemsPerPage;
   late List<int> pageNumbers =
       List.generate(widget.itemsPerPage, (index) => index + 1);
@@ -89,7 +89,7 @@ class _SFPaginationState extends State<SFPagination> {
   void onPageSelected(int page) {
     if (page >= 1 && page <= totalPage){
     setState(() {
-      currentPage = page;
+      initialPage = page;
       getPageNumbers();
     });
     widget.pageController.jumpToPage(page - 1);
@@ -97,15 +97,15 @@ class _SFPaginationState extends State<SFPagination> {
   }
 
   getPageNumbers() {
-    var pageIndex = pageNumbers.indexOf(currentPage);
+    var pageIndex = pageNumbers.indexOf(initialPage);
     if (pageIndex == -1) {
-      if (currentPage < pageNumbers.first) {
+      if (initialPage < pageNumbers.first) {
         pageNumbers = pageNumbers.map((e) => e - itemsPerPage).toList();
         if (pageNumbers.first < 1) {
           pageNumbers =
               pageNumbers.map((e) => e + (1 - pageNumbers.first)).toList();
         }
-      } else if (currentPage > pageNumbers.last) {
+      } else if (initialPage > pageNumbers.last) {
         pageNumbers = pageNumbers.map((e) => e + itemsPerPage).toList();
         if (pageNumbers.last > totalPage) {
           pageNumbers = pageNumbers
@@ -130,13 +130,13 @@ class _SFPaginationState extends State<SFPagination> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: currentPage > 1
-                      ? () => onPageSelected(currentPage - 1)
+                  onTap: initialPage > 1
+                      ? () => onPageSelected(initialPage - 1)
                       : null,
                   child: widget.previousPageButton ??
                       Icon(
                         Icons.navigate_before,
-                        color: currentPage == 1 ? SFColor.grayScale30 : null,
+                        color: initialPage == 1 ? SFColor.grayScale30 : null,
                       ),
                 ),
                 Expanded(
@@ -156,7 +156,7 @@ class _SFPaginationState extends State<SFPagination> {
                                           const EdgeInsets.symmetric(
                                               vertical: 8, horizontal: 8),
                                       decoration: BoxDecoration(
-                                        color: currentPage == pageNumber
+                                        color: initialPage == pageNumber
                                             ? widget.selectedBoxColor ??
                                                 SFColor.primary70
                                             : Colors.transparent,
@@ -166,7 +166,7 @@ class _SFPaginationState extends State<SFPagination> {
                                       child: Center(
                                         child: Text(
                                           "$pageNumber",
-                                          style: currentPage == pageNumber
+                                          style: initialPage == pageNumber
                                               ? (widget.selectedNumberStyle ??
                                                   SFTextStyle.b4B14(
                                                     color: widget
@@ -190,14 +190,14 @@ class _SFPaginationState extends State<SFPagination> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: currentPage < totalPage
-                      ? () => onPageSelected(currentPage + 1)
+                  onTap: initialPage < totalPage
+                      ? () => onPageSelected(initialPage + 1)
                       : null,
                   child: widget.nextPageButton ??
                       Icon(
                         Icons.navigate_next,
                         color:
-                            currentPage == totalPage ? SFColor.grayScale30 : null,
+                            initialPage == totalPage ? SFColor.grayScale30 : null,
                       ),
                 ),
               ],
