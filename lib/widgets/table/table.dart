@@ -2,33 +2,40 @@ import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 
 class SFTable extends StatefulWidget {
-  const SFTable({
-    super.key,
-    required this.columns,
-    required this.data,
-    this.textStyle = const TextStyle(),
-    this.columnsTextColor = SFColor.grayScale40,
-    this.firstDataTextColor = SFColor.grayScale80,
-    this.otherDataTextColor = SFColor.grayScale60,
-    this.dividerThickness,
-    this.dividerColor = SFColor.grayScale20,
-    this.padding,
-  });
+  const SFTable(
+      {super.key,
+      required this.headers,
+      required this.data,
+      this.ellipsis =false,
+      this.textStyle = const TextStyle(),
+      this.headersTextColor = SFColor.grayScale40,
+      this.firstColumnTextColor = SFColor.grayScale80,
+      this.otherDataTextColor = SFColor.grayScale60,
+      this.dividerThickness,
+      this.dividerColor = SFColor.grayScale20,
+      this.padding,
+      this.width,
+      this.tablePadding,
+      this.tableMargin
+      });
 
   //열 (첫 행에 들어가는 데이터 리스트 각 열의 이름)
-  final List<String> columns;
+  final List<String> headers;
 
   //행 (각 행의 셀들에 들어갈 데이터 리스트)
   final List<List<dynamic>> data;
 
+  //TextOverflow시 생략여부
+  final bool ellipsis;
+
   //Table안에 TextStyle
   final TextStyle textStyle;
 
-  //columns TextColor
-  final Color columnsTextColor;
+  //headers TextColor
+  final Color headersTextColor;
 
-  //첫 번째 데이터 TextColor
-  final Color firstDataTextColor;
+  //첫 번째 열 TextColor
+  final Color firstColumnTextColor;
 
   //나머지 데이터 TextColor
   final Color otherDataTextColor;
@@ -42,7 +49,14 @@ class SFTable extends StatefulWidget {
   //Table Text Padding
   final EdgeInsetsGeometry? padding;
 
+  //Table 너비
+  final double? width;
 
+  //Table padding
+  final EdgeInsetsGeometry? tablePadding;
+
+  //Table margin
+  final EdgeInsetsGeometry? tableMargin;
 
   @override
   SFTableState createState() => SFTableState();
@@ -51,20 +65,50 @@ class SFTable extends StatefulWidget {
 class SFTableState extends State<SFTable> {
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: widget.columns.asMap().entries.map((entry) {
-              int index = entry.key;
-              String column = entry.value;
+    return Container(
+      width: widget.width,
+      padding: widget.tablePadding,
+      margin: widget.tableMargin,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    width: widget.dividerThickness ?? 1.0,
+                    color: widget.dividerColor,
+                  ),
+                ),
+              ),
+              child: Row(
+                children: widget.headers.asMap().entries.map((entry) {
+                  int index = entry.key;
+                  String column = entry.value;
 
-              return Expanded(
-                child: Container(
-                  padding: widget.padding ??
-                      const EdgeInsets.symmetric(horizontal: 0, vertical: 12),
+                  return Expanded(
+                    child: Container(
+                      padding: widget.padding ??
+                          const EdgeInsets.symmetric(
+                              horizontal: 0, vertical: 12),
+                      child: Text(
+                        column,
+                        overflow: widget.ellipsis ? TextOverflow.ellipsis : null,
+                        textAlign: index == widget.headers.length - 1
+                            ? TextAlign.right
+                            : null,
+                        style: widget.textStyle.copyWith(
+                          color: widget.headersTextColor,
+                        ),
+                      ),
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            ...widget.data.map((row) => Container(
                   decoration: BoxDecoration(
                     border: Border(
                       bottom: BorderSide(
@@ -73,62 +117,39 @@ class SFTableState extends State<SFTable> {
                       ),
                     ),
                   ),
-                  child: Text(
-                    column,
-                    textAlign: index == widget.columns.length - 1
-                    //마지막 Amount부분 구분선 오른쪽 끝 위치
-                        ? TextAlign.right
-                        : null,
-                        //원본 객체를 변경하지 않고 특정 값만 바꾼 새로운 객체를 반환하기 위함copywith
-                    style: widget.textStyle.copyWith(
-                      color: widget.columnsTextColor,
-                    ),
-                  ),
-                ),
-              );
-            }).toList(),
-          ),
-          //각 행에 대한 Row위젯을 만듦
-          ...widget.data.map((row) => Row(
-            //인덱스와 값을 포함하는 항목생성
-                children: row.asMap().entries.map((entry) {
-                  int index = entry.key;
-                  dynamic value = entry.value;
-                  Color textColor;
-                  //첫번째 데이터
-                  if (index == 0) {
-                    textColor = widget.firstDataTextColor;
-                  } else {
-                    textColor = widget.otherDataTextColor;
-                  }
+                  child: Row(
+                    children: row.asMap().entries.map((entry) {
+                      int index = entry.key;
+                      dynamic value = entry.value;
+                      Color textColor;
+                      if (index == 0) {
+                        textColor = widget.firstColumnTextColor;
+                      } else {
+                        textColor = widget.otherDataTextColor;
+                      }
 
-                  return Expanded(
-                    child: Container(
-                      padding: widget.padding ??
-                          const EdgeInsets.symmetric(
-                              horizontal: 0, vertical: 12),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(
-                            width: widget.dividerThickness ?? 1.0,
-                            color: widget.dividerColor,
+                      return Expanded(
+                        child: Container(
+                          padding: widget.padding ??
+                              const EdgeInsets.symmetric(
+                                  horizontal: 0, vertical: 12),
+                          child: Text(
+                            value.toString(),
+                            overflow: widget.ellipsis ? TextOverflow.ellipsis : null,
+                            textAlign: index == row.asMap().entries.length - 1
+                                ? TextAlign.right
+                                : null,
+                            style: widget.textStyle.copyWith(
+                              color: textColor,
+                            ),
                           ),
                         ),
-                      ),
-                      child: Text(
-                        value.toString(),
-                        textAlign: index == row.asMap().entries.length - 1
-                            ? TextAlign.right
-                            : null,
-                        style: widget.textStyle.copyWith(
-                          color: textColor,
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              )),
-        ],
+                      );
+                    }).toList(),
+                  ),
+                )),
+          ],
+        ),
       ),
     );
   }
