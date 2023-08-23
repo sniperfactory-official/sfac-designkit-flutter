@@ -14,6 +14,7 @@ class SFRadioButton<T> extends StatefulWidget {
     required this.value,
     this.type = SFRadioButtonType.basic,
     this.size = 16,
+    this.margin = const EdgeInsets.all(8),
     this.circleSpacing = 2,
     this.valueVisible = true,
     this.valueSpacing = 8,
@@ -37,6 +38,9 @@ class SFRadioButton<T> extends StatefulWidget {
 
   // Radio Button의 크기
   final double size;
+
+  // Radio Button 바깥의 여백
+  final EdgeInsets margin;
 
   // Radio Button 선택 시 테두리와 선택 표시 사이의 여백 크기
   final double circleSpacing;
@@ -66,43 +70,46 @@ class SFRadioButtonState<T> extends State<SFRadioButton<T>> {
         break;
     }
 
-    return GestureDetector(
-      onTap: () => widget.onChanged(widget.value),
-      child: Row(
-        children: [
-          Container(
-            width: widget.size,
-            height: widget.size,
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: _outlineColor),
-            ),
-            child: Container(
-              margin: EdgeInsets.all(
-                widget.circleSpacing,
-              ),
+    return Container(
+      margin: widget.margin,
+      child: GestureDetector(
+        onTap: () => widget.onChanged(widget.value),
+        child: Row(
+          children: [
+            Container(
+              width: widget.size,
+              height: widget.size,
               decoration: BoxDecoration(
-                color: widget.group == widget.value
-                    ? SFColor.primary60
-                    : Colors.transparent,
                 shape: BoxShape.circle,
+                border: Border.all(color: _outlineColor),
+              ),
+              child: Container(
+                margin: EdgeInsets.all(
+                  widget.circleSpacing,
+                ),
+                decoration: BoxDecoration(
+                  color: widget.group == widget.value
+                      ? SFColor.primary60
+                      : Colors.transparent,
+                  shape: BoxShape.circle,
+                ),
               ),
             ),
-          ),
-          widget.valueVisible
-              ? Row(
-                  children: [
-                    SizedBox(
-                      width: widget.valueSpacing,
-                    ),
-                    Text(
-                      widget.value.toString(),
-                      style: widget.valueTextStyle,
-                    ),
-                  ],
-                )
-              : const SizedBox.shrink()
-        ],
+            widget.valueVisible
+                ? Row(
+                    children: [
+                      SizedBox(
+                        width: widget.valueSpacing,
+                      ),
+                      Text(
+                        widget.value.toString(),
+                        style: widget.valueTextStyle,
+                      ),
+                    ],
+                  )
+                : const SizedBox.shrink()
+          ],
+        ),
       ),
     );
   }
