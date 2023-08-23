@@ -20,22 +20,22 @@ class SFProgressBar extends StatefulWidget {
         assert(value != null ? (value >= 0.0 && value <= 100) : true),
         super(key: key);
 
-  // 프로그레스바 높이
+  // ProgressBar 높이
   final double? height;
 
-  // 프로그레스 값
+  // ProgressBar 값
   final double? value;
 
-  // 프로그레스 duration 시간에 따른 값 증가
+  // ProgressBar duration 시간에 따른 값 증가
   final Duration? duration;
 
-  // 프로그레스 value 텍스트 스타일
+  // ProgressBar value 텍스트 스타일
   final TextStyle? valueTextStyle;
 
-  // 프로그레스 배경색
+  // ProgressBar 배경색
   final Color? backgroundColor;
 
-  // 프로그레스 value 배경색
+  // ProgressBar value 배경색
   final Color? valueBackgroundColor;
 
   // value일 때 애니메이션 여부
@@ -44,10 +44,10 @@ class SFProgressBar extends StatefulWidget {
   // value일 때 애니메이션 duraition
   final Duration? animationDuration;
 
-  // 프로그레스 테두리 곡선
+  // ProgressBar 테두리 곡선
   final double borderRadius;
 
-  // 프로그레스 텍스트 패딩
+  // ProgressBar 텍스트 패딩
   final double textPadding;
 
   @override
@@ -70,9 +70,7 @@ class _SFProgressBarState extends State<SFProgressBar>
       duration: widget.duration ?? const Duration(seconds: 3),
     );
     _animationController.addListener(() {
-      setState(() {
-        // Call setState to trigger a rebuild when animation updates
-      });
+      setState(() {});
     });
     if (widget.value != null && widget.animation) {
       _animation = Tween(begin: _progressPercent, end: widget.value)
