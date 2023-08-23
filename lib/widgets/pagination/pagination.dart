@@ -6,7 +6,7 @@ class SFPagination extends StatefulWidget {
     super.key,
     required this.pageController,
     required this.totalPage,
-    this.initialPage,
+    this.page = 1,
     required this.itemsPerPage,
     this.width,
     this.height,
@@ -22,7 +22,7 @@ class SFPagination extends StatefulWidget {
     this.previousPageButton,
     this.nextPageButton,
   }): assert(totalPage >= itemsPerPage, "totalPage must be greater than or equal to itemsPerPage"),
-      assert(initialPage == null || initialPage >= 1, "initialPage must be greater than or equal to 1");
+      assert(page >= 1, "page must be greater than or equal to 1");
 
   //페이지 컨트롤러
   final PageController pageController;
@@ -30,43 +30,43 @@ class SFPagination extends StatefulWidget {
   //총 페이지 수
   final int totalPage;
 
-  //현재 표시 중인 페이지를 추적하고 관리하는 변수
-  final int? initialPage;
+  //현재 표시 중인 페이지
+  final int page;
 
   //화면에 보여지는 페이지 항목 수
   final int itemsPerPage;
 
-  //가로 너비
+  //너비
   final double? width;
 
-  //페이지네이션 높이
+  //Pagenation 높이
   final double? height;
 
-  //pugeNumber들 selectedBox와의 패딩
+  //pageNumber들 selectedBox와의 패딩
   final EdgeInsetsGeometry? indexBoxPadding;
 
-  //pagination의 상하여백 margin
+  //Pagination의 상하여백 margin
   final EdgeInsetsGeometry? indexBoxMargin;
 
-  //선택된 페이지넘버 박스의 라운드
+  //선택된 pageNumber 박스의 라운드
   final double? selectedBoxRadius;
 
   //Pagination 배경색
   final Color? backgroundColor;
 
-  //선택된 페이지넘버 박스의 색
+  //선택된 pageNumber 박스의 색
   final Color? selectedBoxColor;
 
-  //선택된 페이지넘버 숫자의 색
+  //선택된 pageNumber의 색
   final Color? selectedNumberColor;
 
-  //선택되지 않은 페이지넘버 숫자의 색
+  //선택되지 않은 pageNumber의 색
   final Color? unselectedNumberColor;
 
-  //선택된 페이지넘버 숫자의 스타일
+  //선택된 pageNumber의 스타일
   final TextStyle? selectedNumberStyle;
 
-  //선택되지 않은 페이지넘버 숫자의 스타일
+  //선택되지 않은 pageNumber의 스타일
   final TextStyle? unselectedNumberStyle;
 
   //이전페이지로 가는 아이콘
@@ -81,7 +81,7 @@ class SFPagination extends StatefulWidget {
 
 class _SFPaginationState extends State<SFPagination> {
   late int totalPage = widget.totalPage;
-  late int initialPage = widget.initialPage ?? 1;
+  late int currentPage = widget.page;
   late int itemsPerPage = widget.itemsPerPage;
   late List<int> pageNumbers =
       List.generate(widget.itemsPerPage, (index) => index + 1);
@@ -89,7 +89,7 @@ class _SFPaginationState extends State<SFPagination> {
   void onPageSelected(int page) {
     if (page >= 1 && page <= totalPage){
     setState(() {
-      initialPage = page;
+      currentPage = page;
       getPageNumbers();
     });
     widget.pageController.jumpToPage(page - 1);
@@ -97,15 +97,15 @@ class _SFPaginationState extends State<SFPagination> {
   }
 
   getPageNumbers() {
-    var pageIndex = pageNumbers.indexOf(initialPage);
-    if (pageIndex == -1) {
-      if (initialPage < pageNumbers.first) {
+    var pageNumber = pageNumbers.indexOf(currentPage);
+    if (pageNumber == -1) {
+      if (currentPage < pageNumbers.first) {
         pageNumbers = pageNumbers.map((e) => e - itemsPerPage).toList();
         if (pageNumbers.first < 1) {
           pageNumbers =
               pageNumbers.map((e) => e + (1 - pageNumbers.first)).toList();
         }
-      } else if (initialPage > pageNumbers.last) {
+      } else if (currentPage > pageNumbers.last) {
         pageNumbers = pageNumbers.map((e) => e + itemsPerPage).toList();
         if (pageNumbers.last > totalPage) {
           pageNumbers = pageNumbers
@@ -130,13 +130,13 @@ class _SFPaginationState extends State<SFPagination> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 GestureDetector(
-                  onTap: initialPage > 1
-                      ? () => onPageSelected(initialPage - 1)
+                  onTap: currentPage > 1
+                      ? () => onPageSelected(currentPage - 1)
                       : null,
                   child: widget.previousPageButton ??
                       Icon(
                         Icons.navigate_before,
-                        color: initialPage == 1 ? SFColor.grayScale30 : null,
+                        color: currentPage == 1 ? SFColor.grayScale30 : null,
                       ),
                 ),
                 Expanded(
@@ -156,7 +156,7 @@ class _SFPaginationState extends State<SFPagination> {
                                           const EdgeInsets.symmetric(
                                               vertical: 8, horizontal: 8),
                                       decoration: BoxDecoration(
-                                        color: initialPage == pageNumber
+                                        color: currentPage == pageNumber
                                             ? widget.selectedBoxColor ??
                                                 SFColor.primary70
                                             : Colors.transparent,
@@ -166,7 +166,7 @@ class _SFPaginationState extends State<SFPagination> {
                                       child: Center(
                                         child: Text(
                                           "$pageNumber",
-                                          style: initialPage == pageNumber
+                                          style: currentPage == pageNumber
                                               ? (widget.selectedNumberStyle ??
                                                   SFTextStyle.b4B14(
                                                     color: widget
@@ -190,14 +190,14 @@ class _SFPaginationState extends State<SFPagination> {
                   ),
                 ),
                 GestureDetector(
-                  onTap: initialPage < totalPage
-                      ? () => onPageSelected(initialPage + 1)
+                  onTap: currentPage < totalPage
+                      ? () => onPageSelected(currentPage + 1)
                       : null,
                   child: widget.nextPageButton ??
                       Icon(
                         Icons.navigate_next,
                         color:
-                            initialPage == totalPage ? SFColor.grayScale30 : null,
+                            currentPage == totalPage ? SFColor.grayScale30 : null,
                       ),
                 ),
               ],
