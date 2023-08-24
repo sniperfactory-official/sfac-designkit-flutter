@@ -1,4 +1,4 @@
-### __스나이퍼팩토리 디자인시스템 디자인킷__ : 플러터
+### **스나이퍼팩토리 디자인시스템 디자인킷** : 플러터
 
 <img src='/images/hero.png' style="margin-top:16px; margin-bottom:16px; border: 1px solid #eaeaea;"/>
 
@@ -10,34 +10,43 @@
 IT전문 전문교육기관 [스나이퍼팩토리](https://sniperfactory.com/)에서 함께하세요.
 
 ### 지원 위젯
-|위젯 명|지원여부|
-|---|---|
-|Accordion|✅|
-|Badge|✅|
-|Button|✅|
-|Card|✅|
-|Tab|✅|
-|Avatar|✅|
-|Breadcrumb|✅|
-|Textarea|✅|
-|Pagenation|-|
-|ProgressBar|-|
 
+| 위젯 명        | 지원여부 |
+| -------------- | -------- |
+| Accordion      | ✅       |
+| Badge          | ✅       |
+| Button         | ✅       |
+| Card           | ✅       |
+| Tab            | ✅       |
+| Avatar         | ✅       |
+| Breadcrumb     | ✅       |
+| Textarea       | ✅       |
+| Pagenation     | ✅       |
+| ProgressBar    | ✅       |
+| Alert          | ✅       |
+| Toggle         | ✅       |
+| DatePicker     | ✅       |
+| ComboBox       | ✅       |
+| Input          | ✅       |
+| NavigationMenu | ✅       |
+| SerachField    | ✅       |
+| Select         | ✅       |
+| Toast          | ✅       |
 
 ---
+
 ### 🎖 Install
+
 ```yaml
 dependencies:
   sfac_design_flutter: ^0.0.1
 ```
-
 
 ### ⚡️ Import
 
 ```dart
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 ```
-
 
 ### 🎮 How To Use
 
