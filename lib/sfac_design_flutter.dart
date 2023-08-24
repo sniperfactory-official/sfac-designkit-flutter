@@ -18,3 +18,5 @@ export 'package:sfac_design_flutter/widgets/alert/alert.dart';
 export 'package:sfac_design_flutter/widgets/pagination/pagination.dart';
 export 'package:sfac_design_flutter/widgets/progressbar/progressbar.dart';
 export 'package:sfac_design_flutter/widgets/toggle/toggle.dart';
+export 'package:sfac_design_flutter/widgets/radiobutton/radio_button.dart';
+export 'package:sfac_design_flutter/widgets/table/table.dart';
