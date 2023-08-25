@@ -9,7 +9,7 @@ class SFAlertDialog extends StatefulWidget {
     this.left,
     this.right,
     this.height,
-    this.heightSpacing,
+    this.titleAndContentsSpacing,
     required this.title,
     this.titleLeading,
     this.closeWidget,
@@ -38,7 +38,7 @@ class SFAlertDialog extends StatefulWidget {
   final double? height;
 
   // title과 content의 사이 간격
-  final double? heightSpacing;
+  final double? titleAndContentsSpacing;
 
   // alert의 title, laeding과 trailing 사이에서 최대너비를 가진다
   final String title;
@@ -140,7 +140,7 @@ class _SFAlertDialogState extends State<SFAlertDialog>
                     ),
                   ],
                 ),
-                SizedBox(height: widget.heightSpacing),
+                SizedBox(height: widget.titleAndContentsSpacing),
                 Text(
                   widget.content,
                   style: widget.contentTextStyle ??
@@ -202,7 +202,7 @@ void alertDialog(
   double? left,
   double? right,
   double? height,
-  double? heightSpacing = 4,
+  double? titleAndContentsSpacing = 4,
   required String title,
   Widget? titleLeading,
   TextStyle? titleTextStyle,
@@ -228,7 +228,7 @@ void alertDialog(
       left: left,
       right: right,
       height: height,
-      heightSpacing: heightSpacing,
+      titleAndContentsSpacing: titleAndContentsSpacing,
       title: title,
       titleLeading: titleLeading,
       titleTextStyle: titleTextStyle,
