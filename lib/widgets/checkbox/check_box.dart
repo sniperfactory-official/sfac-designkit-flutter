@@ -10,8 +10,8 @@ class SFCheckBox<T> extends StatefulWidget {
   const SFCheckBox({
     Key? key,
     required this.onChanged,
+    required this.value,
     this.label,
-    this.isChecked = false,
     this.type = SFCheckBoxType.basic,
     this.size = 16,
     this.margin = const EdgeInsets.all(8),
@@ -47,7 +47,7 @@ class SFCheckBox<T> extends StatefulWidget {
   // CheckBox border
   final double radius;
 
-  final bool isChecked;
+  final bool value;
 
   @override
   State<SFCheckBox> createState() => _SFCheckBoxState();
@@ -57,19 +57,19 @@ class _SFCheckBoxState extends State<SFCheckBox> {
   Color _backgroundColor = Colors.transparent;
   Color _outlineColor = SFColor.grayScale100;
   Color _iconColor = SFColor.primary60;
-  late bool isChecked;
+  late bool _isChecked;
 
   @override
   void initState() {
-    isChecked = widget.isChecked;
+    _isChecked = widget.value;
     super.initState();
   }
 
   void onSwitch() {
     setState(() {
-      isChecked = !isChecked;
+      _isChecked = !_isChecked;
     });
-    widget.onChanged(isChecked);
+    widget.onChanged(_isChecked);
   }
 
   @override
@@ -102,14 +102,15 @@ class _SFCheckBoxState extends State<SFCheckBox> {
               child: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
-                  color:
-                      isChecked == true ? _backgroundColor : Colors.transparent,
+                  color: _isChecked == true
+                      ? _backgroundColor
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(widget.radius),
                 ),
                 child: Container(
                   alignment: Alignment.center,
                   child: Icon(
-                    isChecked ? Icons.check_rounded : null,
+                    _isChecked ? Icons.check_rounded : null,
                     size: widget.size - 2,
                     color: _iconColor,
                   ),
