@@ -102,7 +102,7 @@ class _SFCheckBoxState extends State<SFCheckBox> {
               child: Container(
                 decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
-                  color: _isChecked == true
+                  color: widget.value == true
                       ? _backgroundColor
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(widget.radius),
@@ -110,7 +110,7 @@ class _SFCheckBoxState extends State<SFCheckBox> {
                 child: Container(
                   alignment: Alignment.center,
                   child: Icon(
-                    _isChecked ? Icons.check_rounded : null,
+                    widget.value ? Icons.check_rounded : null,
                     size: widget.size - 2,
                     color: _iconColor,
                   ),
