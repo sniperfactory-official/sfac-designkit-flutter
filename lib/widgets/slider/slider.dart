@@ -6,10 +6,10 @@ class SFSlider extends StatefulWidget {
       {super.key,
       required this.onChanged,
       this.width,
-      this.thumbSize = 19,
-      this.thumbWidth = 2,
+      this.thumbSize = 20,
+      this.thumbWidth = 4,
       required this.percentValue,
-      this.height = 11})
+      this.height = 12})
       : assert(percentValue >= 0 && percentValue <= 100,
             'Values must be between 0 and 100!'),
         assert(height == null || height <= thumbSize,
@@ -60,81 +60,84 @@ class SFSliderState extends State<SFSlider> {
 
   @override
   Widget build(BuildContext context) {
-    final width = widget.width ?? MediaQuery.of(context).size.width;
-    return SizedBox(
-      height: widget.thumbSize,
-      width: widget.width,
-      child: GestureDetector(
-        onHorizontalDragUpdate: (details) {
-          RenderBox box = context.findRenderObject() as RenderBox;
-          double localDx = box.globalToLocal(details.globalPosition).dx;
-          double newValue =
-              (localDx / (box.size.width - widget.thumbSize)).clamp(0.0, 1.0);
-          _onDragUpdate(newValue);
-        },
-        child: Stack(
-          children: [
-            Align(
-              alignment: Alignment.center,
-              child: Container(
-                height: widget.height ?? 11,
-                margin: EdgeInsets.symmetric(horizontal: widget.thumbSize / 2),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(999),
-                  color: SFColor.grayScale20,
-                ),
-              ),
-            ),
-            Positioned(
-              left: widget.thumbSize / 2,
-              top: 0,
-              bottom: 0,
-              child: Align(
-                alignment: Alignment.centerLeft,
-                child: Container(
-                  width: sliderValue*(width-widget.thumbSize),
-                  height: widget.height ?? 11,
-                  decoration: const BoxDecoration(
-                    borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(999),
-                        bottomLeft: Radius.circular(999)),
-                    color: SFColor.primary80,
-                  ),
-                ),
-              ),
-            ),
-            Positioned(
-              left:sliderValue*(width-widget.thumbSize),
-              top: 0,
-              bottom: 0,
-              child: Align(
+    return LayoutBuilder(
+      builder:(context, constraints) {
+        final width = widget.width ?? constraints.maxWidth;
+        return SizedBox(
+        width: width,
+        height: widget.thumbSize,
+        child: GestureDetector(
+          onHorizontalDragUpdate: (details) {
+            RenderBox box = context.findRenderObject() as RenderBox;
+            double localDx = box.globalToLocal(details.globalPosition).dx;
+            double newValue =
+                (localDx / (box.size.width - widget.thumbSize)).clamp(0.0, 1.0);
+            _onDragUpdate(newValue);
+          },
+          child: Stack(
+            children: [
+              Align(
                 alignment: Alignment.center,
                 child: Container(
-                  width: widget.thumbSize,
-                  height: widget.thumbSize,
+                  height: widget.height,
+                  margin: EdgeInsets.symmetric(horizontal: widget.thumbSize / 2),
                   decoration: BoxDecoration(
-                    border: Border.all(
-                      color: SFColor.primary80,
-                      width: widget.thumbWidth,
-                    ),
                     borderRadius: BorderRadius.circular(999),
+                    color: SFColor.grayScale20,
                   ),
-                  child: Center(
-                    child: Container(
-                      width: widget.thumbSize - 1,
-                      height: widget.thumbSize - 1,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(999),
+                ),
+              ),
+              Positioned(
+                left: widget.thumbSize / 2,
+                top: 0,
+                bottom: 0,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: sliderValue*(width-widget.thumbSize),
+                    height: widget.height ?? 11,
+                    decoration: const BoxDecoration(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(999),
+                          bottomLeft: Radius.circular(999)),
+                      color: SFColor.primary80,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                left:sliderValue*(width-widget.thumbSize),
+                top: 0,
+                bottom: 0,
+                child: Align(
+                  alignment: Alignment.center,
+                  child: Container(
+                    width: widget.thumbSize,
+                    height: widget.thumbSize,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: SFColor.primary80,
+                        width: widget.thumbWidth,
+                      ),
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Center(
+                      child: Container(
+                        width: widget.thumbSize - 1,
+                        height: widget.thumbSize - 1,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(999),
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
-      ),
+      );},
     );
   }
 }
