@@ -44,7 +44,7 @@ class SFAvatar extends StatelessWidget {
       ),
       child: ClipRRect(
           borderRadius: BorderRadius.circular(999),
-          child: child ?? SvgPicture.asset('images/logo.svg')),
+          child: child ?? SvgPicture.asset('packages/sfac_design_flutter/images/logo.svg')),
     );
   }
 }
