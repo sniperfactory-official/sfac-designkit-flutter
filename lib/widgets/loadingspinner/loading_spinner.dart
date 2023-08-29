@@ -3,11 +3,11 @@ import '../../util/sfac_color.dart';
 import 'dart:math' as math;
 
 class SFLoadingSpinner extends StatefulWidget {
-  const SFLoadingSpinner({
+  SFLoadingSpinner({
     Key? key,
-    this.strokeWidth = 10,
+    this.strokeWidth = 2,
     this.color = SFColor.primary100,
-    this.size = 32,
+    this.size = 16,
     this.duration = const Duration(seconds: 2),
   }) : super(key: key);
 
@@ -43,8 +43,8 @@ class SFLoadingSpinnerState extends State<SFLoadingSpinner>
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: widget.size,
-      height: widget.size,
+      width: widget.size * math.pi,
+      height: widget.size * math.pi,
       child: AnimatedBuilder(
         animation: _controller,
         builder: (context, child) {
@@ -72,8 +72,8 @@ class SFLoadingSpinnerState extends State<SFLoadingSpinner>
 class _CustomProgressPainter extends CustomPainter {
   static const double startAngle = -math.pi / 2;
   static const double sweepAngle = math.pi * 1.5;
-  final double strokeWidth; // 원의 두께
-  final Color color; // 원의 색상
+  final double strokeWidth;
+  final Color color;
 
   _CustomProgressPainter({
     required this.strokeWidth,
@@ -82,7 +82,7 @@ class _CustomProgressPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final double radius = size.width; // 원의 반지름
+    final double radius = size.width / 2;
 
     final Paint paint = Paint()
       ..color = color
@@ -90,7 +90,7 @@ class _CustomProgressPainter extends CustomPainter {
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round;
 
-    final Offset center = Offset(size.width / 2, size.height / 2); // 원의 중심 좌표
+    final Offset center = Offset(size.width / 2, size.height / 2);
 
     canvas.drawArc(
       Rect.fromCircle(center: center, radius: radius),
