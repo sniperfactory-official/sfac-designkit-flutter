@@ -14,32 +14,31 @@ IT전문 전문교육기관 [스나이퍼팩토리](https://sniperfactory.com/)�
 | 위젯 명        | 지원여부 |
 | -------------- | -------- |
 | Accordion      | ✅       |
+| Alert          | ✅       |
+| AlertDialog    | ✅       |
+| Avatar         | ✅       |
 | Badge          | ✅       |
+| Breadcrumb     | ✅       |
 | Button         | ✅       |
 | Card           | ✅       |
-| Tab            | ✅       |
-| Avatar         | ✅       |
-| Breadcrumb     | ✅       |
-| Textarea       | ✅       |
-| Pagenation     | ✅       |
-| ProgressBar    | ✅       |
-| Alert          | ✅       |
-| Toggle         | ✅       |
-| DatePicker     | ✅       |
+| CheckBox       | ✅       |
 | ComboBox       | ✅       |
+| DatePicker     | ✅       |
 | Input          | ✅       |
+| LoadingSpinner | ✅       |
 | NavigationMenu | ✅       |
+| Pagination     | ✅       |
+| ProgressBar    | ✅       |
+| RadioButton    | ✅       |
 | SerachField    | ✅       |
 | Select         | ✅       |
-| Toast          | ✅       |
-| RadioButton    | ✅       |
+| Skeleton       | ✅       |
+| Slider         | ✅       |
+| Tab            | ✅       |
 | Table          | ✅       |
-| CheckBox       | -        |
-| Skeleton       | -        |
-| ScrollArea     | -        |
-| Slider         | -        |
-| AlertDialog    | -        |
-| LoadingSpinner | -        |
+| Textarea       | ✅       |
+| Toast          | ✅       |
+| Toggle         | ✅       |
 
 ---
 

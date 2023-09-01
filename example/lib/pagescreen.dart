@@ -20,13 +20,13 @@ class _PageScreenState extends State<PageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
+        extendBodyBehindAppBar: true,
         body: PageView(
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: const [
-            FirstPage(),
-            SecondPage(),
+            Page1(),
+            Page2(),
             Page3(),
             Page4(),
             Page5(),
@@ -36,10 +36,8 @@ class _PageScreenState extends State<PageScreen> {
         ),
         bottomNavigationBar: SFPagination(
           totalPage: 7,
-          // initialPage: 1,
           itemsPerPage: 5,
           pageController: _pageController,
-        )
-    );
+        ));
   }
 }
