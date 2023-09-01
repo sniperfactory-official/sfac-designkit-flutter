@@ -23,9 +23,8 @@ class MyApp extends StatelessWidget {
               children: [
                 Row(
                   children: [
-                    SFAvatar(
+                    const SFAvatar(
                       backgroundColor: Colors.white,
-                      child: SvgPicture.asset('images/logo.svg'),
                     ),
                     const SizedBox(
                       width: 8,
