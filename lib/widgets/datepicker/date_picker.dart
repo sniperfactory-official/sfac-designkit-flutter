@@ -2,18 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 import 'package:sfac_design_flutter/widgets/datepicker/calendar.dart';
 
-
 class SFDatePicker extends StatefulWidget {
   const SFDatePicker({
     Key? key,
     this.text,
     this.textStyle,
     this.suffixIcon,
-    this.type = SFCalendarType.one,
+    this.type = SFCalendarType.day,
     this.theme = SFCalendarTheme.light,
     this.initialDateList,
     this.initialDateRange,
-    this.initialDateOne,
+    this.initialDay,
     this.backgroundColor,
     this.calendarTextColor,
     this.selectedColor = SFColor.primary100,
@@ -36,18 +35,19 @@ class SFDatePicker extends StatefulWidget {
   // 드롭박스 text
   final String? text;
 
-  // 드롭박스 TextStyle 
+  // 드롭박스 TextStyle
   final TextStyle? textStyle;
 
   // 드롭박스 suffixIcon
   final Widget? suffixIcon;
 
-  // 캘린터 status
-  // list 선택한 날짜 리스트
+  // 캘린더 type
+  // list 선택한 날짜들 (복수 선택)
   // range 선택한 기간
+  // day 선택한 날짜
   final SFCalendarType type;
 
-  // 캘린터 테마 dart, light
+  // 캘린더 테마 dart, light
   final SFCalendarTheme theme;
 
   // 초기 선택한 날짜 리스트
@@ -57,12 +57,12 @@ class SFDatePicker extends StatefulWidget {
   final DateTimeRange? initialDateRange;
 
   // 초기 선택한 날짜
-  final DateTime? initialDateOne;
+  final DateTime? initialDay;
 
   // 캘린더 배경색
   final Color? backgroundColor;
 
-  // 캘린터 텍스트 컬러
+  // 캘린더 텍스트 컬러
   final Color? calendarTextColor;
 
   // 선택한 날짜 배경색
@@ -74,7 +74,7 @@ class SFDatePicker extends StatefulWidget {
   // 선택한 날짜 텍스트 색
   final Color? selectedTextColor;
 
-  // 캘린터 테두리 곡선
+  // 캘린더 테두리 곡선
   final BorderRadius borderRadius;
 
   // 캘린더 내용 사이즈 날짜, 요일, 년도, 아이콘 크기 등 비율은 고정되어있다
@@ -89,7 +89,7 @@ class SFDatePicker extends StatefulWidget {
   // 캘린더 padding
   final EdgeInsetsGeometry? padding;
 
-  // 선택한 list, range(start, end), one 를 받을 수 있다.
+  // 선택한 list, range(start, end), day 를 받을 수 있다.
   final GetSelectedDate? getSelectedDate;
 
   // 드롭박스 테두리 색
@@ -98,13 +98,13 @@ class SFDatePicker extends StatefulWidget {
   // 드롭박스 테두리 굵기
   final double outlineWidth;
 
-  // 캘린터 초기 오늘 날짜 마크를 할 것인지
+  // 오늘 날짜 마크 추가 유무
   final bool todayMark;
 
-  // 드롭박스 가로 너비
+  // 드롭박스 가로 길이
   final double? width;
 
-  // 캘린터 가로 너비
+  // 캘린더 가로 길이
   final double? calendarWidth;
 
   @override
@@ -164,7 +164,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                                   start: _selectRangeStart!,
                                   end: _selectRangeEnd!)
                               : null,
-                      initialDateOne: _selectOne,
+                      initialDay: _selectOne,
                       backgroundColor: widget.backgroundColor,
                       textColor: widget.calendarTextColor,
                       selectedColor: widget.selectedColor,
@@ -221,7 +221,7 @@ class _SFDatePickerState extends State<SFDatePicker> {
                               _selectDate = null;
                             }
                             break;
-                          case SFCalendarType.one:
+                          case SFCalendarType.day:
                             if (selectedOne != null) {
                               _selectOne = selectedOne;
                               month =
@@ -277,11 +277,13 @@ class _SFDatePickerState extends State<SFDatePicker> {
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      setState(() {
-        size = _getSize();
-      });
-    });
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) {
+        setState(() {
+          size = _getSize();
+        });
+      },
+    );
     switch (widget.type) {
       case SFCalendarType.list:
         _selectedDateList.addAll(widget.initialDateList ?? []);
@@ -291,8 +293,8 @@ class _SFDatePickerState extends State<SFDatePicker> {
         _selectRangeEnd = widget.initialDateRange?.end;
 
         break;
-      case SFCalendarType.one:
-        _selectOne = widget.initialDateOne;
+      case SFCalendarType.day:
+        _selectOne = widget.initialDay;
         break;
     }
   }

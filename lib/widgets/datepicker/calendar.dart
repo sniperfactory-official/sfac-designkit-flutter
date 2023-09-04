@@ -4,18 +4,18 @@ import 'package:sfac_design_flutter/sfac_design_flutter.dart';
 typedef GetSelectedDate = void Function(DateTime? start, DateTime? end,
     List<DateTime>? selectedDateList, DateTime? selectedOne);
 
-enum SFCalendarType { list, range, one }
+enum SFCalendarType { list, range, day }
 
 enum SFCalendarTheme { light, dark }
 
 class SFCalendar extends StatefulWidget {
   const SFCalendar({
     Key? key,
-    this.type = SFCalendarType.one,
+    this.type = SFCalendarType.day,
     this.theme = SFCalendarTheme.light,
     this.initialDateList,
     this.initialDateRange,
-    this.initialDateOne,
+    this.initialDay,
     this.backgroundColor,
     this.textColor,
     this.selectedColor = SFColor.primary100,
@@ -32,28 +32,29 @@ class SFCalendar extends StatefulWidget {
   })  : assert(
             verticalSpacing >= 0 && horizontalSpacing >= 0 && contentSize > 0),
         super(key: key);
-  // 캘린터 status
-  // list 선택한 날짜 리스트
+
+  // 캘린더 type
+  // list 선택한 날짜들 (복수 선택)
   // range 선택한 기간
-  // one 선택한 날짜 하나
+  // day 선택한 날짜
   final SFCalendarType type;
 
-  // 캘린터 테마 dart, light
+  // 캘린더 테마 dark, light
   final SFCalendarTheme theme;
 
-  // 초기 선택한 날짜 리스트
+  // 초기 날짜 리스트
   final List<DateTime>? initialDateList;
 
-  // 초기 선택한 기간
+  // 초기 기간
   final DateTimeRange? initialDateRange;
 
-  // 초기 선택한 날짜
-  final DateTime? initialDateOne;
+  // 초기 날짜
+  final DateTime? initialDay;
 
   // 캘린더 배경색
   final Color? backgroundColor;
 
-  // 캘린터 텍스트 컬러
+  // 캘린더 텍스트 컬러
   final Color? textColor;
 
   // 선택한 날짜 배경색
@@ -65,10 +66,10 @@ class SFCalendar extends StatefulWidget {
   // 선택한 날짜 텍스트 색
   final Color? selectedTextColor;
 
-  // 캘린터 테두리 곡선
+  // 캘린더 테두리 곡선
   final BorderRadius borderRadius;
 
-  // 캘린더 내용 사이즈 날짜, 요일, 년도, 아이콘 크기 등 비율은 고정되어있다
+  // 캘린더 내용의 크기
   final double contentSize;
 
   // vertical 간격
@@ -77,16 +78,16 @@ class SFCalendar extends StatefulWidget {
   // horizontal 간격
   final double horizontalSpacing;
 
-  // 가로 너비
+  // 가로 길이
   final double? width;
 
   // 캘린더 padding
   final EdgeInsetsGeometry? padding;
 
-  // 선택한 list, range(start, end), one 를 받을 수 있다.
+  // 선택한 list, range(start, end), day 를 받을 수 있다.
   final GetSelectedDate? getSelectedDate;
 
-  // 초기 오늘 날짜 마크를 할 것인지
+  // 오늘 날짜 마크 추가 유무
   final bool todayMark;
 
   @override
@@ -120,8 +121,8 @@ class _DatePickerWidgetState extends State<SFCalendar> {
         _selectRangeEnd = widget.initialDateRange?.end;
 
         break;
-      case SFCalendarType.one:
-        _selectOne = widget.initialDateOne;
+      case SFCalendarType.day:
+        _selectOne = widget.initialDay;
         break;
     }
     _viewMonth = DateTime.now();
@@ -222,7 +223,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
               _selectRangeStart, _selectRangeEnd, null, null);
         }
         break;
-      case SFCalendarType.one:
+      case SFCalendarType.day:
         selectedOne(_calender[index1 * 7 + index2]);
         if (widget.getSelectedDate != null) {
           widget.getSelectedDate!(null, null, null, _selectOne);
@@ -434,7 +435,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
                       _selectRangeEnd?.day == date.day))
               ? widget.selectedColor
               : Colors.transparent;
-        case SFCalendarType.one:
+        case SFCalendarType.day:
           return (_selectOne != null &&
                   _selectOne!.year == date.year &&
                   _selectOne!.month == date.month &&
@@ -498,7 +499,7 @@ class _DatePickerWidgetState extends State<SFCalendar> {
                               (widget.theme == SFCalendarTheme.light
                                   ? SFColor.grayScale80
                                   : Colors.white);
-        case SFCalendarType.one:
+        case SFCalendarType.day:
           return (_selectOne != null &&
                   _selectOne!.year == date.year &&
                   _selectOne!.month == date.month &&
