@@ -1,6 +1,6 @@
 ### **스나이퍼팩토리 디자인시스템 디자인킷** : 플러터
 
-<img src='/images/hero.png' style="margin-top:16px; margin-bottom:16px; border: 1px solid #eaeaea;"/>
+<img src='https://github.com/sniperfactory-official/sfac-designkit-flutter/raw/main/images/hero.png' style="margin-top:16px; margin-bottom:16px; border: 1px solid #eaeaea;"/>
 
 디자인시스템이란 디자인과 관련된 모든 것을 통합하는 시스템입니다.  
 스나이퍼팩토리의 디자인시스템은 개발자와 디자이너가 함께 만들어가는 시스템이며  
@@ -46,7 +46,7 @@ IT전문 전문교육기관 [스나이퍼팩토리](https://sniperfactory.com/)�
 
 ```yaml
 dependencies:
-  sfac_design_flutter: ^0.0.1
+  sfac_design_flutter: ^1.0.0
 ```
 
 ### ⚡️ Import
